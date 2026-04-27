@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蔵書マネージャー Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>📚 蔵書マネージャー</h1>
+    <div class="filter-group">
+        <input type="text" id="search" placeholder="タイトル・作者・イラストレーターで検索">
+        <div class="select-row">
+            <select id="publisherFilter">
+                <option value="">全出版社</option>
+                <option value="小学館">小学館</option>
+                <option value="スクウェア・エニックス">スクエニ</option>
+                <option value="KADOKAWA">KADOKAWA系</option>
+                <option value="宝島社">宝島社</option>
+            </select>
+            <select id="genreFilter">
+                <option value="">全ジャンル</option>
+                <option value="漫画">漫画</option>
+                <option value="ライトノベル">ラノベ</option>
+                <option value="小説">小説・その他</option>
+            </select>
+            <select id="sortFilter">
+                <option value="default">標準</option>
+                <option value="progress">収集率（低い順）</option>
+                <option value="total">巻数が多い順</option>
+            </select>
+        </div>
+    </div>
+</header>
+<main>
+    <div id="summary"></div>
+    <div id="book-list"></div>
+</main>
+<script src="script.js"></script>
+</body>
+</html>

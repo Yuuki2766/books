@@ -1,0 +1,406 @@
+[
+  {
+    "title":"名探偵コナン",
+    "author":"青山剛昌",
+    "illustrator":"",
+    "publisher":"小学館",
+    "genre":"推理漫画",
+    "owned":[84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,104,105,107],
+    "total":107
+  },
+  {
+    "title":"名探偵コナン ゼロの日常",
+    "author":"青山剛昌",
+    "illustrator":"新井隆広",
+    "publisher":"小学館",
+    "genre":"推理漫画",
+    "owned":[1,2,3,4,5,6],
+    "total":6
+  },
+  {
+    "title":"名探偵コナン 警察学校編",
+    "author":"青山剛昌",
+    "illustrator":"新井隆広",
+    "publisher":"小学館",
+    "genre":"推理漫画",
+    "owned":[1,2],
+    "total":2
+  },
+  {
+    "title":"青のオーケストラ",
+    "author":"亜久井真",
+    "illustrator":"",
+    "publisher":"小学館",
+    "genre":"青春漫画",
+    "owned":[1,2,3,4,5,6,7,8,9,10,11,13,14],
+    "total":14
+  },
+  {
+    "title":"薬屋のひとりごと",
+    "author":"日向夏",
+    "illustrator":"ねこクラゲ",
+    "publisher":"スクエアエニックス",
+    "genre":"青年漫画",
+    "owned":[9,10,11,12,13,14],
+    "total":16
+  },
+  {
+    "title":"葬送のフリーレン",
+    "author":"山田鐘人",
+    "illustrator":"アベツカサ",
+    "publisher":"小学館",
+    "genre":"ファンタジー漫画",
+    "owned":[8],
+    "total":15
+  },
+  {
+    "title":"落第賢者の学院無双",
+    "author":"白石新",
+    "illustrator":"けんたろう",
+    "publisher":"スクエアエニックス",
+    "genre":"ファンタジー漫画",
+    "owned":[1,2,3,4,5],
+    "total":5
+  },
+  {
+    "title":"響け！ユーフォニアム〜北宇治高校吹奏楽部へようこそ〜",
+    "author":"武田綾乃",
+    "illustrator":"はみ",
+    "publisher":"宝島社",
+    "genre":"青春漫画",
+    "owned":[1,2,3],
+    "total":3
+  },
+  {
+    "title":"響け！ユーフォニアム〜北宇治高校吹奏楽部のいちばん熱い夏〜",
+    "author":"武田綾乃",
+    "illustrator":"はみ",
+    "publisher":"宝島社",
+    "genre":"青春漫画",
+    "owned":[1,2],
+    "total":2
+  },
+  {
+    "title":"暗殺者である俺のステータスが勇者よりも明らかに強いのだが",
+    "author":"赤井まつり",
+    "illustrator":"合鴨ひろゆき",
+    "publisher":"オーバーラップ",
+    "genre":"ファンタジー漫画",
+    "owned":[1,2,3],
+    "total":6
+  },
+  {
+    "title":"弱キャラ友崎くん",
+    "author":"屋久ユウキ",
+    "illustrator":"千田衛人",
+    "publisher":"スクエアエニックス",
+    "genre":"青春漫画",
+    "owned":[1,2,3,4],
+    "total":6
+  },
+  {
+    "title":"七海みなみは輝きたい 弱キャラ友崎くん外伝",
+    "author":"屋久ユウキ",
+    "illustrator":"吉田ばな",
+    "publisher":"小学館",
+    "genre":"青春漫画",
+    "owned":[1],
+    "total":3
+  },
+  {
+    "title":"千歳くんはラムネ瓶のなか",
+    "author":"裕夢",
+    "illustrator":"ボブキャ",
+    "publisher":"スクエアエニックス",
+    "genre":"青春漫画",
+    "owned":[1,2,3],
+    "total":8
+  },
+  {
+    "title":"魔王学院の不適合者",
+    "author":"秋",
+    "illustrator":"かやはるか",
+    "publisher":"スクエアエニックス",
+    "genre":"ファンタジー漫画",
+    "owned":[1,2,3,4],
+    "total":4
+  },
+  {
+    "title":"魔王学院の不適合者〜公式コミックアンソロジー〜",
+    "author":"",
+    "illustrator":"",
+    "publisher":"電撃コミックス",
+    "genre":"",
+    "owned":[1],
+    "total":1
+  },
+  {
+    "title":"左遷された最強賢者、教師になって無敵クラスを作り上げる",
+    "author":"鈴森一",
+    "illustrator":"かなめもにか",
+    "publisher":"スクエアエニックス",
+    "genre":"ファンタジー漫画",
+    "owned":[1,2,3,4],
+    "total":10
+  }
+  ,
+  {
+    "title":"才女のお世話",
+    "author":"坂石遊作",
+    "illustrator":"水島空彦",
+    "publisher":"ホビージャパン",
+    "genre":"青春漫画",
+    "owned":[1],
+    "total":5
+  },
+  {
+    "title":"今日のケルベロス",
+    "author":"桜井亜都",
+    "illustrator":"",
+    "publisher":"スクエアエニックス",
+    "genre":"青春漫画",
+    "owned":[1,2,3,4,5,6,7,8,9,10,11,12],
+    "total":12
+  },
+  {
+    "title":"聖剣学院の魔剣使い",
+    "author":"志瑞祐",
+    "illustrator":"遠坂あさぎ",
+    "publisher":"MF文庫",
+    "genre":"ファンタジーライトノベル",
+    "owned":[1,2,3,4,5,6,7,8,9,10,11],
+    "total":16
+  },
+  {
+    "title":"キミの忘れかたを教えて",
+    "author":"あまさきみりと",
+    "illustrator":"フライ",
+    "publisher":"スニーカー文庫",
+    "genre":"青春ライトノベル",
+    "owned":[1,2],
+    "total":2
+  },
+  {
+    "title":"近すぎる彼らの、十七歳の遠い関係",
+    "author":"久遠侑",
+    "illustrator":"和遥キナ",
+    "publisher":"ファミ通文庫",
+    "genre":"青春ライトノベル",
+    "owned":[1,2,3,4,5,6,7,8,9],
+    "total":3
+  },
+  {
+    "title":"魔王学院の不適合者",
+    "author":"秋",
+    "illustrator":"しずまよしのり",
+    "publisher":"電撃文庫",
+    "genre":"ファンタジーライトノベル",
+    "owned":[1,2,3,4,4.5,5,6,7,8,9,10,10.5,11],
+    "total":22
+  },
+  {
+    "title":"弱キャラ友崎くん",
+    "author":"屋久ユウキ",
+    "illustrator":"フライ",
+    "publisher":"ガガガ文庫",
+    "genre":"青春ライトノベル",
+    "owned":[1,2,3,4,5,6,6.5,7,7,8,8.5,9,10],
+    "total":13
+  },
+  {
+    "title":"千歳くんはラムネ瓶のなか",
+    "author":"裕夢",
+    "illustrator":"raemz",
+    "publisher":"ガガガ文庫",
+    "genre":"青春ライトノベル",
+    "owned":[1,2,3,4,5,5.5,6,6.5,7],
+    "total":12
+  },
+  {
+    "title": "響け！ユーフォニアム",
+    "author": "武田綾乃",
+    "illustrator": "アサダニッキ",
+    "publisher": "宝島社",
+    "genre": "青春",
+    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14],
+    "total": 14
+  },
+  {
+    "title": "エロマンガ先生",
+    "author": "伏見つかさ",
+    "illustrator": "かんざきひろ",
+    "publisher": "電撃文庫",
+    "genre": "ラブコメ",
+    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "total": 13
+  },
+  {
+    "title": "経験済みなキミと、経験ゼロなオレが、お付き合いする話。",
+    "author": "長岡マキ子",
+    "illustrator": "magako",
+    "publisher": "ファンタジア文庫",
+    "genre": "ラブコメ",
+    "owned": [1, 2, 3, 4, 5, 6, 7,8,8.5],
+    "total": 11
+  },
+  {
+    "title": "可愛ければ変態でも好きになってくれますか？",
+    "author": "花間燈",
+    "illustrator": "sune",
+    "publisher": "MF文庫",
+    "genre": "ラブコメ",
+    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    "total": 14
+  },
+  {
+    "title": "継母の連れ子が元カノだった",
+    "author": "紙城境介",
+    "illustrator": "たかやKi",
+    "publisher": "スニーカー文庫",
+    "genre": "ラブコメ",
+    "owned": [1, 2, 3, 4, 5, 6, 7],
+    "total": 12
+  },
+  {
+    "title": "三角の距離は限りないゼロ",
+    "author": "岬鷺宮",
+    "illustrator": "Hiten",
+    "publisher": "電撃文庫",
+    "genre": "ラブコメ",
+    "owned": [1, 2, 3, 4, 5, 6, 7],
+    "total": 9
+  },
+  {
+    "title": "ぼくたちは勉強ができない",
+    "author": "筒井大志",
+    "illustrator": "筒井大志",
+    "publisher": "集英社",
+    "genre": "ラブコメ漫画",
+    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "total": 21
+  },
+  {
+    "title": "妹さえいればいい。",
+    "author": "平坂読",
+    "illustrator": "カントク",
+    "publisher": "ガガガ文庫",
+    "genre": "青春ラブコメ",
+    "owned": [1,2,3,4,5, 6, 7, 8, 9, 11, 12, 13, 14],
+    "total": 14
+  },
+  {
+    "title": "ひげを剃る。そして女子高生を拾う。",
+    "author": "しめさば",
+    "illustrator": "ぶーた",
+    "publisher": "スニーカー文庫",
+    "genre": "日常・恋愛",
+    "owned": [1, 2, 3, 4, 5],
+    "total": 5
+  },
+  {
+    "title": "探偵・日暮旅人の探し物",
+    "author": "山口幸三郎",
+    "illustrator": "煙楽",
+    "publisher": "メディアワークス文庫",
+    "genre": "ミステリー",
+    "owned": [1, 2, 3, 4],
+    "total": 10
+  },
+  {
+    "title": "義妹生活",
+    "author": "三河ごーすと",
+    "illustrator": "Hiten",
+    "publisher": "MF文庫J",
+    "genre": "日常・恋愛",
+    "owned": [1, 2, 3],
+    "total": 10
+  },
+  {
+    "title": "カノジョに浮気されていた俺が、小悪魔な後輩に懐かれています",
+    "author": "御宮ゆう",
+    "illustrator": "えーる",
+    "publisher": "スニーカー文庫",
+    "genre": "ラブコメ",
+    "owned": [1, 2, 3, 4],
+    "total": 8
+  },
+  {
+    "title": "ちょろいんですが恋人にはなれませんか？",
+    "author": "七条剛",
+    "illustrator": "希望つばめ",
+    "publisher": "GA文庫",
+    "genre": "ラブコメ",
+    "owned": [1, 2, 3],
+    "total": 3
+  },
+  {
+    "title": "君は月夜に光り輝く",
+    "author": "佐野徹夜",
+    "illustrator": "loundraw",
+    "publisher": "メディアワークス文庫",
+    "genre": "恋愛小説",
+    "owned": [1, 2],
+    "total": 2
+  },
+  {
+    "title": "佐伯さんとひとつ屋根の下",
+    "author": "九曜",
+    "illustrator": "フライ",
+    "publisher": "KADOKAWA（ファミ通文庫）",
+    "genre": "ラブコメ",
+    "owned": [1, 2, 3, 4, 5],
+    "total": 5
+  },
+  {
+    "title": "廻る学園と、先輩と僕",
+    "author": "九曜",
+    "illustrator": "フライ",
+    "publisher": "KADOKAWA（ファミ通文庫）",
+    "genre": "青春小説",
+    "owned": [1, 2,3],
+    "total": 3
+  },
+  {
+    "title": "七つの魔剣が支配する",
+    "author": "宇野朴人",
+    "illustrator": "ミユキルリア",
+    "publisher": "電撃文庫",
+    "genre": "ファンタジー",
+    "owned": [1],
+    "total": 12
+  },
+  {
+    "title": "放課後の図書室で、お淑やかな彼女の譲れないラブコメ",
+    "author": "九曜",
+    "illustrator": "フライ",
+    "publisher": "KADOKAWA（ファミ通文庫）",
+    "genre": "ラブコメ",
+    "owned": [1, 2],
+    "total": 2
+  },
+  {
+    "title": "好きすぎるから彼女以上の、妹として愛してください。",
+    "author": "滝沢慧",
+    "illustrator": "平つくね",
+    "publisher": "ファンタジア文庫",
+    "genre": "ラブコメ",
+    "owned": [1],
+    "total": 4
+  },
+  {
+    "title": "ちょっぴりえっちな三姉妹でも、お嫁さんにしてくれますか？",
+    "author": "浅岡旭",
+    "illustrator": "和錆",
+    "publisher": "KADOKAWA（ファンタジア文庫）",
+    "genre": "ラブコメ",
+    "owned": [1, 2],
+    "total": 4
+  }
+
+
+]
+
+
+
+
+
