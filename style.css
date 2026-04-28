@@ -133,7 +133,7 @@ main { max-width: 800px; margin: auto; padding: 15px; }
     /* 「並べ替え」を下の段に配置（背景を白に戻す） */
     #sortFilter {
         flex: 1 1 100%;    /* 横幅いっぱい使って下の段に落とす */
-        margin-top: 5px;   /* 上のボタンとの隙間 */
+        margin-top: 6px;   /* 上のボタンとの隙間 */
         background: #fff;  /* 背景を白にする */
         color: #222;       /* 文字色を黒（濃いグレー）にする */
         border: none;      /* 枠線を消す */
