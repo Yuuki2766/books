@@ -124,19 +124,19 @@ main { max-width: 800px; margin: auto; padding: 15px; }
         gap: 10px;
     }
 
-    /* 「出版社」と「ジャンル」を横並び(2列)にする */
+    /* 「出版社」と「ジャンル」を横並びにする */
     #publisherFilter, #genreFilter {
         flex: 1 1 45%; 
         min-width: 140px;
     }
 
-    /* 「並べ替え」だけを下の段に大きく表示する */
+    /* 「並べ替え」を下の段に配置（背景を白に戻す） */
     #sortFilter {
-        flex: 1 1 100%; /* 横幅いっぱい使って下の段に落ちる */
-        margin-top: 5px;
-        background: #333; /* 並べ替えだと分かりやすく少し色を変える場合 */
-        color: #fff;
-        border: 1px solid #444;
+        flex: 1 1 100%;    /* 横幅いっぱい使って下の段に落とす */
+        margin-top: 5px;   /* 上のボタンとの隙間 */
+        background: #fff;  /* 背景を白にする */
+        color: #222;       /* 文字色を黒（濃いグレー）にする */
+        border: none;      /* 枠線を消す */
     }
 
     .detail-container { 
