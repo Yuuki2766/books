@@ -1,5 +1,6 @@
 let books = [];
 
+// データの読み込み
 fetch('books.json')
     .then(res => res.json())
     .then(data => {
@@ -43,18 +44,17 @@ function showDetail(book) {
             <img src="${book.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
             <div class="detail-info">
                 <h2>${book.title}</h2>
-                <p><strong>著者:</strong> ${book.author}</p>
-                <p><strong>出版社:</strong> ${book.publisher}</p>
-                <p><strong>ジャンル:</strong> ${book.genre}</p>
-                <div class="detail-progress">
-
-                  <h3>あらすじ</h3>
-                  <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
+                <p class="meta"><strong>著者:</strong> ${book.author}</p>
+                <p class="meta"><strong>出版社:</strong> ${book.publisher}</p>
+                <p class="meta"><strong>ジャンル:</strong> ${book.genre}</p>
+                
+                <div class="summary-section">
+                    <h3>あらすじ</h3>
+                    <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
                 </div>
-                <div class="detail-section">
 
-
-                    <p>所持状況: ${ownedCount} / ${book.total}巻</p>
+                <div class="detail-progress">
+                    <p class="meta"><strong>所持状況:</strong> ${ownedCount} / ${book.total}巻 (${percent}%)</p>
                     <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
                     <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned.join(', ')}</p>
                 </div>
@@ -97,7 +97,10 @@ function renderBooks(list) {
 
 function updateSummary(list) {
     const total = list.reduce((sum, b) => sum + b.owned.length, 0);
-    document.getElementById('summary').textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
+    const summaryElem = document.getElementById('summary');
+    if (summaryElem) {
+        summaryElem.textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
+    }
 }
 
 function applyFilters() {
