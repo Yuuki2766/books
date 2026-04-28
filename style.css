@@ -1,33 +1,28 @@
-:root { --primary: #4caf50; --dark: #2c3e50; --bg: #f4f7f6; }
-body { margin: 0; font-family: sans-serif; background: var(--bg); color: #333; }
-
-/* Header & Filters */
-header { background: var(--dark); color: white; padding: 20px; position: sticky; top: 0; z-index: 100; }
-.filter-group { max-width: 500px; margin: auto; }
-input, select { width: 100%; padding: 10px; margin-top: 8px; border-radius: 6px; border: none; box-sizing: border-box; }
-.select-row { display: flex; gap: 5px; }
-
-/* List View */
+body { margin: 0; font-family: sans-serif; background: #f5f5f5; color: #222; }
+header { background: #222; color: #fff; padding: 20px; text-align: center; }
+.filter-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
+input, select { padding: 10px; border-radius: 8px; border: none; }
 main { max-width: 800px; margin: auto; padding: 20px; }
-.book-card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 12px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s; }
-.book-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-.book-title { font-size: 1.2rem; font-weight: bold; }
-.meta { font-size: 0.9rem; color: #666; margin: 5px 0; }
-.meta-small { font-size: 0.75rem; color: #aaa; text-align: right; }
 
-/* Progress Bar */
-.progress { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; margin: 10px 0; }
-.bar { height: 100%; background: var(--primary); }
+/* 一覧カードのレイアウト */
+.book-card { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; }
+.card-content { display: flex; gap: 15px; }
+.book-cover { width: 70px; height: 100px; object-fit: cover; border-radius: 4px; background: #eee; flex-shrink: 0; }
+.book-info { flex-grow: 1; min-width: 0; }
+.book-title { font-size: 18px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meta { font-size: 13px; color: #666; margin-top: 4px; }
+.tag { display: inline-block; background: #f0f0f0; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-top: 5px; }
 
-/* Detail View */
-#detail-view { background: white; padding: 30px; border-radius: 20px; min-height: 80vh; }
-.back-btn { background: #eee; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; }
-.detail-header { display: flex; gap: 25px; flex-wrap: wrap; margin-bottom: 30px; }
-.detail-img { width: 200px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-.detail-main-info h2 { margin-top: 0; font-size: 1.8rem; }
-.detail-section { border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px; }
-.summary-text { line-height: 1.8; color: #444; white-space: pre-wrap; }
+/* 進捗バー */
+.progress-container { margin-top: 8px; }
+.progress-text { font-size: 11px; color: #888; }
+.progress { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+.bar { height: 100%; background: #4caf50; }
 
+/* 詳細画面 */
+.back-btn { padding: 8px 16px; margin-bottom: 20px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; }
+.detail-container { display: flex; gap: 20px; background: #fff; padding: 20px; border-radius: 15px; }
+.detail-cover { width: 150px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 @media (max-width: 600px) {
-  .detail-header { flex-direction: column; align-items: center; text-align: center; }
+    .detail-container { flex-direction: column; align-items: center; text-align: center; }
 }
