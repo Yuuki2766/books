@@ -4,19 +4,28 @@ fetch('books.json')
   .then(res => res.json())
   .then(data => {
     books = data;
-    // 初回読み込み時の状態確認
     checkRoute();
   });
 
-// ルーティング制御（戻るボタン対応）
+// ルーティング制御
 window.addEventListener('hashchange', checkRoute);
 
 function checkRoute() {
   const hash = window.location.hash;
   if (hash.startsWith('#detail/')) {
-    const title = decodeURIComponent(hash.replace('#detail/', ''));
-    const book = books.find(b => b.title === title);
-    if (book) showDetail(book);
+    // ハッシュから出版社とタイトルを分離する
+    // 例: #detail/小学館/名探偵コナン
+    const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
+    const publisher = params[0];
+    const title = params[1];
+
+    // タイトルだけでなく、出版社も一致するものを探す
+    const book = books.find(b => b.title === title && b.publisher === publisher);
+    if (book) {
+      showDetail(book);
+    } else {
+      showList();
+    }
   } else {
     showList();
   }
@@ -35,34 +44,29 @@ function showDetail(book) {
   const detailView = document.getElementById('detail-view');
   detailView.style.display = 'block';
 
-  const owned = book.owned.length;
-  const percent = Math.round((owned / book.total) * 100);
+  const ownedCount = book.owned.length;
+  const percent = Math.round((ownedCount / book.total) * 100);
 
   document.getElementById('detail-content').innerHTML = `
     <div class="detail-header">
-      <img src="${book.image || 'https://via.placeholder.com/200x280?text=No+Image'}" alt="容姿画像" class="detail-img">
+      <img src="${book.image || 'https://via.placeholder.com/200x280?text=No+Image'}" alt="画像" class="detail-img">
       <div class="detail-main-info">
         <h2>${book.title}</h2>
-        <p><strong>作者:</strong> ${book.author}</p>
-        <p><strong>イラスト:</strong> ${book.illustrator || '-'}</p>
-        <p><strong>ジャンル:</strong> ${book.genre}</p>
         <p><strong>出版社:</strong> ${book.publisher}</p>
+        <p><strong>作者:</strong> ${book.author}</p>
+        <p><strong>ジャンル:</strong> ${book.genre}</p>
       </div>
     </div>
     <div class="detail-section">
       <h3>あらすじ</h3>
-      <p class="summary-text">${book.summary || 'あらすじ情報はまだ登録されていません。'}</p>
+      <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
     </div>
     <div class="detail-section">
-      <h3>収集ステータス</h3>
-      <p>所持巻: ${book.owned.join(', ')} / 全${book.total}巻 (${percent}%)</p>
+      <h3>収集状況 (${percent}%)</h3>
+      <p>所持: ${book.owned.join(', ')} / 全${book.total}巻</p>
       <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
     </div>
   `;
-}
-
-function goBack() {
-  window.location.hash = '';
 }
 
 function renderBooks(list) {
@@ -70,19 +74,22 @@ function renderBooks(list) {
   container.innerHTML = '';
 
   list.forEach(book => {
-    const owned = book.owned.length;
-    const percent = Math.round((owned / book.total) * 100);
+    const ownedCount = book.owned.length;
+    const percent = Math.round((ownedCount / book.total) * 100);
 
     const card = document.createElement('div');
     card.className = 'book-card';
-    // クリックでハッシュを変更（詳細へ移動）
-    card.onclick = () => window.location.hash = `detail/${encodeURIComponent(book.title)}`;
+    
+    // クリック時に「出版社」と「タイトル」をセットにする
+    card.onclick = () => {
+      window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
+    };
 
     card.innerHTML = `
       <div class="book-title">${book.title}</div>
-      <div class="meta">作者: ${book.author} / ${book.genre}</div>
+      <div class="meta">${book.publisher} / ${book.author}</div>
+      <div class="tag">${book.genre}</div>
       <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
-      <div class="meta-small">クリックで詳細を表示</div>
     `;
     container.appendChild(card);
   });
@@ -91,7 +98,7 @@ function renderBooks(list) {
 
 function updateSummary(list) {
   const total = list.reduce((sum, b) => sum + b.owned.length, 0);
-  document.getElementById('summary').innerHTML = `シリーズ数: ${list.length} / 総冊数: ${total}`;
+  document.getElementById('summary').textContent = `作品数: ${list.length} / 合計冊数: ${total}`;
 }
 
 function applyFilters() {
@@ -101,9 +108,11 @@ function applyFilters() {
   const sort = document.getElementById('sortFilter').value;
 
   let filtered = books.filter(book => {
-    return (book.title.toLowerCase().includes(keyword) || book.author.toLowerCase().includes(keyword)) &&
-           (publisher === '' || book.publisher.includes(publisher)) &&
-           (genre === '' || book.genre.includes(genre));
+    const matchText = book.title.toLowerCase().includes(keyword) || book.author.toLowerCase().includes(keyword);
+    // 出版社フィルタ（部分一致判定）
+    const matchPublisher = publisher === '' || book.publisher.includes(publisher);
+    const matchGenre = genre === '' || book.genre.includes(genre);
+    return matchText && matchPublisher && matchGenre;
   });
 
   if (sort === 'title') filtered.sort((a,b) => a.title.localeCompare(b.title, 'ja'));
@@ -113,7 +122,12 @@ function applyFilters() {
   renderBooks(filtered);
 }
 
-// イベント設定
-document.querySelectorAll('header input, header select').forEach(el => {
-  el.addEventListener('input', applyFilters);
-});
+function goBack() {
+  window.location.hash = '';
+}
+
+// イベント登録
+document.getElementById('search').addEventListener('input', applyFilters);
+document.getElementById('publisherFilter').addEventListener('change', applyFilters);
+document.getElementById('genreFilter').addEventListener('change', applyFilters);
+document.getElementById('sortFilter').addEventListener('change', applyFilters);
