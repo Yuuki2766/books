@@ -82,14 +82,22 @@ function renderBooks(list) {
     };
 
     card.innerHTML = `
-      <div class="book-title">${book.title}</div>
-      <div class="meta">${book.publisher} / ${book.author}</div>
-      <div class="tag">${book.genre}</div>
-      <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
-    `;
-    container.appendChild(card);
-  });
-  updateSummary(list);
+            <div class="card-content">
+                <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
+                <div class="book-info">
+                    <div class="book-title">${book.title}</div>
+                    <div class="meta">${book.publisher} / ${book.author}</div>
+                    <div class="tag">${book.genre}</div>
+                    <div class="progress-container">
+                        <div class="progress-text">${owned}/${book.total}巻 (${percent}%)</div>
+                        <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+    updateSummary(list);
 }
 
 function updateSummary(list) {
@@ -112,7 +120,6 @@ function applyFilters() {
   });
 
   if (sort === 'title') filtered.sort((a,b) => a.title.localeCompare(b.title, 'ja'));
-  if (sort === 'author') filtered.sort((a,b) => a.author.localeCompare(b.author, 'ja'));
   if (sort === 'progress') filtered.sort((a,b) => (a.owned.length/a.total) - (b.owned.length/b.total));
 
   renderBooks(filtered);
