@@ -1,28 +1,52 @@
 body { margin: 0; font-family: sans-serif; background: #f5f5f5; color: #222; }
-header { background: #222; color: #fff; padding: 20px; text-align: center; }
+header { background: #222; color: #fff; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 100; }
 .filter-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
-input, select { padding: 10px; border-radius: 8px; border: none; }
+input, select { padding: 10px; border-radius: 8px; border: none; font-size: 14px; }
+
 main { max-width: 800px; margin: auto; padding: 20px; }
 
 /* 一覧カードのレイアウト */
-.book-card { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; }
-.card-content { display: flex; gap: 15px; }
-.book-cover { width: 70px; height: 100px; object-fit: cover; border-radius: 4px; background: #eee; flex-shrink: 0; }
-.book-info { flex-grow: 1; min-width: 0; }
-.book-title { font-size: 18px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.meta { font-size: 13px; color: #666; margin-top: 4px; }
-.tag { display: inline-block; background: #f0f0f0; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-top: 5px; }
+.book-card { background: #fff; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
+.book-card:hover { transform: translateY(-2px); }
+.card-content { display: flex; gap: 15px; align-items: start; }
 
-/* 進捗バー */
-.progress-container { margin-top: 8px; }
-.progress-text { font-size: 11px; color: #888; }
-.progress { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+/* 一覧の画像サイズを固定 */
+.book-cover { 
+    width: 80px; 
+    height: 110px; 
+    object-fit: cover; 
+    border-radius: 4px; 
+    background: #eee; 
+    flex-shrink: 0; 
+}
+
+.book-info { flex-grow: 1; min-width: 0; }
+.book-title { font-size: 18px; font-weight: bold; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meta { font-size: 13px; color: #666; margin-top: 4px; }
+.tag { display: inline-block; background: #eef2ff; color: #4f46e5; padding: 2px 8px; border-radius: 6px; font-size: 11px; margin-top: 5px; }
+
+/* プログレスバー */
+.progress-container { margin-top: 10px; }
+.progress-text { font-size: 11px; color: #888; margin-bottom: 2px; }
+.progress { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
 .bar { height: 100%; background: #4caf50; }
 
-/* 詳細画面 */
-.back-btn { padding: 8px 16px; margin-bottom: 20px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; }
-.detail-container { display: flex; gap: 20px; background: #fff; padding: 20px; border-radius: 15px; }
-.detail-cover { width: 150px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+/* 詳細画面の画像サイズを制限 */
+.detail-container { display: flex; gap: 30px; background: #fff; padding: 30px; border-radius: 15px; align-items: start; }
+.detail-cover { 
+    width: 100%; 
+    max-width: 240px; /* ここで画像の大きさを制限 */
+    height: auto;
+    border-radius: 8px; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15); 
+}
+.detail-info { flex: 1; }
+.detail-info h2 { margin-top: 0; font-size: 24px; }
+.back-btn { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
+
+/* スマホ対応 */
 @media (max-width: 600px) {
-    .detail-container { flex-direction: column; align-items: center; text-align: center; }
+    .detail-container { flex-direction: column; align-items: center; text-align: center; padding: 20px; }
+    .card-content { gap: 10px; }
+    .book-cover { width: 60px; height: 85px; }
 }
