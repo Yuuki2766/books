@@ -8,7 +8,7 @@
     "owned": [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104, 105, 107],
     "total": 107,
     "summary": "ホームズに憧れる高校生探偵・工藤新一は、謎の組織の取引現場を目撃したことで毒薬を飲まされ、体が小さくなってしまう。彼は「江戸川コナン」と名乗り、組織の行方を追いながら数々の難事件を解決していく。",
-    "image": "https://example.com/images/conan.jpg"
+    "image": "images/conan.JPG"
   },
   {
     "title": "名探偵コナン ゼロの日常",
@@ -19,7 +19,7 @@
     "owned": [1, 2, 3, 4, 5, 6],
     "total": 6,
     "summary": "",
-    "image": ""
+    "image": "images/zero.JPG"
   },
   {
     "title": "名探偵コナン 警察学校編",
@@ -30,7 +30,7 @@
     "owned": [1, 2],
     "total": 2,
     "summary": "",
-    "image": ""
+    "image": "images/police.JPG"
   },
   {
     "title": "青のオーケストラ",
@@ -41,7 +41,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14],
     "total": 14,
     "summary": "",
-    "image": ""
+    "image": "images/aono.JPG"
   },
   {
     "title": "薬屋のひとりごと",
@@ -52,7 +52,7 @@
     "owned": [9, 10, 11, 12, 13, 14],
     "total": 16,
     "summary": "",
-    "image": ""
+    "image": "images/hitorigoto.JPG"
   },
   {
     "title": "葬送のフリーレン",
@@ -63,7 +63,7 @@
     "owned": [8],
     "total": 15,
     "summary": "",
-    "image": ""
+    "image": "images/sousouno.JPG"
   },
   {
     "title": "落第賢者の学院無双",
@@ -74,7 +74,7 @@
     "owned": [1, 2, 3, 4, 5],
     "total": 5,
     "summary": "",
-    "image": ""
+    "image": "images/rakudaicomic.JPG"
   },
   {
     "title": "落第賢者の学院無双",
@@ -85,7 +85,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8],
     "total": 8,
     "summary": "",
-    "image": ""
+    "image": "images/rakudai.JPG"
   },
   {
     "title": "響け！ユーフォニアム〜北宇治高校吹奏楽部へようこそ〜",
@@ -96,7 +96,7 @@
     "owned": [1, 2, 3],
     "total": 3,
     "summary": "",
-    "image": ""
+    "image": "images/hibikecomic1.JPG"
   },
   {
     "title": "響け！ユーフォニアム〜北宇治高校吹奏楽部のいちばん熱い夏〜",
@@ -107,7 +107,7 @@
     "owned": [1, 2],
     "total": 2,
     "summary": "",
-    "image": ""
+    "image": "images/hibikecomic2.JPG"
   },
   {
     "title": "暗殺者である俺のステータスが勇者よりも明らかに強いのだが",
