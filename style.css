@@ -35,12 +35,14 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
     margin: 0 auto;
 }
 
+/* セレクトボックスの基本設定 */
 .filter-group select { 
     padding: 8px 10px; 
     border-radius: 6px; 
     border: none; 
     font-size: 13px; 
     background: #fff;
+    color: #222;
     cursor: pointer;
     flex: 1 1 30%; 
     min-width: 100px;
@@ -97,7 +99,7 @@ main { max-width: 800px; margin: auto; padding: 15px; }
 .detail-info { flex: 1; min-width: 0; }
 .detail-info h2 { margin-top: 0; font-size: 22px; margin-bottom: 10px; }
 
-/* あらすじ部分のデザイン */
+/* あらすじ部分 */
 .summary-section {
     margin: 20px 0;
     padding: 15px;
@@ -109,7 +111,7 @@ main { max-width: 800px; margin: auto; padding: 15px; }
 .summary-text { 
     font-size: 14px; 
     color: #444; 
-    white-space: pre-wrap; /* 改行を反映させる */
+    white-space: pre-wrap; 
 }
 
 .back-btn { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
@@ -124,19 +126,19 @@ main { max-width: 800px; margin: auto; padding: 15px; }
         gap: 10px;
     }
 
-    /* 「出版社」と「ジャンル」を横並びにする */
+    /* 「出版社」と「ジャンル」を1段目に横並びにする */
     #publisherFilter, #genreFilter {
         flex: 1 1 45%; 
         min-width: 140px;
     }
 
-    /* 「並べ替え」を下の段に配置（背景を白に戻す） */
+    /* 「並べ替え」を2段目に100%幅で配置 */
     #sortFilter {
-        flex: 1 1 100%;    /* 横幅いっぱい使って下の段に落とす */
-        margin-top: 6px;   /* 上のボタンとの隙間 */
-        background: #fff;  /* 背景を白にする */
-        color: #222;       /* 文字色を黒（濃いグレー）にする */
-        border: none;      /* 枠線を消す */
+        flex: 1 1 100%;    
+        margin-top: 6px;   
+        background: #fff;  
+        color: #222;       
+        border: none;      
     }
 
     .detail-container { 
