@@ -114,10 +114,44 @@ main { max-width: 800px; margin: auto; padding: 15px; }
 
 .back-btn { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
 
-/* スマホ対応 */
+/* スマホ対応（画面幅600px以下） */
 @media (max-width: 600px) {
-    .filter-group select { flex: 1 1 45%; }
-    .detail-container { flex-direction: column; align-items: center; text-align: center; }
-    .book-cover { width: 65px; height: 90px; }
-    .summary-section { text-align: left; } /* スマホでもあらすじは左寄せ */
+    header {
+        padding: 15px 10px;
+    }
+
+    .filter-group {
+        gap: 10px;
+    }
+
+    /* 「出版社」と「ジャンル」を横並び(2列)にする */
+    #publisherFilter, #genreFilter {
+        flex: 1 1 45%; 
+        min-width: 140px;
+    }
+
+    /* 「並べ替え」だけを下の段に大きく表示する */
+    #sortFilter {
+        flex: 1 1 100%; /* 横幅いっぱい使って下の段に落ちる */
+        margin-top: 5px;
+        background: #333; /* 並べ替えだと分かりやすく少し色を変える場合 */
+        color: #fff;
+        border: 1px solid #444;
+    }
+
+    .detail-container { 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+        padding: 20px; 
+    }
+
+    .book-cover { 
+        width: 65px; 
+        height: 90px; 
+    }
+
+    .summary-section { 
+        text-align: left; 
+    }
 }
