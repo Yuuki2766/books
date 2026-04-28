@@ -1,4 +1,4 @@
-body { margin: 0; font-family: sans-serif; background: #f5f5f5; color: #222; line-height: 1.5; }
+body { margin: 0; font-family: sans-serif; background: #f5f5f5; color: #222; line-height: 1.6; }
 
 /* ヘッダー：スマホで要素が詰まらないように調整 */
 header { 
@@ -21,8 +21,8 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
     padding: 12px;
     border-radius: 8px;
     border: none;
-    font-size: 16px; /* スマホでズームされないサイズ */
-    margin-bottom: 15px; /* 下のフィルターとの隙間 */
+    font-size: 16px; 
+    margin-bottom: 15px;
 }
 
 /* フィルター群のラップ */
@@ -35,7 +35,6 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
     margin: 0 auto;
 }
 
-/* セレクトボックス：スマホで横に並びやすくする */
 .filter-group select { 
     padding: 8px 10px; 
     border-radius: 6px; 
@@ -43,27 +42,25 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
     font-size: 13px; 
     background: #fff;
     cursor: pointer;
-    flex: 1 1 30%; /* 基本は3列、狭ければ自動調整 */
+    flex: 1 1 30%; 
     min-width: 100px;
 }
 
 main { max-width: 800px; margin: auto; padding: 15px; }
 
-/* 一覧カード：画像と情報を横並びに */
+/* 一覧カード */
 .book-card { 
     background: #fff; 
     border-radius: 12px; 
-    padding: 12px; 
-    margin-bottom: 12px; 
+    padding: 15px; 
+    margin-bottom: 15px; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.08); 
     cursor: pointer; 
 }
-.card-content { display: flex; gap: 12px; align-items: flex-start; }
-
-/* 一覧の画像：サイズを固定 */
+.card-content { display: flex; gap: 15px; align-items: flex-start; }
 .book-cover { 
-    width: 70px; 
-    height: 100px; 
+    width: 80px; 
+    height: 110px; 
     object-fit: cover; 
     border-radius: 4px; 
     background: #eee; 
@@ -71,39 +68,56 @@ main { max-width: 800px; margin: auto; padding: 15px; }
 }
 
 .book-info { flex-grow: 1; min-width: 0; }
-.book-title { font-size: 16px; font-weight: bold; margin: 0 0 4px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.meta { font-size: 12px; color: #666; margin-bottom: 2px; }
-.tag { display: inline-block; background: #eef2ff; color: #4f46e5; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-top: 4px; }
+.book-title { font-size: 18px; font-weight: bold; margin: 0 0 4px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meta { font-size: 13px; color: #666; margin-bottom: 2px; }
+.tag { display: inline-block; background: #eef2ff; color: #4f46e5; padding: 2px 8px; border-radius: 6px; font-size: 11px; margin-top: 5px; }
 
 /* プログレスバー */
-.progress-container { margin-top: 8px; }
-.progress-text { font-size: 10px; color: #999; margin-bottom: 2px; }
+.progress-container { margin-top: 10px; }
+.progress-text { font-size: 11px; color: #888; margin-bottom: 2px; }
 .progress { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
 .bar { height: 100%; background: #4caf50; }
 
-/* 詳細画面：画像が大きくなりすぎないように制御 */
+/* 詳細画面 */
 .detail-container { 
     display: flex; 
-    gap: 20px; 
+    gap: 25px; 
     background: #fff; 
-    padding: 20px; 
-    border-radius: 12px; 
+    padding: 25px; 
+    border-radius: 15px; 
     align-items: flex-start; 
 }
 .detail-cover { 
     width: 100%; 
-    max-width: 200px; /* 詳細画面での最大サイズ */
+    max-width: 240px; 
     height: auto;
-    border-radius: 6px; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+    border-radius: 8px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
 }
-.detail-info { flex: 1; }
-.detail-info h2 { margin-top: 0; font-size: 20px; }
-.back-btn { padding: 8px 16px; margin-bottom: 15px; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; background: #fff; }
+.detail-info { flex: 1; min-width: 0; }
+.detail-info h2 { margin-top: 0; font-size: 22px; margin-bottom: 10px; }
 
-/* スマホ用レスポンシブ */
+/* あらすじ部分のデザイン */
+.summary-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: #fcfcfc;
+    border-left: 4px solid #4f46e5;
+    border-radius: 4px;
+}
+.summary-section h3 { margin-top: 0; font-size: 16px; color: #4f46e5; }
+.summary-text { 
+    font-size: 14px; 
+    color: #444; 
+    white-space: pre-wrap; /* 改行を反映させる */
+}
+
+.back-btn { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
+
+/* スマホ対応 */
 @media (max-width: 600px) {
-    .filter-group select { flex: 1 1 45%; } /* スマホでは2列にする */
+    .filter-group select { flex: 1 1 45%; }
     .detail-container { flex-direction: column; align-items: center; text-align: center; }
-    .book-cover { width: 60px; height: 85px; }
+    .book-cover { width: 65px; height: 90px; }
+    .summary-section { text-align: left; } /* スマホでもあらすじは左寄せ */
 }
