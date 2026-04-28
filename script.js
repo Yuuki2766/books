@@ -48,25 +48,21 @@ function showDetail(book) {
   const percent = Math.round((ownedCount / book.total) * 100);
 
   document.getElementById('detail-content').innerHTML = `
-    <div class="detail-header">
-      <img src="${book.image || 'https://via.placeholder.com/200x280?text=No+Image'}" alt="画像" class="detail-img">
-      <div class="detail-main-info">
-        <h2>${book.title}</h2>
-        <p><strong>出版社:</strong> ${book.publisher}</p>
-        <p><strong>作者:</strong> ${book.author}</p>
-        <p><strong>ジャンル:</strong> ${book.genre}</p>
-      </div>
-    </div>
-    <div class="detail-section">
-      <h3>あらすじ</h3>
-      <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
-    </div>
-    <div class="detail-section">
-      <h3>収集状況 (${percent}%)</h3>
-      <p>所持: ${book.owned.join(', ')} / 全${book.total}巻</p>
-      <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
-    </div>
-  `;
+        <div class="detail-container">
+            <img src="${book.image || 'https://via.placeholder.com/200x280?text=No+Image'}" class="detail-cover">
+            <div class="detail-info">
+                <h2>${book.title}</h2>
+                <p><strong>著者:</strong> ${book.author}</p>
+                <p><strong>イラスト:</strong> ${book.illustrator || 'なし'}</p>
+                <p><strong>出版社:</strong> ${book.publisher}</p>
+                <p><strong>ジャンル:</strong> ${book.genre}</p>
+                <div class="detail-progress">
+                    <p>所持巻: ${book.owned.join(', ')} / 全${book.total}巻</p>
+                    <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 function renderBooks(list) {
