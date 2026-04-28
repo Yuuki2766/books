@@ -7,36 +7,54 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
+<header id="main-header">
     <h1>📚 蔵書マネージャー</h1>
     <div class="filter-group">
-        <input type="text" id="search" placeholder="タイトル・作者・イラストレーターで検索">
+        <input type="text" id="search" placeholder="タイトル・作者で検索">
         <div class="select-row">
             <select id="publisherFilter">
                 <option value="">全出版社</option>
                 <option value="小学館">小学館</option>
-                <option value="スクウェア・エニックス">スクエニ</option>
-                <option value="KADOKAWA">KADOKAWA系</option>
+                <option value="集英社">集英社</option>
+                <option value="講談社">講談社</option>
+                <option value="スクエアエニックス">スクエニ</option>
+                <option value="KADOKAWA">KADOKAWA</option>
                 <option value="宝島社">宝島社</option>
+                <option value="オーバーラップ">オーバーラップ</option>
+                <option value="ホビージャパン">ホビージャパン</option>
             </select>
             <select id="genreFilter">
                 <option value="">全ジャンル</option>
                 <option value="漫画">漫画</option>
+                <option value="推理">推理・ミステリー</option>
+                <option value="青春">青春・日常</option>
+                <option value="ファンタジー">ファンタジー</option>
+                <option value="ラブコメ">ラブコメ</option>
                 <option value="ライトノベル">ラノベ</option>
-                <option value="小説">小説・その他</option>
+                <option value="小説">小説</option>
             </select>
             <select id="sortFilter">
                 <option value="default">標準</option>
-                <option value="progress">収集率（低い順）</option>
-                <option value="total">巻数が多い順</option>
+                <option value="title">作品名順</option>
+                <option value="author">作者順</option>
+                <option value="progress">収集率順</option>
             </select>
         </div>
     </div>
 </header>
+
 <main>
-    <div id="summary"></div>
-    <div id="book-list"></div>
+    <div id="list-view">
+        <div id="summary"></div>
+        <div id="book-list"></div>
+    </div>
+
+    <div id="detail-view" style="display: none;">
+        <button class="back-btn" onclick="goBack()">← 一覧に戻る</button>
+        <div id="detail-content"></div>
+    </div>
 </main>
+
 <script src="script.js"></script>
 </body>
 </html>
