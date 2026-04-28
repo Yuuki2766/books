@@ -47,6 +47,13 @@ function showDetail(book) {
                 <p><strong>出版社:</strong> ${book.publisher}</p>
                 <p><strong>ジャンル:</strong> ${book.genre}</p>
                 <div class="detail-progress">
+
+                  <h3>あらすじ</h3>
+                  <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
+                </div>
+                <div class="detail-section">
+
+
                     <p>所持状況: ${ownedCount} / ${book.total}巻</p>
                     <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
                     <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned.join(', ')}</p>
