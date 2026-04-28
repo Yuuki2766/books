@@ -187,6 +187,17 @@
     "image": ""
   },
   {
+    "title": "才女のお世話",
+    "author": "坂石遊作",
+    "illustrator": "水島空彦",
+    "publisher": "HJ文庫",
+    "genre": "青春ライトノベル",
+    "owned": [2],
+    "total": 11,
+    "summary": "",
+    "image": ""
+  },
+  {
     "title": "今日のケルベロス",
     "author": "桜井亜都",
     "illustrator": "",
@@ -367,7 +378,7 @@
     "author": "山口幸三郎",
     "illustrator": "煙楽",
     "publisher": "メディアワークス文庫",
-    "genre": "ミステリー",
+    "genre": "ミステリー小説",
     "owned": [1, 2, 3, 4],
     "total": 10,
     "summary": "",
@@ -414,6 +425,17 @@
     "genre": "恋愛小説",
     "owned": [1, 2],
     "total": 2,
+    "summary": "",
+    "image": ""
+  },
+  {
+    "title": "この世界にiをこめて",
+    "author": "佐野徹夜",
+    "illustrator": "loundraw",
+    "publisher": "メディアワークス文庫",
+    "genre": "恋愛小説",
+    "owned": [1],
+    "total": 1,
     "summary": "",
     "image": ""
   },
