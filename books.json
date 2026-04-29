@@ -66,28 +66,6 @@
     "image": "images/sousouno.JPG"
   },
   {
-    "title": "落第賢者の学院無双",
-    "author": "白石新",
-    "illustrator": "けんたろう",
-    "publisher": "スクウェア・エニックス",
-    "genre": "ファンタジー漫画",
-    "owned": [1, 2, 3, 4, 5],
-    "total": 5,
-    "summary": "",
-    "image": "images/rakudaicomic.JPG"
-  },
-  {
-    "title": "落第賢者の学院無双",
-    "author": "白石新",
-    "illustrator": "魚デニム",
-    "publisher": "角川スニーカー文庫",
-    "genre": "ファンタジーライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8],
-    "total": 8,
-    "summary": "",
-    "image": "images/rakudai.JPG"
-  },
-  {
     "title": "クラスで2番目に可愛い女の子と友達になった",
     "author": "たかた",
     "illustrator": "長部トム、日向あずり",
@@ -220,6 +198,39 @@
     "image": "images/titose.JPG"
   },
   {
+    "title": "響け！ユーフォニアム",
+    "author": "武田綾乃",
+    "illustrator": "アサダニッキ",
+    "publisher": "宝島社",
+    "genre": "青春小説",
+    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "total": 14,
+    "summary": "",
+    "image": "images/hibike.JPG"
+  },
+  {
+    "title": "落第賢者の学院無双",
+    "author": "白石新",
+    "illustrator": "けんたろう",
+    "publisher": "スクウェア・エニックス",
+    "genre": "ファンタジー漫画",
+    "owned": [1, 2, 3, 4, 5],
+    "total": 5,
+    "summary": "",
+    "image": "images/rakudaicomic.JPG"
+  },
+  {
+    "title": "落第賢者の学院無双",
+    "author": "白石新",
+    "illustrator": "魚デニム",
+    "publisher": "角川スニーカー文庫",
+    "genre": "ファンタジーライトノベル",
+    "owned": [1, 2, 3, 4, 5, 6, 7, 8],
+    "total": 8,
+    "summary": "",
+    "image": "images/rakudai.JPG"
+  },
+  {
     "title": "今日のケルベロス",
     "author": "桜井亜都",
     "illustrator": "",
@@ -262,17 +273,6 @@
     "total": 2,
     "summary": "",
     "image": "images/tikasugiru.JPEG"
-  },
-  {
-    "title": "響け！ユーフォニアム",
-    "author": "武田綾乃",
-    "illustrator": "アサダニッキ",
-    "publisher": "宝島社",
-    "genre": "青春小説",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-    "total": 14,
-    "summary": "",
-    "image": "images/hibike.JPG"
   },
   {
     "title": "エロマンガ先生",
@@ -396,6 +396,28 @@
     "image": ""
   },
   {
+    "title": "落第賢者の学院無双",
+    "author": "白石新",
+    "illustrator": "けんたろう",
+    "publisher": "スクウェア・エニックス",
+    "genre": "ファンタジー漫画",
+    "owned": [1, 2, 3, 4, 5],
+    "total": 5,
+    "summary": "",
+    "image": "images/rakudaicomic.JPG"
+  },
+  {
+    "title": "落第賢者の学院無双",
+    "author": "白石新",
+    "illustrator": "魚デニム",
+    "publisher": "角川スニーカー文庫",
+    "genre": "ファンタジーライトノベル",
+    "owned": [1, 2, 3, 4, 5, 6, 7, 8],
+    "total": 8,
+    "summary": "",
+    "image": "images/rakudai.JPG"
+  },
+  {
     "title": "ちょろいんですが恋人にはなれませんか？",
     "author": "七条剛",
     "illustrator": "希望つばめ",
@@ -429,37 +451,26 @@
     "image": ""
   },
   {
-    "title": "佐伯さんとひとつ屋根の下",
-    "author": "九曜",
-    "illustrator": "フライ",
-    "publisher": "ファミ通文庫",
-    "genre": "青春ライトノベル",
+    "title": "落第賢者の学院無双",
+    "author": "白石新",
+    "illustrator": "けんたろう",
+    "publisher": "スクウェア・エニックス",
+    "genre": "ファンタジー漫画",
     "owned": [1, 2, 3, 4, 5],
     "total": 5,
     "summary": "",
-    "image": ""
+    "image": "images/rakudaicomic.JPG"
   },
   {
-    "title": "廻る学園と、先輩と僕",
-    "author": "九曜",
-    "illustrator": "フライ",
-    "publisher": "ファミ通文庫",
-    "genre": "青春ライトノベル",
-    "owned": [1, 2, 3],
-    "total": 3,
+    "title": "落第賢者の学院無双",
+    "author": "白石新",
+    "illustrator": "魚デニム",
+    "publisher": "角川スニーカー文庫",
+    "genre": "ファンタジーライトノベル",
+    "owned": [1, 2, 3, 4, 5, 6, 7, 8],
+    "total": 8,
     "summary": "",
-    "image": ""
-  },
-  {
-    "title": "週4で部屋に遊びにくる小悪魔ガールはくびったけ！",
-    "author": "九曜",
-    "illustrator": "小林ちさと",
-    "publisher": "GA文庫",
-    "genre": "青春ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": ""
+    "image": "images/rakudai.JPG"
   },
   {
     "title": "ひげを剃る。そして女子高生を拾う。",
