@@ -220,39 +220,6 @@
     "image": ""
   },
   {
-    "title": "左遷された最強賢者、教師になって無敵クラスを作り上げる",
-    "author": "鈴森一",
-    "illustrator": "かなめもにか",
-    "publisher": "スクウェア・エニックス",
-    "genre": "ファンタジー漫画",
-    "owned": [1, 2, 3, 4],
-    "total": 10,
-    "summary": "",
-    "image": ""
-  },
-  {
-    "title": "才女のお世話",
-    "author": "坂石遊作",
-    "illustrator": "水島空彦",
-    "publisher": "ホビージャパン",
-    "genre": "青春漫画",
-    "owned": [1],
-    "total": 5,
-    "summary": "",
-    "image": ""
-  },
-  {
-    "title": "才女のお世話",
-    "author": "坂石遊作",
-    "illustrator": "みわべさくら",
-    "publisher": "HJ文庫",
-    "genre": "青春ライトノベル",
-    "owned": [2],
-    "total": 11,
-    "summary": "",
-    "image": ""
-  },
-  {
     "title": "今日のケルベロス",
     "author": "桜井亜都",
     "illustrator": "",
@@ -513,6 +480,39 @@
     "genre": "ファンタジーライトノベル",
     "owned": [1],
     "total": 12,
+    "summary": "",
+    "image": ""
+  },
+  {
+    "title": "左遷された最強賢者、教師になって無敵クラスを作り上げる",
+    "author": "鈴森一",
+    "illustrator": "かなめもにか",
+    "publisher": "スクウェア・エニックス",
+    "genre": "ファンタジー漫画",
+    "owned": [1, 2, 3, 4],
+    "total": 10,
+    "summary": "",
+    "image": ""
+  },
+  {
+    "title": "才女のお世話",
+    "author": "坂石遊作",
+    "illustrator": "水島空彦",
+    "publisher": "ホビージャパン",
+    "genre": "青春漫画",
+    "owned": [1],
+    "total": 5,
+    "summary": "",
+    "image": ""
+  },
+  {
+    "title": "才女のお世話",
+    "author": "坂石遊作",
+    "illustrator": "みわべさくら",
+    "publisher": "HJ文庫",
+    "genre": "青春ライトノベル",
+    "owned": [2],
+    "total": 11,
     "summary": "",
     "image": ""
   },
