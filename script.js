@@ -77,6 +77,7 @@ function renderBooks(list) {
             window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
         };
 
+        
         card.innerHTML = `
             <div class="card-content">
                 <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
