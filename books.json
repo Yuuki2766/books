@@ -198,6 +198,28 @@
     "image": "images/maouansorogy.WEBP"
   },
   {
+    "title": "三角の距離は限りないゼロ",
+    "author": "岬鷺宮",
+    "illustrator": "Hiten",
+    "publisher": "電撃文庫",
+    "genre": "青春ライトノベル",
+    "owned": [1, 2, 3, 4, 5, 6, 7],
+    "total": 9,
+    "summary": "",
+    "image": "images/sankaku.JPG"
+  },
+  {
+    "title": "読者と主人公と二人のこれから",
+    "author": "岬鷺宮",
+    "illustrator": "Hiten",
+    "publisher": "電撃文庫",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "images/hutarinokorekara.JPG"
+  },
+  {
     "title": "落第賢者の学院無双",
     "author": "白石新",
     "illustrator": "けんたろう",
@@ -306,28 +328,6 @@
     "total": 12,
     "summary": "",
     "image": "images/turekano.JPG"
-  },
-  {
-    "title": "三角の距離は限りないゼロ",
-    "author": "岬鷺宮",
-    "illustrator": "Hiten",
-    "publisher": "電撃文庫",
-    "genre": "青春ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7],
-    "total": 9,
-    "summary": "",
-    "image": "images/sankaku.JPG"
-  },
-  {
-    "title": "読者と主人公と二人のこれから",
-    "author": "岬鷺宮",
-    "illustrator": "Hiten",
-    "publisher": "電撃文庫",
-    "genre": "青春ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/hutarinokorekara.JPG"
   },
   {
     "title": "ぼくたちは勉強ができない",
@@ -449,28 +449,6 @@
     "total": 1,
     "summary": "",
     "image": "images/konosekaini.JPG"
-  },
-  {
-    "title": "落第賢者の学院無双",
-    "author": "白石新",
-    "illustrator": "けんたろう",
-    "publisher": "スクウェア・エニックス",
-    "genre": "ファンタジー漫画",
-    "owned": [1, 2, 3, 4, 5],
-    "total": 5,
-    "summary": "",
-    "image": "images/rakudaicomic.JPG"
-  },
-  {
-    "title": "落第賢者の学院無双",
-    "author": "白石新",
-    "illustrator": "魚デニム",
-    "publisher": "角川スニーカー文庫",
-    "genre": "ファンタジーライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8],
-    "total": 8,
-    "summary": "",
-    "image": "images/rakudai.JPG"
   },
   {
     "title": "ひげを剃る。そして女子高生を拾う。",
