@@ -206,7 +206,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 6.5, 7, 8, 8.5, 9, 10],
     "total": 13,
     "summary": "",
-    "image": "tomozaki.JPEG"
+    "image": "images/tomozaki.JPEG"
   },
   {
     "title": "千歳くんはラムネ瓶のなか",
@@ -217,7 +217,7 @@
     "owned": [1, 2, 3, 4, 5, 5.5, 6, 6.5, 7],
     "total": 12,
     "summary": "",
-    "image": "titose.JPG"
+    "image": "images/titose.JPG"
   },
   {
     "title": "今日のケルベロス",
