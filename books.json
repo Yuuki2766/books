@@ -255,17 +255,6 @@
   {
     "title": "落第賢者の学院無双",
     "author": "白石新",
-    "illustrator": "けんたろう",
-    "publisher": "スクウェア・エニックス",
-    "genre": "ファンタジー漫画",
-    "owned": [1, 2, 3, 4, 5],
-    "total": 5,
-    "summary": "",
-    "image": "images/rakudaicomic.JPG"
-  },
-  {
-    "title": "落第賢者の学院無双",
-    "author": "白石新",
     "illustrator": "魚デニム",
     "publisher": "角川スニーカー文庫",
     "genre": "ファンタジーライトノベル",
@@ -274,6 +263,18 @@
     "summary": "",
     "image": "images/rakudai.JPG"
   },
+  {
+    "title": "落第賢者の学院無双",
+    "author": "白石新",
+    "illustrator": "けんたろう",
+    "publisher": "スクウェア・エニックス",
+    "genre": "ファンタジー漫画",
+    "owned": [1, 2, 3, 4, 5],
+    "total": 5,
+    "summary": "",
+    "image": "images/rakudaicomic.JPG"
+  },
+  
   {
     "title": "今日のケルベロス",
     "author": "桜井亜都",
