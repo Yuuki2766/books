@@ -176,6 +176,50 @@
     "image": ""
   },
   {
+    "title": "クラスで2番目に可愛い女の子と友達になった",
+    "author": "たかた",
+    "illustrator": "長部トム、日向あずり",
+    "publisher": "角川スニーカー文庫",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 10,
+    "summary": "",
+    "image": ""
+  },
+  {
+    "title": "魔王学院の不適合者",
+    "author": "秋",
+    "illustrator": "しずまよしのり",
+    "publisher": "電撃文庫",
+    "genre": "ファンタジーライトノベル",
+    "owned": [1, 2, 3, 4, 4.5, 5, 6, 7, 8, 9, 10, 10.5, 11],
+    "total": 22,
+    "summary": "",
+    "image": ""
+  },
+  {
+    "title": "弱キャラ友崎くん",
+    "author": "屋久ユウキ",
+    "illustrator": "フライ",
+    "publisher": "ガガガ文庫",
+    "genre": "青春ライトノベル",
+    "owned": [1, 2, 3, 4, 5, 6, 6.5, 7, 8, 8.5, 9, 10],
+    "total": 13,
+    "summary": "",
+    "image": ""
+  },
+  {
+    "title": "千歳くんはラムネ瓶のなか",
+    "author": "裕夢",
+    "illustrator": "raemz",
+    "publisher": "ガガガ文庫",
+    "genre": "青春ライトノベル",
+    "owned": [1, 2, 3, 4, 5, 5.5, 6, 6.5, 7],
+    "total": 12,
+    "summary": "",
+    "image": ""
+  },
+  {
     "title": "左遷された最強賢者、教師になって無敵クラスを作り上げる",
     "author": "鈴森一",
     "illustrator": "かなめもにか",
@@ -247,41 +291,8 @@
     "illustrator": "和遥キナ",
     "publisher": "ファミ通文庫",
     "genre": "青春ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    "total": 9,
-    "summary": "",
-    "image": ""
-  },
-  {
-    "title": "魔王学院の不適合者",
-    "author": "秋",
-    "illustrator": "しずまよしのり",
-    "publisher": "電撃文庫",
-    "genre": "ファンタジーライトノベル",
-    "owned": [1, 2, 3, 4, 4.5, 5, 6, 7, 8, 9, 10, 10.5, 11],
-    "total": 22,
-    "summary": "",
-    "image": ""
-  },
-  {
-    "title": "弱キャラ友崎くん",
-    "author": "屋久ユウキ",
-    "illustrator": "フライ",
-    "publisher": "ガガガ文庫",
-    "genre": "青春ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 6.5, 7, 8, 8.5, 9, 10],
-    "total": 13,
-    "summary": "",
-    "image": ""
-  },
-  {
-    "title": "千歳くんはラムネ瓶のなか",
-    "author": "裕夢",
-    "illustrator": "raemz",
-    "publisher": "ガガガ文庫",
-    "genre": "青春ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 5.5, 6, 6.5, 7],
-    "total": 12,
+    "owned": [1, 2],
+    "total": 2,
     "summary": "",
     "image": ""
   },
@@ -536,17 +547,6 @@
     "owned": [1, 2],
     "total": 4,
     "summary": " ",
-    "image": ""
-  },
-  {
-    "title": "クラスで2番目に可愛い女の子と友達になった",
-    "author": "たかた",
-    "illustrator": "長部トム、日向あずり",
-    "publisher": "角川スニーカー文庫",
-    "genre": "青春ライトノベル",
-    "owned": [1],
-    "total": 10,
-    "summary": "",
     "image": ""
   }
 ]
