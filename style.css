@@ -99,7 +99,7 @@ main { max-width: 800px; margin: auto; padding: 15px; }
 .detail-info { flex: 1; min-width: 0; }
 .detail-info h2 { margin-top: 0; font-size: 22px; margin-bottom: 10px; }
 
-/* あらすじ部分 */
+/* あらすじ部分のデザイン */
 .summary-section {
     margin: 20px 0;
     padding: 15px;
@@ -126,24 +126,21 @@ main { max-width: 800px; margin: auto; padding: 15px; }
         gap: 10px;
     }
 
-    /* 「出版社」と「ジャンル」を1段目に横並びにする */
     #publisherFilter, #genreFilter {
         flex: 1 1 45%; 
         min-width: 140px;
     }
 
-    /* 「並べ替え」を2段目に100%幅で配置 */
+    /* 並べ替えボタン：Safari等の独自スタイルを消して真っ白にする */
     #sortFilter {
         flex: 1 1 100%;    
-        margin-top: 8px;   /* 少し隙間を広げました */
-        background: #ffffff; /* 真っ白を指定 */
+        margin-top: 8px;   
+        background: #ffffff; 
         color: #222;       
         border: none;
-        /* ブラウザ独自のスタイル（グレーの影など）を強制的に消す */
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        /* セレクトボックスだとわかるように、少しだけ高さを出す */
         height: 40px;
         text-align: center;
     }

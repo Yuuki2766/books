@@ -45,7 +45,7 @@ function showDetail(book) {
             <div class="detail-info">
                 <h2>${book.title}</h2>
                 <p class="meta"><strong>著者:</strong> ${book.author}</p>
-                <p class="meta"><strong>イラスト:</strong>${book.illustrator}</p>
+                <p class="meta"><strong>イラスト:</strong> ${book.illustrator || 'なし'}</p>
                 <p class="meta"><strong>出版社:</strong> ${book.publisher}</p>
                 <p class="meta"><strong>ジャンル:</strong> ${book.genre}</p>
                 
@@ -98,10 +98,8 @@ function renderBooks(list) {
 
 function updateSummary(list) {
     const total = list.reduce((sum, b) => sum + b.owned.length, 0);
-    const summaryElem = document.getElementById('summary');
-    if (summaryElem) {
-        summaryElem.textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
-    }
+    const summary = document.getElementById('summary');
+    if(summary) summary.textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
 }
 
 function applyFilters() {
