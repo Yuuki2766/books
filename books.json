@@ -228,7 +228,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     "total": 12,
     "summary": "",
-    "image": ""
+    "image": "images/keruberosu.JPG"
   },
   {
     "title": "聖剣学院の魔剣使い",
@@ -239,7 +239,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     "total": 16,
     "summary": "",
-    "image": ""
+    "image": "images/seiken.JPEG"
   },
   {
     "title": "キミの忘れかたを教えて",
@@ -250,7 +250,7 @@
     "owned": [1, 2],
     "total": 2,
     "summary": "",
-    "image": ""
+    "image": "images/kiminowasurekata.JPEG"
   },
   {
     "title": "近すぎる彼らの、十七歳の遠い関係",
@@ -261,7 +261,7 @@
     "owned": [1, 2],
     "total": 2,
     "summary": "",
-    "image": ""
+    "image": "images/tikasugiru.JPEG"
   },
   {
     "title": "響け！ユーフォニアム",
@@ -272,7 +272,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
     "total": 14,
     "summary": "",
-    "image": ""
+    "image": "images/hibike.JPG"
   },
   {
     "title": "エロマンガ先生",
@@ -283,7 +283,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
     "total": 13,
     "summary": "",
-    "image": ""
+    "image": "images/eromanga.JPG"
   },
   {
     "title": "経験済みなキミと、経験ゼロなオレが、お付き合いする話。",
@@ -294,7 +294,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8, 8.5],
     "total": 11,
     "summary": "",
-    "image": ""
+    "image": "images/kimizero.JPG"
   },
   {
     "title": "可愛ければ変態でも好きになってくれますか？",
@@ -305,7 +305,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     "total": 14,
     "summary": "",
-    "image": ""
+    "image": "images/hensuki.JPG"
   },
   {
     "title": "継母の連れ子が元カノだった",
@@ -316,7 +316,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7],
     "total": 12,
     "summary": "",
-    "image": ""
+    "image": "images/turekano.JPG"
   },
   {
     "title": "三角の距離は限りないゼロ",
@@ -327,7 +327,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7],
     "total": 9,
     "summary": "",
-    "image": ""
+    "image": "images/sankaku.JPG"
   },
   {
     "title": "読者と主人公と二人のこれから",
@@ -338,7 +338,7 @@
     "owned": [1],
     "total": 1,
     "summary": "",
-    "image": ""
+    "image": "images/hutarinokorekara.JPG"
   },
   {
     "title": "ぼくたちは勉強ができない",
@@ -349,7 +349,7 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
     "total": 21,
     "summary": "",
-    "image": ""
+    "image": "images/benkyougadekinai.JPG"
   },
   {
     "title": "妹さえいればいい。",
@@ -360,10 +360,10 @@
     "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
     "total": 14,
     "summary": "",
-    "image": ""
+    "image": "images/imoutosaeirebaii.JPG"
   },
   {
-    "title": "探偵・日暮旅人の探し物",
+    "title": "探偵・日暮旅人",
     "author": "山口幸三郎",
     "illustrator": "煙楽",
     "publisher": "メディアワークス文庫",
@@ -371,7 +371,7 @@
     "owned": [1, 2, 3, 4],
     "total": 10,
     "summary": "",
-    "image": ""
+    "image": "images/higurasi.PNG"
   },
   {
     "title": "義妹生活",
@@ -382,7 +382,7 @@
     "owned": [1, 2, 3],
     "total": 10,
     "summary": "",
-    "image": ""
+    "image": "images/imoutoseikatu.JPG"
   },
   {
     "title": "カノジョに浮気されていた俺が、小悪魔な後輩に懐かれています",
