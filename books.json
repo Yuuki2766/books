@@ -99,17 +99,6 @@
     "image": "images/hibikecomic2.JPG"
   },
   {
-    "title": "暗殺者である俺のステータスが勇者よりも明らかに強いのだが",
-    "author": "赤井まつり",
-    "illustrator": "合鴨ひろゆき",
-    "publisher": "オーバーラップ",
-    "genre": "ファンタジー漫画",
-    "owned": [1, 2, 3],
-    "total": 6,
-    "summary": "",
-    "image": "images/ansatu.JPG"
-  },
-  {
     "title": "弱キャラ友崎くん",
     "author": "屋久ユウキ",
     "illustrator": "千田衛人",
@@ -416,6 +405,17 @@
     "total": 8,
     "summary": "",
     "image": "images/rakudai.JPG"
+  },
+  {
+    "title": "暗殺者である俺のステータスが勇者よりも明らかに強いのだが",
+    "author": "赤井まつり",
+    "illustrator": "合鴨ひろゆき",
+    "publisher": "オーバーラップ",
+    "genre": "ファンタジー漫画",
+    "owned": [1, 2, 3],
+    "total": 6,
+    "summary": "",
+    "image": "images/ansatu.JPG"
   },
   {
     "title": "ちょろいんですが恋人にはなれませんか？",
