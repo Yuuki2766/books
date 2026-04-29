@@ -45,6 +45,7 @@ function showDetail(book) {
             <div class="detail-info">
                 <h2>${book.title}</h2>
                 <p class="meta"><strong>著者:</strong> ${book.author}</p>
+                <p class="meta"><strong>イラスト:</strong>${book.illustrator}</p>
                 <p class="meta"><strong>出版社:</strong> ${book.publisher}</p>
                 <p class="meta"><strong>ジャンル:</strong> ${book.genre}</p>
                 
