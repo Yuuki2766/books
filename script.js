@@ -77,7 +77,6 @@ function renderBooks(list) {
             window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
         };
 
-
         card.innerHTML = `
             <div class="card-content">
                 <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
@@ -116,26 +115,27 @@ function applyFilters() {
         return matchText && matchPub && matchGen;
     });
 
-    // 並べ替えロジックの部分を以下に差し替え
+    // 並べ替えロジック
     if (sort === 'title') {
-      filtered.sort((a, b) => {
-        const titleA = a.title;
-        const titleB = b.title;
+        filtered.sort((a, b) => {
+            const titleA = a.title;
+            const titleB = b.title;
 
-        // アルファベット（英字）で始まるかどうかの判定
-        const isAlphaA = /^[a-zA-Z]/.test(titleA);
-        const isAlphaB = /^[a-zA-Z]/.test(titleB);
+            // 英数字・記号で始まるかを判定（日本語以外を広くカバー）
+            const isAsciiA = /^[!-~]/.test(titleA);
+            const isAsciiB = /^[!-~]/.test(titleB);
 
-        // Aが英字でBが日本語なら、Aを後ろにする
-        if (isAlphaA && !isAlphaB) return 1;
-        // Aが日本語でBが英字なら、Aを前にする
-        if (!isAlphaA && isAlphaB) return -1;
+            // Aが英字系、Bが日本語系の場合、Aを後ろに飛ばす(1)
+            if (isAsciiA && !isAsciiB) return 1;
+            // Aが日本語系、Bが英字系の場合、Aを前にする(-1)
+            if (!isAsciiA && isAsciiB) return -1;
 
-        // 両方同じタイプなら通常通り比較
-        return titleA.localeCompare(titleB, 'ja');
-      });
+            // 同じカテゴリー（両方日本語、または両方英字）なら通常比較
+            return titleA.localeCompare(titleB, 'ja');
+        });
+    } else if (sort === 'progress') {
+        filtered.sort((a, b) => (b.owned.length / b.total) - (a.owned.length / a.total));
     }
-    if (sort === 'progress') filtered.sort((a, b) => (b.owned.length/b.total) - (a.owned.length/a.total));
 
     renderBooks(filtered);
 }
