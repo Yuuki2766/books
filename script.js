@@ -77,7 +77,7 @@ function renderBooks(list) {
             window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
         };
 
-        
+
         card.innerHTML = `
             <div class="card-content">
                 <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
@@ -116,7 +116,25 @@ function applyFilters() {
         return matchText && matchPub && matchGen;
     });
 
-    if (sort === 'title') filtered.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
+    // 並べ替えロジックの部分を以下に差し替え
+    if (sort === 'title') {
+      filtered.sort((a, b) => {
+        const titleA = a.title;
+        const titleB = b.title;
+
+        // アルファベット（英字）で始まるかどうかの判定
+        const isAlphaA = /^[a-zA-Z]/.test(titleA);
+        const isAlphaB = /^[a-zA-Z]/.test(titleB);
+
+        // Aが英字でBが日本語なら、Aを後ろにする
+        if (isAlphaA && !isAlphaB) return 1;
+        // Aが日本語でBが英字なら、Aを前にする
+        if (!isAlphaA && isAlphaB) return -1;
+
+        // 両方同じタイプなら通常通り比較
+        return titleA.localeCompare(titleB, 'ja');
+      });
+    }
     if (sort === 'progress') filtered.sort((a, b) => (b.owned.length/b.total) - (a.owned.length/a.total));
 
     renderBooks(filtered);
