@@ -5,6 +5,8 @@ fetch('books.json')
     .then(res => res.json())
     .then(data => {
         books = data;
+        // データ読み込み直後に一度フィルタとソートを適用
+        applyFilters(); 
         checkRoute();
     });
 
@@ -103,35 +105,44 @@ function updateSummary(list) {
 }
 
 function applyFilters() {
-    const keyword = document.getElementById('search').value.toLowerCase();
-    const publisher = document.getElementById('publisherFilter').value;
-    const genre = document.getElementById('genreFilter').value;
-    const sort = document.getElementById('sortFilter').value;
+    const searchInput = document.getElementById('search');
+    const pubFilter = document.getElementById('publisherFilter');
+    const genFilter = document.getElementById('genreFilter');
+    const sortFilter = document.getElementById('sortFilter');
+
+    // 要素が存在しない場合は中断
+    if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
+
+    const keyword = searchInput.value.toLowerCase();
+    const publisher = pubFilter.value;
+    const genre = genFilter.value;
+    const sort = sortFilter.value;
 
     let filtered = books.filter(book => {
-        const matchText = book.title.toLowerCase().includes(keyword) || book.author.toLowerCase().includes(keyword);
-        const matchPub = publisher === '' || book.publisher.includes(publisher);
-        const matchGen = genre === '' || book.genre.includes(genre);
+        const title = book.title || "";
+        const author = book.author || "";
+        const matchText = title.toLowerCase().includes(keyword) || author.toLowerCase().includes(keyword);
+        const matchPub = publisher === '' || book.publisher === publisher;
+        const matchGen = genre === '' || book.genre === genre;
         return matchText && matchPub && matchGen;
     });
 
-    // 並べ替えロジック
+    // ソート処理
     if (sort === 'title') {
         filtered.sort((a, b) => {
-            const titleA = a.title;
-            const titleB = b.title;
+            const s1 = a.title;
+            const s2 = b.title;
 
-            // 英数字・記号で始まるかを判定（日本語以外を広くカバー）
-            const isAsciiA = /^[!-~]/.test(titleA);
-            const isAsciiB = /^[!-~]/.test(titleB);
+            // 「ひらがな・カタカナ・漢字・全角」等で始まらない（＝英字・記号）を判定
+            const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(s1);
+            const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(s2);
 
-            // Aが英字系、Bが日本語系の場合、Aを後ろに飛ばす(1)
-            if (isAsciiA && !isAsciiB) return 1;
-            // Aが日本語系、Bが英字系の場合、Aを前にする(-1)
-            if (!isAsciiA && isAsciiB) return -1;
-
-            // 同じカテゴリー（両方日本語、または両方英字）なら通常比較
-            return titleA.localeCompare(titleB, 'ja');
+            if (isNonJP1 !== isNonJP2) {
+                // 日本語を優先（-1）、非日本語を後（1）
+                return isNonJP1 ? 1 : -1;
+            }
+            // 同じグループ同士なら通常ソート
+            return s1.localeCompare(s2, 'ja');
         });
     } else if (sort === 'progress') {
         filtered.sort((a, b) => (b.owned.length / b.total) - (a.owned.length / a.total));
@@ -142,6 +153,7 @@ function applyFilters() {
 
 function goBack() { window.location.hash = ''; }
 
+// イベントリスナーの登録
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('publisherFilter').addEventListener('change', applyFilters);
 document.getElementById('genreFilter').addEventListener('change', applyFilters);
