@@ -220,6 +220,28 @@
     "image": "images/hutarinokorekara.JPG"
   },
   {
+    "title": "冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない",
+    "author": "ももずみ純",
+    "illustrator": "和錆",
+    "publisher": "スニーカー文庫",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 4,
+    "summary": " ",
+    "image": "images/saekano.JPG"
+  },
+  {
+    "title": "冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない",
+    "author": "ヤマモトタケシ",
+    "illustrator": "ももずみ純",
+    "publisher": "角川コミックス・エース",
+    "genre": "青春漫画",
+    "owned": [1, 2, 3, 4],
+    "total": 4,
+    "summary": " ",
+    "image": "images/saekanocomic.JPG"
+  },
+  {
     "title": "落第賢者の学院無双",
     "author": "白石新",
     "illustrator": "けんたろう",
@@ -560,28 +582,6 @@
     "total": 2,
     "summary": " ",
     "image": "images/hellohello.JPG"
-  },
-  {
-    "title": "冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない",
-    "author": "ももずみ純",
-    "illustrator": "和錆",
-    "publisher": "スニーカー文庫",
-    "genre": "青春ライトノベル",
-    "owned": [1],
-    "total": 4,
-    "summary": " ",
-    "image": "images/saekano.JPG"
-  },
-  {
-    "title": "冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない",
-    "author": "ヤマモトタケシ",
-    "illustrator": "ももずみ純",
-    "publisher": "角川コミックス・エース",
-    "genre": "青春漫画",
-    "owned": [1, 2, 3, 4],
-    "total": 4,
-    "summary": " ",
-    "image": "images/saekanocomic.JPG"
   },
   {
     "title": "ネット彼女だけど本気で好きになっちゃダメですか？",
