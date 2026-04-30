@@ -20,7 +20,8 @@
     "owned": [1, 2, 3, 4, 5, 6],
     "total": 6,
     "summary": "「名探偵コナン」のスピンオフ作品。ある時は喫茶ポアロの探偵・安室透、ある時は公安警察の降谷零、またある時は黒ずくめの組織のバーボン。三つの顔を持つ男の、聖域（サンクチュアリ）のような誰も知らない日常を描く。",
-    "image": "images/zero.JPG"
+    "image": "images/zero.JPG",
+    "favorite": true
   },
   {
     "title": "名探偵コナン 警察学校編",
@@ -31,7 +32,8 @@
     "owned": [1, 2],
     "total": 2,
     "summary": "降谷零（安室透）と、すでに殉職した4人の仲間たち——松田陣平、伊達航、諸伏景光、萩原研二。今や伝説となった「警察学校組」の、若き日の青き春を描く。なぜ彼らは警察官を目指し、いかにして絆を深めたのか。本編へと繋がる、情熱と涙の半年間の物語。",
-    "image": "images/police.JPG"
+    "image": "images/police.JPG",
+    "favorite": true
   },
   {
     "title": "青のオーケストラ",
@@ -249,8 +251,7 @@
     "owned": [1],
     "total": 4,
     "summary": " ",
-    "image": "images/saekano.JPG",
-    "favorite": true
+    "image": "images/saekano.JPG"
   },
   {
     "title": "冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない",
