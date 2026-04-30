@@ -129,16 +129,17 @@ function applyFilters() {
     });
 
     // ソート処理
-    filtered.sort((a, b) => {
-        // 「お気に入り順」が選択されている時だけ、お気に入りを最優先にする
-        if (sort === 'favorite') {
+    if (sort === 'favorite') {
+        // お気に入り順の時は「お気に入りかどうか」だけで分ける
+        // 元々 filtered に入っている順序（JSON順）が維持される
+        filtered.sort((a, b) => {
             if (a.favorite !== b.favorite) {
                 return a.favorite ? -1 : 1;
             }
-        }
-
-        // 各モードの基本ソート
-        if (sort === 'title' || sort === 'favorite') {
+            return 0; // お気に入り同士、非お気に入り同士なら順序を変えない
+        });
+    } else if (sort === 'title') {
+        filtered.sort((a, b) => {
             const s1 = a.title;
             const s2 = b.title;
             const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(s1);
@@ -146,11 +147,10 @@ function applyFilters() {
 
             if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
             return s1.localeCompare(s2, 'ja');
-        } else if (sort === 'progress') {
-            return (b.owned.length / b.total) - (a.owned.length / a.total);
-        }
-        return 0;
-    });
+        });
+    } else if (sort === 'progress') {
+        filtered.sort((a, b) => (b.owned.length / b.total) - (a.owned.length / a.total));
+    }
 
     renderBooks(filtered);
 }
