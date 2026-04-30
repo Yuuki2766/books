@@ -5,7 +5,6 @@ fetch('books.json')
     .then(res => res.json())
     .then(data => {
         books = data;
-        // データ読み込み直後に一度フィルタとソートを適用
         applyFilters(); 
         checkRoute();
     });
@@ -45,7 +44,7 @@ function showDetail(book) {
         <div class="detail-container">
             <img src="${book.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
             <div class="detail-info">
-                <h2>${book.title}</h2>
+                <h2>${book.favorite ? '⭐ ' : ''}${book.title}</h2>
                 <p class="meta"><strong>著者:</strong> ${book.author}</p>
                 <p class="meta"><strong>イラスト:</strong> ${book.illustrator || 'なし'}</p>
                 <p class="meta"><strong>出版社:</strong> ${book.publisher}</p>
@@ -75,6 +74,8 @@ function renderBooks(list) {
         const percent = Math.round((owned / book.total) * 100);
         const card = document.createElement('div');
         card.className = 'book-card';
+        if (book.favorite) card.classList.add('favorite-card'); // お気に入り用のスタイル適用
+
         card.onclick = () => {
             window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
         };
@@ -83,7 +84,7 @@ function renderBooks(list) {
             <div class="card-content">
                 <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
                 <div class="book-info">
-                    <div class="book-title">${book.title}</div>
+                    <div class="book-title">${book.favorite ? '⭐ ' : ''}${book.title}</div>
                     <div class="meta">${book.publisher} / ${book.author}</div>
                     <div class="tag">${book.genre}</div>
                     <div class="progress-container">
@@ -110,7 +111,6 @@ function applyFilters() {
     const genFilter = document.getElementById('genreFilter');
     const sortFilter = document.getElementById('sortFilter');
 
-    // 要素が存在しない場合は中断
     if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
 
     const keyword = searchInput.value.toLowerCase();
@@ -121,39 +121,40 @@ function applyFilters() {
     let filtered = books.filter(book => {
         const title = book.title || "";
         const author = book.author || "";
-        const matchText = title.toLowerCase().includes(keyword) || author.toLowerCase().includes(keyword);
+        const bGenre = book.genre || "";
+        const matchText = title.toLowerCase().includes(keyword) || author.toLowerCase().includes(keyword) || bGenre.toLowerCase().includes(keyword);
         const matchPub = publisher === '' || book.publisher === publisher;
-        const matchGen = genre === '' || book.genre === genre;
+        const matchGen = genre === '' || book.genre.includes(genre);
         return matchText && matchPub && matchGen;
     });
 
-    // ソート処理
-    if (sort === 'title') {
-        filtered.sort((a, b) => {
+    // ソート処理（お気に入りを最優先）
+    filtered.sort((a, b) => {
+        // 1. お気に入り設定があるものを強制的に一番上へ
+        if (a.favorite !== b.favorite) {
+            return a.favorite ? -1 : 1;
+        }
+
+        // 2. お気に入り同士、または非お気に入り同士の中でのソート
+        if (sort === 'title') {
             const s1 = a.title;
             const s2 = b.title;
-
-            // 「ひらがな・カタカナ・漢字・全角」等で始まらない（＝英字・記号）を判定
             const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(s1);
             const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(s2);
 
-            if (isNonJP1 !== isNonJP2) {
-                // 日本語を優先（-1）、非日本語を後（1）
-                return isNonJP1 ? 1 : -1;
-            }
-            // 同じグループ同士なら通常ソート
+            if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
             return s1.localeCompare(s2, 'ja');
-        });
-    } else if (sort === 'progress') {
-        filtered.sort((a, b) => (b.owned.length / b.total) - (a.owned.length / a.total));
-    }
+        } else if (sort === 'progress') {
+            return (b.owned.length / b.total) - (a.owned.length / a.total);
+        }
+        return 0;
+    });
 
     renderBooks(filtered);
 }
 
 function goBack() { window.location.hash = ''; }
 
-// イベントリスナーの登録
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('publisherFilter').addEventListener('change', applyFilters);
 document.getElementById('genreFilter').addEventListener('change', applyFilters);
