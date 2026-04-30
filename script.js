@@ -74,7 +74,7 @@ function renderBooks(list) {
         const percent = Math.round((owned / book.total) * 100);
         const card = document.createElement('div');
         card.className = 'book-card';
-        if (book.favorite) card.classList.add('favorite-card'); // お気に入り用のスタイル適用
+        if (book.favorite) card.classList.add('favorite-card');
 
         card.onclick = () => {
             window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
@@ -128,15 +128,17 @@ function applyFilters() {
         return matchText && matchPub && matchGen;
     });
 
-    // ソート処理（お気に入りを最優先）
+    // ソート処理
     filtered.sort((a, b) => {
-        // 1. お気に入り設定があるものを強制的に一番上へ
-        if (a.favorite !== b.favorite) {
-            return a.favorite ? -1 : 1;
+        // 「お気に入り順」が選択されている時だけ、お気に入りを最優先にする
+        if (sort === 'favorite') {
+            if (a.favorite !== b.favorite) {
+                return a.favorite ? -1 : 1;
+            }
         }
 
-        // 2. お気に入り同士、または非お気に入り同士の中でのソート
-        if (sort === 'title') {
+        // 各モードの基本ソート
+        if (sort === 'title' || sort === 'favorite') {
             const s1 = a.title;
             const s2 = b.title;
             const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(s1);
