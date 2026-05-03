@@ -172,7 +172,8 @@
     "owned": [1, 2, 3],
     "total": 8,
     "summary": "学園の頂点に君臨するリア充・千歳朔。「リア充爆発しろ」という言葉を体現するような完璧な日々を送る彼だが、その裏では仲間の問題を解決するために奔走し、自分なりの信念を持って「最強」であり続けていた。ある日、引きこもりの同級生を更生させるという依頼を引き受けたことから、彼の「リア充」としての矜持と、隠された内面が剥き出しになっていく。圧倒的な熱量と美しい文体で描かれる、新時代のリア充側視点青春ラブコメ。",
-    "image": "images/titosecomic.JPG"
+    "image": "images/titosecomic.JPG",
+    "favorite": true
   },
   {
     "title": "魔王学院の不適合者",
@@ -229,7 +230,8 @@
     "owned": [1, 2, 3, 4, 5, 6, 7],
     "total": 9,
     "summary": "",
-    "image": "images/sankaku.JPG"
+    "image": "images/sankaku.JPG",
+    "favorite": true
   },
   {
     "title": "読者と主人公と二人のこれから",
@@ -240,7 +242,8 @@
     "owned": [1],
     "total": 1,
     "summary": "",
-    "image": "images/hutarinokorekara.JPG"
+    "image": "images/hutarinokorekara.JPG",
+    "favorite": true
   },
   {
     "title": "冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない",
@@ -507,7 +510,8 @@
     "owned": [1],
     "total": 5,
     "summary": "",
-    "image": "images/saijonoosewacomic.JPG"
+    "image": "images/saijonoosewacomic.JPG",
+    "favorite": true
   },
   {
     "title": "才女のお世話",
@@ -518,7 +522,8 @@
     "owned": [2],
     "total": 11,
     "summary": "",
-    "image": "images/saijonoosewa.JPG"
+    "image": "images/saijonoosewa.JPG",
+    "favorite": true
   },
   {
     "title": "放課後の図書室で、お淑やかな彼女の譲れないラブコメ",
@@ -686,14 +691,6 @@
     "summary": " ",
     "image": "images/vrero.JPG"
   },
-
-
-
-
-
-
-
-
 
 
 
