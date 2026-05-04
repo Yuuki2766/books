@@ -131,12 +131,12 @@ function renderBooks(list) {
     updateSummary(list);
 }
 
-// 2. Netflix形式（ジャンル別縦並び ＆ 横スクロール）の描画
+// Netflix形式（ジャンル別・画像なしヘッダー）の描画
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
     
-    // ジャンルごとにマッピング
+    // ジャンル仕分け
     const genreMap = {};
     list.forEach(book => {
         const gs = book.genre ? book.genre.split(/[・/]/) : ["その他"];
@@ -149,29 +149,27 @@ function renderNetflixView(list) {
 
     const genres = Object.keys(genreMap);
     if (genres.length === 0) {
-        container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">表示できる作品がありません</p>';
+        container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">該当する作品がありません</p>';
         return;
     }
 
+    // 各ジャンルの行を作成
     genres.forEach(gName => {
         const booksInGenre = genreMap[gName];
         const row = document.createElement('div');
         row.className = 'genre-row';
         
-        // そのジャンルの1冊目を見出し背景にする
-        const topBook = booksInGenre[0];
-        
         row.innerHTML = `
-            <div class="genre-header" style="background-image: url('${topBook.image || ''}')">
+            <div class="genre-header">
                 <div class="genre-header-overlay">
                     <h3>${gName}</h3>
-                    <small>全 ${booksInGenre.length} 作品</small>
+                    <small>${booksInGenre.length} 作品</small>
                 </div>
             </div>
             <div class="horizontal-scroll">
                 ${booksInGenre.map(b => `
                     <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(b.title)}'">
-                        <img src="${b.image || 'https://via.placeholder.com/80x110?text=No+Image'}" loading="lazy">
+                        <img src="${b.image || 'https://via.placeholder.com/100x140?text=No+Image'}" loading="lazy">
                         <div class="mini-title">${b.title}</div>
                     </div>
                 `).join('')}

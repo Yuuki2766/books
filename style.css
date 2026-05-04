@@ -176,109 +176,73 @@ header h1 {
 }
 
 /* ============================================================
-   スライド・横スクロール表示（VOD View）
+   ジャンル別横スクロール表示（Simple View）
    ============================================================ */
 .genre-row {
-    margin-bottom: 30px;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 25px; /* 行ごとの間隔 */
 }
 
-.slide-header {
-    height: 220px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 0; /* 行内で完結させるため */
+/* ジャンル名のヘッダー：画像なし・白背景 */
+.genre-header {
+    padding: 10px 15px;
 }
 
-.slide-header-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.85));
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 20px;
-    color: #fff;
-}
-
-.slide-header-overlay h2 { 
+.genre-header h3 { 
     margin: 0; 
-    font-size: 24px; 
+    font-size: 18px; 
+    font-weight: bold;
+    color: #111;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ジャンル名の横に作品数を出す（お好みで） */
+.genre-header h3::after {
+    content: attr(data-count);
+    font-size: 12px;
+    color: #888;
+    font-weight: normal;
 }
 
 /* 横スクロールを実現するコンテナ */
 .horizontal-scroll {
     display: flex;
-    overflow-x: auto;
-    gap: 15px;
-    padding: 15px;
+    overflow-x: auto; /* 横スクロールを有効に */
+    gap: 12px;
+    padding: 5px 15px 15px 15px;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch; /* iOS用スムーズスクロール */
 }
 
-/* スクロールバーの非表示（任意） */
-.horizontal-scroll::-webkit-scrollbar {
-    height: 5px;
-}
-.horizontal-scroll::-webkit-scrollbar-thumb {
-    background: #ddd;
-    border-radius: 10px;
-}
+/* スクロールバーのデザイン（細く目立たなくする） */
+.horizontal-scroll::-webkit-scrollbar { height: 4px; }
+.horizontal-scroll::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
 
+/* 作品カード */
 .mini-card {
-    flex: 0 0 110px; /* 幅を固定して押し出す */
+    flex: 0 0 100px; /* 幅を固定して横に並べる */
     cursor: pointer;
-    text-align: center;
-    transition: transform 0.2s;
-}
-
-.mini-card:hover { 
-    transform: translateY(-5px); 
 }
 
 .mini-card img {
     width: 100%;
     aspect-ratio: 3 / 4;
     object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .mini-title {
     font-size: 11px;
-    margin-top: 8px;
+    margin-top: 6px;
     color: #333;
+    /* 2行目以降を三点リーダーにする設定 */
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-
-.slide-navigation {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-    padding-bottom: 20px;
-}
-
-.slide-navigation button {
-    padding: 10px 20px;
-    border-radius: 25px;
-    border: none;
-    background: #222;
-    color: #fff;
-    cursor: pointer;
-    font-size: 14px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
 /* ============================================================
    詳細表示（Detail View）
    ============================================================ */
