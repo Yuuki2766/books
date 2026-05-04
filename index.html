@@ -10,18 +10,17 @@
 <header id="main-header">
     <h1>📚 書籍マネージャー</h1>
     <div class="filter-group">
-        <!-- 検索バー -->
         <input type="text" id="search" placeholder="タイトル・作者・ジャンルで検索">
         
-        <!-- 表示モード・セーフモードのコントロール -->
         <div class="view-settings">
             <div class="view-switch">
-                <button id="btn-grid" class="active" onclick="setViewMode('grid')">グリッド表示</button>
-                <button id="btn-list" onclick="setViewMode('list')">リスト表示</button>
+                <button id="btn-grid" class="active" onclick="setViewMode('grid')">⊞ グリッド</button>
+                <button id="btn-list" onclick="setViewMode('list')">📖 本棚</button>
             </div>
-            <div class="safe-mode-toggle">
+            <div class="safe-mode-control">
                 <label>
-                    <input type="checkbox" id="r18Toggle"> 🔞 R18作品を表示
+                    <input type="checkbox" id="r18Toggle">
+                    <span class="safe-text">セーフモード：<span id="safe-status">ON</span></span>
                 </label>
             </div>
         </div>
@@ -35,33 +34,27 @@
                 <option value="スクウェア・エニックス">スクウェア・エニックス</option>
                 <option value="宝島社">宝島社</option>
                 <option value="オーバーラップ">オーバーラップ文庫</option>
-                <option value="ホビージャパン">ホビージャパン</option>
                 <option value="KADOKAWA">KADOKAWA</option>
                 <option value="電撃文庫">電撃文庫</option>
-                <option value="ガガガ文庫">ガガガ文庫</option>
-                <option value="ファンタジア文庫">ファンタジア文庫</option>
                 <option value="角川スニーカー文庫">角川スニーカー文庫</option>
-                <option value="MF文庫J">MF文庫J</option>
-                <option value="ファミ通文庫">ファミ通文庫</option>
+                <option value="ファンタジア文庫">ファンタジア文庫</option>
                 <option value="GA文庫">GA文庫</option>
                 <option value="メディアワークス文庫">メディアワークス文庫</option>
-                <option value="HJ文庫">HJ文庫</option>
                 <option value="双葉社">双葉社</option>
                 <option value="実業之日本社">実業之日本社</option>
                 <option value="ダッシュエックス文庫">ダッシュエックス文庫</option>
-                <option value="電撃コミックス">電撃コミックス</option>
+                <option value="HJ文庫">HJ文庫</option>
             </select>
             <select id="genreFilter">
                 <option value="">全ジャンル</option>
                 <option value="漫画">漫画</option>
                 <option value="ミステリー">ミステリー</option>
                 <option value="青春">青春</option>
-                <option value="日常">日常</option>
                 <option value="ファンタジー">ファンタジー</option>
                 <option value="ラブコメ">ラブコメ</option>
                 <option value="ライトノベル">ライトノベル</option>
                 <option value="小説">小説</option>
-                <option value="R18">🔞 R18</option>
+                <option value="R18">🔞 非推奨内容</option>
             </select>
             <select id="sortFilter">
                 <option value="default">標準</option>
@@ -76,7 +69,6 @@
 <main>
     <div id="list-view">
         <div id="summary"></div>
-        <!-- script.jsによってここに .book-grid か .book-list-mode が付与されます -->
         <div id="book-list"></div>
     </div>
 
@@ -86,6 +78,6 @@
     </div>
 </main>
 
-<script src="script.js?v=12"></script>
+<script src="script.js?v=13"></script>
 </body>
 </html>
