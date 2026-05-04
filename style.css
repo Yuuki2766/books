@@ -178,11 +178,12 @@ header h1 {
 /* ============================================================
    ジャンル別横スクロール表示（Simple View）
    ============================================================ */
+/* ジャンルごとの行 */
 .genre-row {
-    margin-bottom: 25px; /* 行ごとの間隔 */
+    margin-bottom: 25px;
 }
 
-/* ジャンル名のヘッダー：画像なし・白背景 */
+/* ジャンル名のヘッダー：白背景にアクセント */
 .genre-header {
     padding: 10px 15px;
 }
@@ -192,36 +193,27 @@ header h1 {
     font-size: 18px; 
     font-weight: bold;
     color: #111;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* ジャンル名の横に作品数を出す（お好みで） */
-.genre-header h3::after {
-    content: attr(data-count);
-    font-size: 12px;
-    color: #888;
-    font-weight: normal;
+    border-left: 4px solid #4f46e5;
+    padding-left: 10px;
 }
 
 /* 横スクロールを実現するコンテナ */
 .horizontal-scroll {
     display: flex;
-    overflow-x: auto; /* 横スクロールを有効に */
+    overflow-x: auto;
     gap: 12px;
     padding: 5px 15px 15px 15px;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch; /* iOS用スムーズスクロール */
+    -webkit-overflow-scrolling: touch;
 }
 
-/* スクロールバーのデザイン（細く目立たなくする） */
+/* スクロールバーのデザイン */
 .horizontal-scroll::-webkit-scrollbar { height: 4px; }
 .horizontal-scroll::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
 
 /* 作品カード */
 .mini-card {
-    flex: 0 0 100px; /* 幅を固定して横に並べる */
+    flex: 0 0 100px;
     cursor: pointer;
 }
 
@@ -234,10 +226,12 @@ header h1 {
 }
 
 .mini-title {
+    font-size: 11px;
+    margin-top: 6px;
+    color: #333;
     display: -webkit-box;
+    -webkit-line-clamp: 2; /* 2行で省略 */
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2; /* 標準プロパティも併記してみる */
     overflow: hidden;
 }
 /* ============================================================
