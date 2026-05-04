@@ -110,6 +110,7 @@ function applyFilters() {
     const pubFilter = document.getElementById('publisherFilter');
     const genFilter = document.getElementById('genreFilter');
     const sortFilter = document.getElementById('sortFilter');
+    const r18Toggle = document.getElementById('r18Toggle');
 
     if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
 
@@ -117,8 +118,17 @@ function applyFilters() {
     const publisher = pubFilter.value;
     const genre = genFilter.value;
     const sort = sortFilter.value;
+    
+    // セーフモードの判定（チェックがない時にON＝隠す）
+    const isSafeMode = r18Toggle ? !r18Toggle.checked : true;
+    const safeStatusLabel = document.getElementById('safe-status');
+    if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
 
     let filtered = books.filter(book => {
+        // セーフモードがONで、ジャンルに「R18」が含まれる場合は除外
+        const isR18 = book.genre && book.genre.includes('R18');
+        if (isSafeMode && isR18) return false;
+
         const title = book.title || "";
         const author = book.author || "";
         const bGenre = book.genre || "";
@@ -130,13 +140,11 @@ function applyFilters() {
 
     // ソート処理
     if (sort === 'favorite') {
-        // お気に入り順の時は「お気に入りかどうか」だけで分ける
-        // 元々 filtered に入っている順序（JSON順）が維持される
         filtered.sort((a, b) => {
             if (a.favorite !== b.favorite) {
                 return a.favorite ? -1 : 1;
             }
-            return 0; // お気に入り同士、非お気に入り同士なら順序を変えない
+            return 0;
         });
     } else if (sort === 'title') {
         filtered.sort((a, b) => {
@@ -148,6 +156,8 @@ function applyFilters() {
             if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
             return s1.localeCompare(s2, 'ja');
         });
+    } else if (sort === 'author') {
+        filtered.sort((a, b) => a.author.localeCompare(b.author, 'ja'));
     } else if (sort === 'progress') {
         filtered.sort((a, b) => (b.owned.length / b.total) - (a.owned.length / a.total));
     }
@@ -161,3 +171,6 @@ document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('publisherFilter').addEventListener('change', applyFilters);
 document.getElementById('genreFilter').addEventListener('change', applyFilters);
 document.getElementById('sortFilter').addEventListener('change', applyFilters);
+// セーフモードの変更イベントを追加
+const r18Toggle = document.getElementById('r18Toggle');
+if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
