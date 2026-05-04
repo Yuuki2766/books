@@ -132,31 +132,36 @@ function renderBooks(list) {
 }
 
 // Netflix形式（ジャンル別・カスタム表示）の描画
+// Netflix形式（ジャンル別・カスタム表示）の描画
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
     
-    // --- カスタム設定エリア ---
-    // ジャンル行として表示したくない言葉（媒体名など）
-    const ignoreList = ["小説", "ライトノベル", "ラノベ", "漫画", "単行本", "文庫", "コミックス"];
+    // ============================================================
+    // ★ ここでジャンルをカスタムしてください
+    // ============================================================
     
-    // 特定の順番で表示したい、またはこれらだけを表示したい場合のホワイトリスト（空なら全抽出）
-    const targetGenres = ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "SF"];
-    // -----------------------
+    // 1. ジャンル行として表示したくない言葉（媒体名など）
+    const ignoreList = ["小説", "ライトノベル", "ラノベ", "漫画", "コミックス", "単行本", "文庫"];
+    
+    // 2. 表示したいジャンルとその順番（ここに書いた順に並びます）
+    // ※ 空の配列 [] にすると、ignoreList 以外の全ジャンルを自動で出します
+    const targetGenres = ["青春", "ファンタジー", "ミステリー", "推理", "ラブコメ", "日常", "SF", "音楽"];
+    
+    // ============================================================
 
     const genreMap = {};
     
+    // データの仕分け
     list.forEach(book => {
-        // ジャンル文字列を分割して配列化
         const gs = book.genre ? book.genre.split(/[・/]/) : ["その他"];
-        
         gs.forEach(g => {
             const cleanG = g.trim();
             
-            // 除外リストに含まれている場合はスキップ
+            // 除外判定
             if (ignoreList.includes(cleanG)) return;
             
-            // ホワイトリストがある場合、そこに含まれていない言葉はスキップ
+            // ターゲット指定がある場合の判定
             if (targetGenres.length > 0 && !targetGenres.includes(cleanG)) return;
 
             if (!genreMap[cleanG]) genreMap[cleanG] = [];
@@ -164,16 +169,17 @@ function renderNetflixView(list) {
         });
     });
 
-    // 表示する順番を targetGenres の順に合わせる（登録されているもののみ）
+    // 表示順の決定
     const displayGenres = targetGenres.length > 0 
-        ? targetGenres.filter(g => genreMap[g]) 
-        : Object.keys(genreMap);
+        ? targetGenres.filter(g => genreMap[g]) // 指定順
+        : Object.keys(genreMap);               // 自動抽出順
 
     if (displayGenres.length === 0) {
-        container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">該当するジャンルがありません</p>';
+        container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">該当する作品がありません</p>';
         return;
     }
 
+    // HTMLの生成
     displayGenres.forEach(gName => {
         const booksInGenre = genreMap[gName];
         const row = document.createElement('div');
