@@ -12,12 +12,18 @@
     <div class="filter-group">
         <input type="text" id="search" placeholder="タイトル・作者で検索">
         
-        <!-- セーフモード切替を追加 -->
-        <div class="safe-mode-area" style="margin-bottom: 10px; font-size: 13px; color: #ccc;">
-            <label>
-                <input type="checkbox" id="r18Toggle">
-                セーフモード：<span id="safe-status">ON</span>
-            </label>
+        <div class="header-controls">
+            <div class="safe-mode-area">
+                <label>
+                    <input type="checkbox" id="r18Toggle">
+                    セーフモード：<span id="safe-status">ON</span>
+                </label>
+            </div>
+            <!-- 表示モード切り替え -->
+            <div class="view-mode-btns">
+                <button onclick="changeMainView('list')" id="btn-list-view" class="active">一覧</button>
+                <button onclick="changeMainView('slide')" id="btn-slide-view">スライド</button>
+            </div>
         </div>
 
         <div class="select-row">
@@ -66,9 +72,19 @@
 </header>
 
 <main>
+    <!-- 通常のリストビュー -->
     <div id="list-view">
         <div id="summary"></div>
         <div id="book-list"></div>
+    </div>
+
+    <!-- ジャンル別スライドビュー -->
+    <div id="slide-view" style="display: none;">
+        <div id="slide-container"></div>
+        <div class="slide-navigation">
+            <button onclick="moveSlide(-1)">◀ 前のジャンル</button>
+            <button onclick="moveSlide(1)">次のジャンル ▶</button>
+        </div>
     </div>
 
     <div id="detail-view" style="display: none;">
@@ -77,6 +93,6 @@
     </div>
 </main>
 
-<script src="script.js?v=12"></script>
+<script src="script.js"></script>
 </body>
 </html>
