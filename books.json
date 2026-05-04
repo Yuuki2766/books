@@ -77,7 +77,7 @@
     "illustrator": "長部トム、日向あずり",
     "publisher": "角川スニーカー文庫",
     "genre": "青春ライトノベル",
-    "owned": [1],
+    "owned": [1,2,3,4,5,6,7,7.5,8,9],
     "total": 10,
     "summary": "目立たない男子高校生・前原真樹と、クラスのヒエラルキーの頂点に君臨する美少女・朝凪海。本来交わるはずのなかった二人が、放課後の真樹の部屋で密かに過ごす、誰にも言えない秘密の交流を描く。クラスでは見せない「素の姿」で過ごす時間は、やがて二人の関係をただの友達以上のものへと変えていく、甘くて等身大の青春ラブコメ。",
     "image": "images/kuranika.JPG",
@@ -173,6 +173,30 @@
     "total": 8,
     "summary": "学園の頂点に君臨するリア充・千歳朔。「リア充爆発しろ」という言葉を体現するような完璧な日々を送る彼だが、その裏では仲間の問題を解決するために奔走し、自分なりの信念を持って「最強」であり続けていた。ある日、引きこもりの同級生を更生させるという依頼を引き受けたことから、彼の「リア充」としての矜持と、隠された内面が剥き出しになっていく。圧倒的な熱量と美しい文体で描かれる、新時代のリア充側視点青春ラブコメ。",
     "image": "images/titosecomic.JPG",
+    "favorite": true
+  },
+  {
+    "title": "才女のお世話",
+    "author": "坂石遊作",
+    "illustrator": "水島空彦",
+    "publisher": "ホビージャパン",
+    "genre": "青春漫画",
+    "owned": [1],
+    "total": 5,
+    "summary": "",
+    "image": "images/saijonoosewacomic.JPG",
+    "favorite": true
+  },
+  {
+    "title": "才女のお世話",
+    "author": "坂石遊作",
+    "illustrator": "みわべさくら",
+    "publisher": "HJ文庫",
+    "genre": "青春ライトノベル",
+    "owned": [2],
+    "total": 11,
+    "summary": "",
+    "image": "images/saijonoosewa.JPG",
     "favorite": true
   },
   {
@@ -500,30 +524,6 @@
     "total": 10,
     "summary": "",
     "image": "images/sasensareta.JPG"
-  },
-  {
-    "title": "才女のお世話",
-    "author": "坂石遊作",
-    "illustrator": "水島空彦",
-    "publisher": "ホビージャパン",
-    "genre": "青春漫画",
-    "owned": [1],
-    "total": 5,
-    "summary": "",
-    "image": "images/saijonoosewacomic.JPG",
-    "favorite": true
-  },
-  {
-    "title": "才女のお世話",
-    "author": "坂石遊作",
-    "illustrator": "みわべさくら",
-    "publisher": "HJ文庫",
-    "genre": "青春ライトノベル",
-    "owned": [2],
-    "total": 11,
-    "summary": "",
-    "image": "images/saijonoosewa.JPG",
-    "favorite": true
   },
   {
     "title": "放課後の図書室で、お淑やかな彼女の譲れないラブコメ",
