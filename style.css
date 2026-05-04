@@ -1,6 +1,6 @@
 body { margin: 0; font-family: sans-serif; background: #f5f5f5; color: #222; line-height: 1.6; }
 
-/* ヘッダー */
+/* ヘッダー：スマホで要素が詰まらないように調整 */
 header { 
     background: #222; 
     color: #fff; 
@@ -14,12 +14,7 @@ header {
 
 header h1 { font-size: 20px; margin: 0 0 15px 0; }
 
-/* 検索・設定エリア */
-.filter-group { 
-    max-width: 500px;
-    margin: 0 auto;
-}
-
+/* 検索窓 */
 #search {
     width: 95%;
     max-width: 420px;
@@ -27,62 +22,21 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
     border-radius: 8px;
     border: none;
     font-size: 16px; 
-    margin-bottom: 12px;
-}
-
-/* 表示設定（グリッド/本棚切り替え・セーフモード） */
-.view-settings {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 15px;
-    gap: 10px;
 }
 
-.view-switch {
-    display: flex;
-    gap: 5px;
+/* フィルター群のラップ */
+.filter-group { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 8px; 
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-.view-switch button {
-    padding: 6px 12px;
-    border: 1px solid #444;
-    background: #333;
-    color: #ccc;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 12px;
-}
-
-.view-switch button.active {
-    background: #4f46e5;
-    color: #fff;
-    border-color: #4f46e5;
-}
-
-.safe-mode-control {
-    font-size: 11px;
-    color: #bbb;
-    background: #333;
-    padding: 5px 10px;
-    border-radius: 20px;
-    border: 1px solid #444;
-}
-
-.safe-mode-control input {
-    vertical-align: middle;
-    margin-right: 4px;
-}
-
-/* フィルター用セレクトボックス */
-.select-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-}
-
-.select-row select { 
+/* セレクトボックスの基本設定 */
+.filter-group select { 
     padding: 8px 10px; 
     border-radius: 6px; 
     border: none; 
@@ -96,27 +50,16 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
 
 main { max-width: 800px; margin: auto; padding: 15px; }
 
-/* --- グリッド表示モード --- */
-.book-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-}
-
+/* 一覧カード */
 .book-card { 
     background: #fff; 
     border-radius: 12px; 
     padding: 15px; 
+    margin-bottom: 15px; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.08); 
     cursor: pointer; 
 }
-
-.book-card.favorite-card {
-    border: 2px solid #ffca28;
-}
-
 .card-content { display: flex; gap: 15px; align-items: flex-start; }
-
 .book-cover { 
     width: 80px; 
     height: 110px; 
@@ -127,40 +70,9 @@ main { max-width: 800px; margin: auto; padding: 15px; }
 }
 
 .book-info { flex-grow: 1; min-width: 0; }
-.book-title { font-size: 17px; font-weight: bold; margin: 0 0 4px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.book-title { font-size: 18px; font-weight: bold; margin: 0 0 4px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .meta { font-size: 13px; color: #666; margin-bottom: 2px; }
-
-/* --- 本棚（アイコン）表示モード --- */
-.book-shelf-mode {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.shelf-item {
-    display: flex;
-    align-items: center;
-    background: white;
-    padding: 12px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.shelf-item.favorite-card {
-    border-left: 5px solid #ffca28;
-}
-
-.book-icon {
-    font-size: 18px;
-    margin-right: 15px;
-    opacity: 0.7;
-}
-
-.shelf-info { flex-grow: 1; display: flex; flex-direction: column; }
-.shelf-title { font-weight: bold; font-size: 14px; color: #333; }
-.shelf-meta { font-size: 12px; color: #777; }
-.shelf-badge { font-size: 11px; background: #eee; padding: 2px 8px; border-radius: 10px; color: #666; }
+.tag { display: inline-block; background: #eef2ff; color: #4f46e5; padding: 2px 8px; border-radius: 6px; font-size: 11px; margin-top: 5px; }
 
 /* プログレスバー */
 .progress-container { margin-top: 10px; }
@@ -175,15 +87,19 @@ main { max-width: 800px; margin: auto; padding: 15px; }
     background: #fff; 
     padding: 25px; 
     border-radius: 15px; 
+    align-items: flex-start; 
 }
 .detail-cover { 
     width: 100%; 
     max-width: 240px; 
+    height: auto;
     border-radius: 8px; 
     box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
 }
 .detail-info { flex: 1; min-width: 0; }
+.detail-info h2 { margin-top: 0; font-size: 22px; margin-bottom: 10px; }
 
+/* あらすじ部分のデザイン */
 .summary-section {
     margin: 20px 0;
     padding: 15px;
@@ -191,16 +107,93 @@ main { max-width: 800px; margin: auto; padding: 15px; }
     border-left: 4px solid #4f46e5;
     border-radius: 4px;
 }
-.summary-text { font-size: 14px; color: #444; white-space: pre-wrap; }
+.summary-section h3 { margin-top: 0; font-size: 16px; color: #4f46e5; }
+.summary-text { 
+    font-size: 14px; 
+    color: #444; 
+    white-space: pre-wrap; 
+}
 
 .back-btn { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
 
-/* スマホ対応 */
-@media (max-width: 600px) {
-    header { padding: 15px 10px; }
-    .view-settings { flex-direction: row; font-size: 12px; }
-    #publisherFilter, #genreFilter { flex: 1 1 45%; min-width: 140px; }
-    #sortFilter { flex: 1 1 100%; height: 40px; }
-    .detail-container { flex-direction: column; align-items: center; text-align: center; }
-    .book-cover { width: 65px; height: 90px; }
+
+/* リストモードのスタイル */
+.book-list-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
 }
+
+.book-list-item {
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: pointer;
+    border-left: 4px solid #ccc;
+}
+
+.book-list-item.favorite-card {
+    border-left-color: #ffca28; /* お気に入りは左線に色をつける */
+}
+
+.list-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-title { font-weight: bold; flex: 2; }
+.list-meta { color: #666; font-size: 0.9em; flex: 2; }
+.list-progress { color: #007bff; font-weight: bold; flex: 1; text-align: right; }
+
+
+
+/* スマホ対応（画面幅600px以下） */
+@media (max-width: 600px) {
+    header {
+        padding: 15px 10px;
+    }
+
+    .filter-group {
+        gap: 10px;
+    }
+
+    #publisherFilter, #genreFilter {
+        flex: 1 1 45%; 
+        min-width: 140px;
+    }
+
+    /* 並べ替えボタン：Safari等の独自スタイルを消して真っ白にする */
+    #sortFilter {
+        flex: 1 1 100%;    
+        margin-top: 8px;   
+        background: #ffffff; 
+        color: #222;       
+        border: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        height: 40px;
+        text-align: center;
+    }
+
+    .detail-container { 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+        padding: 20px; 
+    }
+
+
+    .book-cover { 
+        width: 65px; 
+        height: 90px; 
+    }
+
+    .summary-section { 
+        text-align: left; 
+    }
+}
+
