@@ -1,4 +1,6 @@
 let books = [];
+let viewMode = 'grid'; // 'grid' または 'list'
+let showR18 = false;   // R18作品を表示するかどうか
 
 // データの読み込み
 fetch('books.json')
@@ -68,32 +70,49 @@ function showDetail(book) {
 function renderBooks(list) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
+    
+    // 表示モードによってコンテナのクラスを切り替え
+    container.className = viewMode === 'grid' ? 'book-grid' : 'book-list-mode';
 
     list.forEach(book => {
         const owned = book.owned.length;
         const percent = Math.round((owned / book.total) * 100);
         const card = document.createElement('div');
-        card.className = 'book-card';
+        
+        // モードに応じたクラス付与
+        card.className = viewMode === 'grid' ? 'book-card' : 'book-list-item';
         if (book.favorite) card.classList.add('favorite-card');
 
         card.onclick = () => {
             window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
         };
 
-        card.innerHTML = `
-            <div class="card-content">
-                <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
-                <div class="book-info">
-                    <div class="book-title">${book.favorite ? '⭐ ' : ''}${book.title}</div>
-                    <div class="meta">${book.publisher} / ${book.author}</div>
-                    <div class="tag">${book.genre}</div>
-                    <div class="progress-container">
-                        <div class="progress-text">${owned}/${book.total}巻 (${percent}%)</div>
-                        <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
+        if (viewMode === 'grid') {
+            // グリッド表示のHTML
+            card.innerHTML = `
+                <div class="card-content">
+                    <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
+                    <div class="book-info">
+                        <div class="book-title">${book.favorite ? '⭐ ' : ''}${book.title}</div>
+                        <div class="meta">${book.publisher} / ${book.author}</div>
+                        <div class="tag">${book.genre}</div>
+                        <div class="progress-container">
+                            <div class="progress-text">${owned}/${book.total}巻 (${percent}%)</div>
+                            <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+        } else {
+            // リスト表示のHTML（1行でコンパクトに）
+            card.innerHTML = `
+                <div class="list-item-content">
+                    <span class="list-title">${book.favorite ? '⭐ ' : ''}${book.title}</span>
+                    <span class="list-meta">${book.author} | ${book.publisher}</span>
+                    <span class="list-progress">${owned}/${book.total}巻</span>
+                </div>
+            `;
+        }
         container.appendChild(card);
     });
     updateSummary(list);
@@ -106,47 +125,39 @@ function updateSummary(list) {
 }
 
 function applyFilters() {
-    const searchInput = document.getElementById('search');
-    const pubFilter = document.getElementById('publisherFilter');
-    const genFilter = document.getElementById('genreFilter');
-    const sortFilter = document.getElementById('sortFilter');
-
-    if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
-
-    const keyword = searchInput.value.toLowerCase();
-    const publisher = pubFilter.value;
-    const genre = genFilter.value;
-    const sort = sortFilter.value;
+    const keyword = document.getElementById('search').value.toLowerCase();
+    const publisher = document.getElementById('publisherFilter').value;
+    const genre = document.getElementById('genreFilter').value;
+    const sort = document.getElementById('sortFilter').value;
+    
+    // セーフモードのチェック状態を取得
+    showR18 = document.getElementById('r18Toggle').checked;
 
     let filtered = books.filter(book => {
-        const title = book.title || "";
-        const author = book.author || "";
-        const bGenre = book.genre || "";
-        const matchText = title.toLowerCase().includes(keyword) || author.toLowerCase().includes(keyword) || bGenre.toLowerCase().includes(keyword);
+        // R18フィルタ: showR18がオフで、作品にR18タグが含まれる場合は除外
+        const isR18 = book.genre.includes('R18') || (book.tags && book.tags.includes('R18'));
+        if (!showR18 && isR18) return false;
+
+        const title = (book.title || "").toLowerCase();
+        const author = (book.author || "").toLowerCase();
+        const bGenre = (book.genre || "").toLowerCase();
+        
+        const matchText = title.includes(keyword) || author.includes(keyword) || bGenre.includes(keyword);
         const matchPub = publisher === '' || book.publisher === publisher;
         const matchGen = genre === '' || book.genre.includes(genre);
+        
         return matchText && matchPub && matchGen;
     });
 
     // ソート処理
     if (sort === 'favorite') {
-        // お気に入り順の時は「お気に入りかどうか」だけで分ける
-        // 元々 filtered に入っている順序（JSON順）が維持される
-        filtered.sort((a, b) => {
-            if (a.favorite !== b.favorite) {
-                return a.favorite ? -1 : 1;
-            }
-            return 0; // お気に入り同士、非お気に入り同士なら順序を変えない
-        });
+        filtered.sort((a, b) => (a.favorite === b.favorite) ? 0 : (a.favorite ? -1 : 1));
     } else if (sort === 'title') {
         filtered.sort((a, b) => {
-            const s1 = a.title;
-            const s2 = b.title;
-            const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(s1);
-            const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(s2);
-
+            const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(a.title);
+            const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(b.title);
             if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
-            return s1.localeCompare(s2, 'ja');
+            return a.title.localeCompare(b.title, 'ja');
         });
     } else if (sort === 'progress') {
         filtered.sort((a, b) => (b.owned.length / b.total) - (a.owned.length / a.total));
@@ -155,9 +166,20 @@ function applyFilters() {
     renderBooks(filtered);
 }
 
+// モード切り替え
+function setViewMode(mode) {
+    viewMode = mode;
+    // ボタンの見た目管理（activeクラスなど）
+    document.getElementById('btn-grid').classList.toggle('active', mode === 'grid');
+    document.getElementById('btn-list').classList.toggle('active', mode === 'list');
+    applyFilters();
+}
+
 function goBack() { window.location.hash = ''; }
 
+// イベントリスナー
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('publisherFilter').addEventListener('change', applyFilters);
 document.getElementById('genreFilter').addEventListener('change', applyFilters);
 document.getElementById('sortFilter').addEventListener('change', applyFilters);
+document.getElementById('r18Toggle').addEventListener('change', applyFilters);
