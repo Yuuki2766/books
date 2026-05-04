@@ -170,28 +170,18 @@ main { max-width: 800px; margin: auto; padding: 15px; }
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.clamp-text {
-  /* 必須設定：表示をブロック状のフレキシブルボックスにする */
-  display: -webkit-box;
-  
-  /* 表示する行数を指定 */
-  -webkit-line-clamp: 2; 
-  line-clamp: 2; /* 将来的な標準プロパティ */
 
-  /* 必須設定：ボックスの方向を垂直に設定 */
-  -webkit-box-orient: vertical;
-  
-  /* 必須設定：範囲外のテキストを隠す */
-  overflow: hidden;
-}
 
 
 .mini-title {
     font-size: 11px;
     margin-top: 8px;
     color: #333;
+    
+    /* テキスト省略（Line Clamp）設定 */
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 2; /* 2行で省略 */
+    line-clamp: 2;         /* 標準プロパティ */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
