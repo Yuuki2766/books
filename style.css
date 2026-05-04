@@ -116,6 +116,40 @@ main { max-width: 800px; margin: auto; padding: 15px; }
 
 .back-btn { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
 
+
+/* リストモードのスタイル */
+.book-list-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+}
+
+.book-list-item {
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: pointer;
+    border-left: 4px solid #ccc;
+}
+
+.book-list-item.favorite-card {
+    border-left-color: #ffca28; /* お気に入りは左線に色をつける */
+}
+
+.list-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-title { font-weight: bold; flex: 2; }
+.list-meta { color: #666; font-size: 0.9em; flex: 2; }
+.list-progress { color: #007bff; font-weight: bold; flex: 1; text-align: right; }
+
+
+
 /* スマホ対応（画面幅600px以下） */
 @media (max-width: 600px) {
     header {
@@ -152,7 +186,7 @@ main { max-width: 800px; margin: auto; padding: 15px; }
         padding: 20px; 
     }
 
-    
+
     .book-cover { 
         width: 65px; 
         height: 90px; 
@@ -162,3 +196,4 @@ main { max-width: 800px; margin: auto; padding: 15px; }
         text-align: left; 
     }
 }
+
