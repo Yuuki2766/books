@@ -1,6 +1,5 @@
 let books = [];
 let currentMainView = 'list'; // 'list' または 'slide'
-let currentSlideIdx = 0;
 
 // データの読み込み
 fetch('books.json')
@@ -98,7 +97,7 @@ function applyFilters() {
     if (currentMainView === 'list') {
         renderBooks(filtered);
     } else {
-        renderSlideView(filtered);
+        renderNetflixView(filtered);
     }
 }
 
@@ -112,7 +111,6 @@ function renderBooks(list) {
         const percent = Math.round((owned / book.total) * 100);
         const card = document.createElement('div');
         card.className = 'book-card';
-        if (book.favorite) card.classList.add('favorite-card');
         card.onclick = () => window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
 
         card.innerHTML = `
@@ -133,15 +131,15 @@ function renderBooks(list) {
     updateSummary(list);
 }
 
-// 2. スライド形式の描画
-function renderSlideView(list) {
-    const container = document.getElementById('slide-container');
+// 2. Netflix形式（ジャンル別縦並び ＆ 横スクロール）の描画
+function renderNetflixView(list) {
+    const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
     
     // ジャンルごとにマッピング
     const genreMap = {};
     list.forEach(book => {
-        const gs = book.genre.split(/[・/]/);
+        const gs = book.genre ? book.genre.split(/[・/]/) : ["その他"];
         gs.forEach(g => {
             const cleanG = g.trim();
             if (!genreMap[cleanG]) genreMap[cleanG] = [];
@@ -154,41 +152,34 @@ function renderSlideView(list) {
         container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">表示できる作品がありません</p>';
         return;
     }
-    
-    if (currentSlideIdx >= genres.length) currentSlideIdx = 0;
 
-    genres.forEach((g, idx) => {
-        const slide = document.createElement('div');
-        slide.className = 'slide-page';
-        slide.style.display = (idx === currentSlideIdx) ? 'block' : 'none';
+    genres.forEach(gName => {
+        const booksInGenre = genreMap[gName];
+        const row = document.createElement('div');
+        row.className = 'genre-row';
         
-        // そのジャンルの1冊目を見出し画像にする
-        const topBook = genreMap[g][0];
-        slide.innerHTML = `
-            <div class="slide-header" style="background-image: url('${topBook.image || ''}')">
-                <div class="slide-header-overlay">
-                    <h2>${g}</h2>
-                    <p>全 ${genreMap[g].length} 作品</p>
+        // そのジャンルの1冊目を見出し背景にする
+        const topBook = booksInGenre[0];
+        
+        row.innerHTML = `
+            <div class="genre-header" style="background-image: url('${topBook.image || ''}')">
+                <div class="genre-header-overlay">
+                    <h3>${gName}</h3>
+                    <small>全 ${booksInGenre.length} 作品</small>
                 </div>
             </div>
-            <div class="slide-grid">
-                ${genreMap[g].map(b => `
+            <div class="horizontal-scroll">
+                ${booksInGenre.map(b => `
                     <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(b.title)}'">
-                        <img src="${b.image || 'https://via.placeholder.com/80x110'}">
+                        <img src="${b.image || 'https://via.placeholder.com/80x110?text=No+Image'}" loading="lazy">
                         <div class="mini-title">${b.title}</div>
                     </div>
                 `).join('')}
-            </div>`;
-        container.appendChild(slide);
+            </div>
+        `;
+        container.appendChild(row);
     });
     updateSummary(list);
-}
-
-function moveSlide(step) {
-    const slides = document.querySelectorAll('.slide-page');
-    if (slides.length === 0) return;
-    currentSlideIdx = (currentSlideIdx + step + slides.length) % slides.length;
-    applyFilters();
 }
 
 function showDetail(book) {
@@ -221,7 +212,7 @@ function showDetail(book) {
 }
 
 function updateSummary(list) {
-    const total = list.reduce((sum, b) => sum + b.owned.length, 0);
+    const total = list.reduce((sum, b) => sum + (b.owned ? b.owned.length : 0), 0);
     const summary = document.getElementById('summary');
     if(summary) summary.textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
 }
