@@ -19,7 +19,6 @@
                     セーフモード：<span id="safe-status">ON</span>
                 </label>
             </div>
-            <!-- 表示モード切り替え -->
             <div class="view-mode-btns">
                 <button onclick="changeMainView('list')" id="btn-list-view" class="active">一覧</button>
                 <button onclick="changeMainView('slide')" id="btn-slide-view">スライド</button>
@@ -72,19 +71,14 @@
 </header>
 
 <main>
-    <!-- 通常のリストビュー -->
     <div id="list-view">
         <div id="summary"></div>
         <div id="book-list"></div>
     </div>
 
-    <!-- ジャンル別スライドビュー -->
+    <!-- ジャンル別縦並び & 横スクロールコンテナ -->
     <div id="slide-view" style="display: none;">
-        <div id="slide-container"></div>
-        <div class="slide-navigation">
-            <button onclick="moveSlide(-1)">◀ 前のジャンル</button>
-            <button onclick="moveSlide(1)">次のジャンル ▶</button>
-        </div>
+        <div id="genre-rows-container"></div>
     </div>
 
     <div id="detail-view" style="display: none;">
