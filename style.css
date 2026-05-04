@@ -25,62 +25,63 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
     margin-bottom: 15px;
 }
 
-/* セーフモード切替エリア */
-.safe-mode-area {
-    margin-bottom: 15px;
+/* コントロールエリア（セーフモード & モード切替） */
+.header-controls {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto 15px auto;
+}
+
+.safe-mode-area {
+    display: flex;
     align-items: center;
 }
 
 .safe-mode-area label {
     cursor: pointer;
     background: #333;
-    padding: 5px 15px;
+    padding: 5px 12px;
     border-radius: 20px;
     border: 1px solid #444;
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 12px;
     transition: background 0.2s;
 }
 
-.safe-mode-area label:hover {
+.view-mode-btns {
+    display: flex;
+    gap: 5px;
+}
+
+.view-mode-btns button {
     background: #444;
-}
-
-.safe-mode-area input[type="checkbox"] {
+    color: #ccc;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
     cursor: pointer;
-    width: 16px;
-    height: 16px;
-    margin: 0;
+    font-size: 12px;
 }
 
-#safe-status {
-    font-weight: bold;
-    color: #4caf50; /* ONの時は緑っぽく */
+.view-mode-btns button.active {
+    background: #4f46e5;
+    color: #fff;
 }
 
-/* フィルター群のラップ */
-.filter-group { 
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: center; 
-    gap: 8px; 
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-/* フィルタ列のレイアウト調整 */
+/* フィルター群 */
 .select-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
-    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-/* セレクトボックスの基本設定 */
 .select-row select { 
     padding: 8px 10px; 
     border-radius: 6px; 
@@ -88,7 +89,6 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
     font-size: 13px; 
     background: #fff;
     color: #222;
-    cursor: pointer;
     flex: 1 1 30%; 
     min-width: 100px;
 }
@@ -114,94 +114,127 @@ main { max-width: 800px; margin: auto; padding: 15px; }
     flex-shrink: 0; 
 }
 
-.book-info { flex-grow: 1; min-width: 0; }
-.book-title { font-size: 18px; font-weight: bold; margin: 0 0 4px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.meta { font-size: 13px; color: #666; margin-bottom: 2px; }
+.book-title { font-size: 18px; font-weight: bold; margin: 0 0 4px 0; }
+.meta { font-size: 13px; color: #666; }
 .tag { display: inline-block; background: #eef2ff; color: #4f46e5; padding: 2px 8px; border-radius: 6px; font-size: 11px; margin-top: 5px; }
 
 /* プログレスバー */
 .progress-container { margin-top: 10px; }
-.progress-text { font-size: 11px; color: #888; margin-bottom: 2px; }
 .progress { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
 .bar { height: 100%; background: #4caf50; }
 
-/* 詳細画面 */
+/* === スライド表示用のスタイル === */
+.slide-header {
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.slide-header-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    color: #fff;
+}
+
+.slide-header-overlay h2 { margin: 0; font-size: 24px; }
+
+.slide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 15px;
+}
+
+.mini-card {
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.mini-card:hover { transform: translateY(-5px); }
+
+.mini-card img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.mini-title {
+    font-size: 11px;
+    margin-top: 8px;
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.slide-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    padding-bottom: 20px;
+}
+
+.slide-navigation button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    background: #222;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* === 詳細画面 === */
 .detail-container { 
     display: flex; 
     gap: 25px; 
     background: #fff; 
     padding: 25px; 
     border-radius: 15px; 
-    align-items: flex-start; 
 }
+
 .detail-cover { 
     width: 100%; 
     max-width: 240px; 
-    height: auto;
     border-radius: 8px; 
     box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
 }
-.detail-info { flex: 1; min-width: 0; }
-.detail-info h2 { margin-top: 0; font-size: 22px; margin-bottom: 10px; }
 
-/* あらすじ部分のデザイン */
 .summary-section {
     margin: 20px 0;
     padding: 15px;
     background: #fcfcfc;
     border-left: 4px solid #4f46e5;
-    border-radius: 4px;
-}
-.summary-section h3 { margin-top: 0; font-size: 16px; color: #4f46e5; }
-.summary-text { 
-    font-size: 14px; 
-    color: #444; 
-    white-space: pre-wrap; 
 }
 
 .back-btn { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
 
-/* スマホ対応（画面幅600px以下） */
+/* スマホ対応 */
 @media (max-width: 600px) {
-    header {
-        padding: 15px 10px;
-    }
+    .header-controls { flex-direction: column; gap: 10px; }
+    
+    .select-row select { flex: 1 1 45%; }
+    
+    #sortFilter { flex: 1 1 100%; margin-top: 8px; }
 
-    .filter-group {
-        gap: 10px;
-    }
+    .detail-container { flex-direction: column; align-items: center; text-align: center; }
 
-    #publisherFilter, #genreFilter {
-        flex: 1 1 45%; 
-        min-width: 140px;
-    }
-
-    #sortFilter {
-        flex: 1 1 100%;    
-        margin-top: 8px;   
-        background: #ffffff; 
-        color: #222;       
-        border: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        height: 40px;
-        text-align: center;
-    }
-
-    .detail-container { 
-        flex-direction: column; 
-        align-items: center; 
-        text-align: center; 
-        padding: 20px; 
-    }
-
-    .book-cover { 
-        width: 65px; 
-        height: 90px; 
-    }
-
-    .summary-section { 
-        text-align: left; 
-    }
+    .slide-header { height: 160px; }
+    
+    .slide-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
 }
