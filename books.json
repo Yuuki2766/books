@@ -84,6 +84,42 @@
     "favorite": true
   },
   {
+    "title": "お隣の天使様にいつの間にか駄目人間にされていた件",
+    "author": "佐伯さん",
+    "illustrator": "はねこと",
+    "publisher": "GA文庫",
+    "genre": "青春ライトノベル",
+    "owned": [1,2,3,4,5,5.5,6,7,8,8.5,9,10,11,12,"spesial book"],
+    "total": 16,
+    "summary": "",
+    "image": "images/otonarinotensisama.JPEG",
+    "favorite": true 
+  },
+  {
+    "title": "お隣の天使様にいつの間にか駄目人間にされていた件",
+    "author": "佐伯さん",
+    "illustrator": "芝田わん",
+    "publisher": "スクウェア・エニックス",
+    "genre": "青春漫画",
+    "owned": [1,2,3,4,5,6],
+    "total": 6,
+    "summary": "",
+    "image": "images/otonarinotensisamacomic.JPG",
+    "favorite": true 
+  },
+  {
+    "title": "お隣の天使様にいつの間にか駄目人間にされていた件 after the rain",
+    "author": "佐伯さん",
+    "illustrator": "ぷよ",
+    "publisher": "スクウェア・エニックス",
+    "genre": "青春漫画",
+    "owned": [1,2],
+    "total": 2,
+    "summary": "",
+    "image": "images/otonarinotensisamaaftercomic.JPG",
+    "favorite": true 
+  },
+  {
     "title": "響け！ユーフォニアム",
     "author": "武田綾乃",
     "illustrator": "アサダニッキ",
@@ -181,7 +217,7 @@
     "illustrator": "水島空彦",
     "publisher": "ホビージャパン",
     "genre": "青春漫画",
-    "owned": [1],
+    "owned": [1,2,3,4,5],
     "total": 5,
     "summary": "",
     "image": "images/saijonoosewacomic.JPG",
@@ -193,7 +229,7 @@
     "illustrator": "みわべさくら",
     "publisher": "HJ文庫",
     "genre": "青春ライトノベル",
-    "owned": [2],
+    "owned": [1,2],
     "total": 11,
     "summary": "",
     "image": "images/saijonoosewa.JPG",
@@ -703,7 +739,7 @@
     "genre": "青春小説",
     "total": 1,
     "owned": [1],
-    "image": "",
+    "image": "images/siwomiruboku.JPG",
     "summary": "人の死が「予兆」として見えてしまう少年・音無。彼はある日、クラスの目立たない少女・明日葉が明日死ぬことを知ってしまう。死の運命を変えるべく奔走する中で明かされる、彼女の秘めた想いと凄絶な過去。生と死の境界で紡がれる、切なくも衝撃的なミステリー。"
   },
   {
@@ -713,7 +749,7 @@
     "genre": "青春小説",
     "total": 1,
     "owned": [1],
-    "image": "",
+    "image": "images/hatukoirosutaimu.WEBP",
     "summary": "毎日一時間、世界が完全に静止する「ロスタイム」。その不思議な時間の中で、浪人生の孝司は自分以外に動ける少女・真希に出会う。静止した世界で距離を縮めていく二人だったが、ロスタイムには残酷な秘密が隠されていた。時間に翻弄される二人の、儚く美しい初恋の物語。"
   },
   {
@@ -723,7 +759,7 @@
     "genre": "青春小説",
     "total": 1,
     "owned": [1],
-    "image": "",
+    "image": "images/sitigatuno.JPG",
     "summary": "遺伝子レベルで寿命が規定された近未来。死を間近に控えた若者たちが集う場所で、少年は一人の少女と出会う。限られた時間の中で「生きる意味」を問い直す彼らが、最後に見つけた希望とは。緻密な設定と叙情的な筆致で描かれる、命の輝きをめぐる青春群像劇。"
   },
   {
@@ -733,7 +769,7 @@
     "genre": "青春小説",
     "total": 1,
     "owned": [1],
-    "image": "",
+    "image": "images/sabaku.JPG",
     "summary": "大学という「砂漠」のような場所で出会った、麻雀とボウリングに明け暮れる5人の男女。超能力を信じる男、冷静沈着な男、正義感の強い女……。一見バラバラな彼らが、奇妙な事件や不条理な出来事に巻き込まれながらも、社会という荒野へ踏み出すまでを描いた瑞々しい傑作青春小説。"
   },
   {
@@ -743,7 +779,7 @@
     "genre": "青春小説",
     "total": 1,
     "owned": [1],
-    "image": "",
+    "image": "images/houkagobijutusitu.JPG",
     "summary": "放課後の美術室。そこは、絵を描くことだけが救いだった少年と、自由奔放に振る舞う少女の逃避行の場所だった。筆の音だけが響く空間で、二人は言葉にできない感情をキャンバスにぶつけていく。芸術を通して魂が共鳴し合う、繊細で鮮やかな青春物語。"
   },
   {
@@ -753,7 +789,7 @@
     "genre": "青春小説",
     "total": 1,
     "owned": [1],
-    "image": "",
+    "image": "images/houkagotosyositu.JPG",
     "summary": "図書室の片隅で、静かに本を読む彼と、その姿を遠くから見つめる彼女。交わされる言葉は少なくとも、貸出カードやしおりを通して二人の心は少しずつ繋がっていく。静寂の中で育まれる恋心と、本が繋ぐ優しい縁を描いた、図書室を舞台にしたノスタルジックな物語。"
   },
   {
