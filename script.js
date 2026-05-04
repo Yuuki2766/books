@@ -142,6 +142,8 @@ function renderNetflixView(list) {
         const gs = book.genre ? book.genre.split(/[・/]/) : ["その他"];
         gs.forEach(g => {
             const cleanG = g.trim();
+            const ignoreList = ["小説", "ライトノベル", "ラノベ", "漫画", "単行本", "文庫"];
+            if (ignoreList.includes(cleanG)) return;
             if (!genreMap[cleanG]) genreMap[cleanG] = [];
             genreMap[cleanG].push(book);
         });
