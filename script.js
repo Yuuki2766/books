@@ -132,63 +132,48 @@ function renderBooks(list) {
 }
 
 // Netflix形式（ジャンル別・カスタム表示）の描画
-// Netflix形式（ジャンル別・カスタム表示）の描画
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
     
-    // ============================================================
-    // ★ ここでジャンルをカスタムしてください
-    // ============================================================
-    
-    // 1. ジャンル行として表示したくない言葉（媒体名など）
-    const ignoreList = ["小説", "ライトノベル", "ラノベ", "漫画", "コミックス", "単行本", "文庫"];
-    
-    // 2. 表示したいジャンルとその順番（ここに書いた順に並びます）
-    // ※ 空の配列 [] にすると、ignoreList 以外の全ジャンルを自動で出します
-    const targetGenres = [];
-    
-    // ============================================================
+    const ignoreList = ["小説", "ライトノベル", "ラノベ", "漫画", "コミックス"];
+    const targetGenres = ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "SF"];
 
     const genreMap = {};
     
-    // データの仕分け
     list.forEach(book => {
-        const gs = book.genre ? book.genre.split(/[・/]/) : ["その他"];
-        gs.forEach(g => {
-            const cleanG = g.trim();
-            
-            // 除外判定
-            if (ignoreList.includes(cleanG)) return;
-            
-            // ターゲット指定がある場合の判定
-            if (targetGenres.length > 0 && !targetGenres.includes(cleanG)) return;
+        // 1. まず作品が持っているジャンルを分割（「青春/漫画」などに対応）
+        const bookGenres = book.genre ? book.genre.split(/[・/]/) : ["その他"];
+        
+        // 2. カスタムジャンル（targetGenres）を一つずつ回して、作品がそれに該当するかチェック
+        targetGenres.forEach(target => {
+            // 作品のジャンルの中に、target（例：「青春」）が含まれているか確認
+            const isMatch = bookGenres.some(bg => bg.includes(target));
 
-            if (!genreMap[cleanG]) genreMap[cleanG] = [];
-            genreMap[cleanG].push(book);
+            if (isMatch) {
+                if (!genreMap[target]) genreMap[target] = [];
+                // 重複して追加されないようにチェック
+                if (!genreMap[target].includes(book)) {
+                    genreMap[target].push(book);
+                }
+            }
         });
     });
 
-    // 表示順の決定
-    const displayGenres = targetGenres.length > 0 
-        ? targetGenres.filter(g => genreMap[g]) // 指定順
-        : Object.keys(genreMap);               // 自動抽出順
-
+    // --- 以降、描画処理（displayGenres.forEach...）はそのまま ---
+    const displayGenres = targetGenres.filter(g => genreMap[g]);
+    
     if (displayGenres.length === 0) {
         container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">該当する作品がありません</p>';
         return;
     }
 
-    // HTMLの生成
     displayGenres.forEach(gName => {
         const booksInGenre = genreMap[gName];
         const row = document.createElement('div');
         row.className = 'genre-row';
-        
         row.innerHTML = `
-            <div class="genre-header">
-                <h3>${gName}</h3>
-            </div>
+            <div class="genre-header"><h3>${gName}</h3></div>
             <div class="horizontal-scroll">
                 ${booksInGenre.map(b => `
                     <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(b.title)}'">
@@ -196,11 +181,9 @@ function renderNetflixView(list) {
                         <div class="mini-title">${b.title}</div>
                     </div>
                 `).join('')}
-            </div>
-        `;
+            </div>`;
         container.appendChild(row);
     });
-    updateSummary(list);
 }
 
 function showDetail(book) {
