@@ -25,6 +25,42 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
     margin-bottom: 15px;
 }
 
+/* セーフモード切替エリア */
+.safe-mode-area {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.safe-mode-area label {
+    cursor: pointer;
+    background: #333;
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid #444;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.safe-mode-area label:hover {
+    background: #444;
+}
+
+.safe-mode-area input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+#safe-status {
+    font-weight: bold;
+    color: #4caf50; /* ONの時は緑っぽく */
+}
+
 /* フィルター群のラップ */
 .filter-group { 
     display: flex; 
@@ -35,8 +71,17 @@ header h1 { font-size: 20px; margin: 0 0 15px 0; }
     margin: 0 auto;
 }
 
+/* フィルタ列のレイアウト調整 */
+.select-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
 /* セレクトボックスの基本設定 */
-.filter-group select { 
+.select-row select { 
     padding: 8px 10px; 
     border-radius: 6px; 
     border: none; 
@@ -116,11 +161,6 @@ main { max-width: 800px; margin: auto; padding: 15px; }
 
 .back-btn { padding: 10px 20px; margin-bottom: 20px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd; background: #fff; }
 
-
-
-
-
-
 /* スマホ対応（画面幅600px以下） */
 @media (max-width: 600px) {
     header {
@@ -136,7 +176,6 @@ main { max-width: 800px; margin: auto; padding: 15px; }
         min-width: 140px;
     }
 
-    /* 並べ替えボタン：Safari等の独自スタイルを消して真っ白にする */
     #sortFilter {
         flex: 1 1 100%;    
         margin-top: 8px;   
@@ -157,7 +196,6 @@ main { max-width: 800px; margin: auto; padding: 15px; }
         padding: 20px; 
     }
 
-
     .book-cover { 
         width: 65px; 
         height: 90px; 
@@ -167,4 +205,3 @@ main { max-width: 800px; margin: auto; padding: 15px; }
         text-align: left; 
     }
 }
-
