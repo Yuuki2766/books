@@ -11,6 +11,15 @@
     <h1>📚 書籍マネージャー</h1>
     <div class="filter-group">
         <input type="text" id="search" placeholder="タイトル・作者で検索">
+        
+        <!-- セーフモード切替を追加 -->
+        <div class="safe-mode-area" style="margin-bottom: 10px; font-size: 13px; color: #ccc;">
+            <label>
+                <input type="checkbox" id="r18Toggle">
+                セーフモード：<span id="safe-status">ON</span>
+            </label>
+        </div>
+
         <div class="select-row">
             <select id="publisherFilter">
                 <option value="">全出版社</option>
@@ -31,7 +40,6 @@
                 <option value="GA文庫">GA文庫</option>
                 <option value="メディアワークス文庫">メディアワークス文庫</option>
                 <option value="HJ文庫">HJ文庫</option>
-                
                 <option value="電撃コミックス">電撃コミックス</option>
             </select>
             <select id="genreFilter">
@@ -44,6 +52,7 @@
                 <option value="ラブコメ">ラブコメ</option>
                 <option value="ライトノベル">ライトノベル</option>
                 <option value="小説">小説</option>
+                <option value="R18">R18</option>
             </select>
             <select id="sortFilter">
                 <option value="default">標準</option>
@@ -68,6 +77,6 @@
     </div>
 </main>
 
-<script src="script.js?v=11"></script>
+<script src="script.js?v=12"></script>
 </body>
 </html>
