@@ -131,42 +131,57 @@ function renderBooks(list) {
     updateSummary(list);
 }
 
-// Netflix形式（ジャンル別・画像なしヘッダー）の描画
+// Netflix形式（ジャンル別・カスタム表示）の描画
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
     
-    // ジャンル仕分け
+    // --- カスタム設定エリア ---
+    // ジャンル行として表示したくない言葉（媒体名など）
+    const ignoreList = ["小説", "ライトノベル", "ラノベ", "漫画", "単行本", "文庫", "コミックス"];
+    
+    // 特定の順番で表示したい、またはこれらだけを表示したい場合のホワイトリスト（空なら全抽出）
+    const targetGenres = ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "SF"];
+    // -----------------------
+
     const genreMap = {};
+    
     list.forEach(book => {
+        // ジャンル文字列を分割して配列化
         const gs = book.genre ? book.genre.split(/[・/]/) : ["その他"];
+        
         gs.forEach(g => {
             const cleanG = g.trim();
-            const ignoreList = ["小説", "ライトノベル", "ラノベ", "漫画", "単行本", "文庫"];
+            
+            // 除外リストに含まれている場合はスキップ
             if (ignoreList.includes(cleanG)) return;
+            
+            // ホワイトリストがある場合、そこに含まれていない言葉はスキップ
+            if (targetGenres.length > 0 && !targetGenres.includes(cleanG)) return;
+
             if (!genreMap[cleanG]) genreMap[cleanG] = [];
             genreMap[cleanG].push(book);
         });
     });
 
-    const genres = Object.keys(genreMap);
-    if (genres.length === 0) {
-        container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">該当する作品がありません</p>';
+    // 表示する順番を targetGenres の順に合わせる（登録されているもののみ）
+    const displayGenres = targetGenres.length > 0 
+        ? targetGenres.filter(g => genreMap[g]) 
+        : Object.keys(genreMap);
+
+    if (displayGenres.length === 0) {
+        container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">該当するジャンルがありません</p>';
         return;
     }
 
-    // 各ジャンルの行を作成
-    genres.forEach(gName => {
+    displayGenres.forEach(gName => {
         const booksInGenre = genreMap[gName];
         const row = document.createElement('div');
         row.className = 'genre-row';
         
         row.innerHTML = `
             <div class="genre-header">
-                <div class="genre-header-overlay">
-                    <h3>${gName}</h3>
-                    <small>${booksInGenre.length} 作品</small>
-                </div>
+                <h3>${gName}</h3>
             </div>
             <div class="horizontal-scroll">
                 ${booksInGenre.map(b => `
