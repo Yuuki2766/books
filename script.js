@@ -131,36 +131,25 @@ function renderBooks(list) {
     updateSummary(list);
 }
 
-// Netflix形式（ジャンル別・カスタム表示）の描画
+// Netflix形式の描画
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
     
-    const ignoreList = ["小説", "ライトノベル", "ラノベ", "漫画", "コミックス"];
     const targetGenres = ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "SF"];
-
     const genreMap = {};
     
     list.forEach(book => {
-        // 1. まず作品が持っているジャンルを分割（「青春/漫画」などに対応）
         const bookGenres = book.genre ? book.genre.split(/[・/]/) : ["その他"];
-        
-        // 2. カスタムジャンル（targetGenres）を一つずつ回して、作品がそれに該当するかチェック
         targetGenres.forEach(target => {
-            // 作品のジャンルの中に、target（例：「青春」）が含まれているか確認
             const isMatch = bookGenres.some(bg => bg.includes(target));
-
             if (isMatch) {
                 if (!genreMap[target]) genreMap[target] = [];
-                // 重複して追加されないようにチェック
-                if (!genreMap[target].includes(book)) {
-                    genreMap[target].push(book);
-                }
+                if (!genreMap[target].includes(book)) genreMap[target].push(book);
             }
         });
     });
 
-    // --- 以降、描画処理（displayGenres.forEach...）はそのまま ---
     const displayGenres = targetGenres.filter(g => genreMap[g]);
     
     if (displayGenres.length === 0) {
@@ -196,6 +185,11 @@ function showDetail(book) {
     const ownedCount = book.owned.length;
     const percent = Math.round((ownedCount / book.total) * 100);
 
+    // PDFボタンのHTMLを生成（pdf_urlがある場合のみ）
+    const pdfButtonHtml = book.pdf_url 
+        ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">📖 本を読む (PDF)</button>` 
+        : '';
+
     document.getElementById('detail-content').innerHTML = `
         <div class="detail-container">
             <img src="${book.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
@@ -211,8 +205,14 @@ function showDetail(book) {
                     <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
                     <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned.join(', ')}</p>
                 </div>
+                ${pdfButtonHtml}
             </div>
         </div>`;
+}
+
+// PDFを別タブで開く関数
+function openPdf(url) {
+    window.open(url, '_blank');
 }
 
 function updateSummary(list) {
@@ -223,7 +223,7 @@ function updateSummary(list) {
 
 function goBack() { window.location.hash = ''; }
 
-// イベントリスナーの一括設定
+// イベントリスナーの設定
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('publisherFilter').addEventListener('change', applyFilters);
 document.getElementById('genreFilter').addEventListener('change', applyFilters);
