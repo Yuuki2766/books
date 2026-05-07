@@ -192,6 +192,7 @@ function showDetail(book) {
             <div class="detail-info">
                 <h2>${book.favorite ? '⭐ ' : ''}${book.title}</h2>
                 <p class="meta"><strong>著者:</strong> ${book.author}</p>
+                ${book.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${book.illustrator}</p>` : ''}
                 <div class="summary-section">
                     <h3>あらすじ</h3>
                     <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
