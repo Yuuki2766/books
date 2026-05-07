@@ -13,20 +13,26 @@
             font-family: "Sawarabi Mincho", "Hiragino Mincho ProN", serif;
         }
         #content {
-            max-width: 750px;
+            max-width: 800px;
             width: 90%;
             padding: 50px 40px;
             background: white;
             box-shadow: 0 0 15px rgba(0,0,0,0.05);
-            
-            /* 【調整ポイント1】1行ずつの高さを2.2倍に。これで「詰まった感」を消します */
-            line-height: 2.2; 
-            
+            line-height: 2.2;
             white-space: pre-wrap;
             font-size: 19px;
             word-break: break-all;
-            /* 文字の横幅も少し広げて読みやすく */
-            letter-spacing: 0.05em;
+
+            /* 【解決策：インデントの調整】 */
+            /* タブ文字の幅を全角スペース1個分（2文字分）に固定 */
+            tab-size: 2;
+            -moz-tab-size: 2;
+
+            /* もし「1行目だけ1文字下げて、2行目以降は左に揃えたい」なら */
+            /* text-indent: 1em; */
+            
+            /* もし「2行目以降も1行目の開始位置（スペースの後）に合わせたい」場合、
+            TXT側のスペースを削除して、CSS側で制御するのが最も綺麗です */
         }
     </style>
 </head>
