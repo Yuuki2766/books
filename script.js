@@ -93,7 +93,6 @@ function applyFilters() {
         filtered.sort((a, b) => (b.owned.length / b.total) - (a.owned.length / a.total));
     }
 
-    // 現在の表示モードに合わせてレンダリング
     if (currentMainView === 'list') {
         renderBooks(filtered);
     } else {
@@ -101,7 +100,6 @@ function applyFilters() {
     }
 }
 
-// 1. リスト形式の描画
 function renderBooks(list) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
@@ -131,7 +129,6 @@ function renderBooks(list) {
     updateSummary(list);
 }
 
-// Netflix形式の描画
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
@@ -185,9 +182,8 @@ function showDetail(book) {
     const ownedCount = book.owned.length;
     const percent = Math.round((ownedCount / book.total) * 100);
 
-    // PDFボタンのHTMLを生成（pdf_urlがある場合のみ）
     const pdfButtonHtml = book.pdf_url 
-        ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">📖 本を読む (PDF)</button>` 
+        ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
         : '';
 
     document.getElementById('detail-content').innerHTML = `
@@ -211,11 +207,9 @@ function showDetail(book) {
 }
 
 function openPdf(url) {
-    if (url.endsWith('.txt')) {
-        // テキストなら自作ビューアで開く
+    if (url.toLowerCase().endsWith('.txt')) {
         window.open(`viewer.html?file=${encodeURIComponent(url)}`, '_blank');
     } else {
-        // PDFならそのまま開く
         window.open(url, '_blank');
     }
 }
@@ -228,7 +222,6 @@ function updateSummary(list) {
 
 function goBack() { window.location.hash = ''; }
 
-// イベントリスナーの設定
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('publisherFilter').addEventListener('change', applyFilters);
 document.getElementById('genreFilter').addEventListener('change', applyFilters);
