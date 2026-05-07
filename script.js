@@ -210,9 +210,14 @@ function showDetail(book) {
         </div>`;
 }
 
-// PDFを別タブで開く関数
 function openPdf(url) {
-    window.open(url, '_blank');
+    if (url.endsWith('.txt')) {
+        // テキストなら自作ビューアで開く
+        window.open(`viewer.html?file=${encodeURIComponent(url)}`, '_blank');
+    } else {
+        // PDFならそのまま開く
+        window.open(url, '_blank');
+    }
 }
 
 function updateSummary(list) {
