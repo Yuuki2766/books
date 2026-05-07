@@ -2,10 +2,11 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>読書ビューア</title>
     <style>
         body {
-            background-color: #f4f1e6; /* 目に優しいクリーム色の背景 */
+            background-color: #f4f1e6;
             color: #333;
             display: flex;
             justify-content: center;
@@ -18,9 +19,8 @@
             padding: 50px 40px;
             background: white;
             box-shadow: 0 0 15px rgba(0,0,0,0.05);
-            /* 行間を「空きすぎず、詰まりすぎず」に設定 */
             line-height: 1.8; 
-            white-space: pre-wrap; /* TXTの改行をそのまま反映 */
+            white-space: pre-wrap;
             font-size: 19px;
             word-break: break-all;
         }
@@ -28,25 +28,17 @@
 </head>
 <body>
     <div id="content">読み込み中...</div>
-
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const file = urlParams.get('file');
-
         if (file) {
             fetch(file)
-                .then(response => {
-                    if (!response.ok) throw new Error();
-                    return response.text();
-                })
+                .then(res => { if (!res.ok) throw new Error(); return res.text(); })
                 .then(text => {
                     document.getElementById('content').textContent = text;
-                    // ファイル名からタイトルを推測して表示
-                    document.title = file.replace(/\.[^/.]+$/, ""); 
+                    document.title = file.split('/').pop().replace('.txt', '');
                 })
-                .catch(() => {
-                    document.getElementById('content').textContent = "エラー: ファイルが見つからないか、読み込めませんでした。";
-                });
+                .catch(() => { document.getElementById('content').textContent = "エラー: ファイルを読み込めませんでした。"; });
         }
     </script>
 </body>
