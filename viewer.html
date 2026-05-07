@@ -2,10 +2,10 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>TXT Viewer</title>
+    <title>読書ビューア</title>
     <style>
         body {
-            background-color: #f4f1e6; /* 目に優しい紙の色 */
+            background-color: #f4f1e6; /* 目に優しいクリーム色の背景 */
             color: #333;
             display: flex;
             justify-content: center;
@@ -13,15 +13,16 @@
             font-family: "Sawarabi Mincho", "Hiragino Mincho ProN", serif;
         }
         #content {
-            max-width: 700px;
+            max-width: 750px;
             width: 90%;
-            padding: 40px;
+            padding: 50px 40px;
             background: white;
-            box-shadow: 0 0 3px rgba(0,0,0,0.1);
-            /* ここで好きな行間に調整できます */
-            line-height: 1.6; 
-            white-space: pre-wrap; /* 改行を維持 */
-            font-size: 18px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            /* 行間を「空きすぎず、詰まりすぎず」に設定 */
+            line-height: 1.8; 
+            white-space: pre-wrap; /* TXTの改行をそのまま反映 */
+            font-size: 19px;
+            word-break: break-all;
         }
     </style>
 </head>
@@ -29,19 +30,22 @@
     <div id="content">読み込み中...</div>
 
     <script>
-        // URLパラメータからファイル名を取得
         const urlParams = new URLSearchParams(window.location.search);
         const file = urlParams.get('file');
 
         if (file) {
             fetch(file)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) throw new Error();
+                    return response.text();
+                })
                 .then(text => {
                     document.getElementById('content').textContent = text;
-                    document.title = file;
+                    // ファイル名からタイトルを推測して表示
+                    document.title = file.replace(/\.[^/.]+$/, ""); 
                 })
-                .catch(err => {
-                    document.getElementById('content').textContent = "エラー: ファイルが見つかりません。";
+                .catch(() => {
+                    document.getElementById('content').textContent = "エラー: ファイルが見つからないか、読み込めませんでした。";
                 });
         }
     </script>
