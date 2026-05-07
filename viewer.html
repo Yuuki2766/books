@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>TXT Viewer</title>
+    <style>
+        body {
+            background-color: #f4f1e6; /* 目に優しい紙の色 */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            font-family: "Sawarabi Mincho", "Hiragino Mincho ProN", serif;
+        }
+        #content {
+            max-width: 700px;
+            width: 90%;
+            padding: 40px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            /* ここで好きな行間に調整できます */
+            line-height: 1.6; 
+            white-space: pre-wrap; /* 改行を維持 */
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">読み込み中...</div>
+
+    <script>
+        // URLパラメータからファイル名を取得
+        const urlParams = new URLSearchParams(window.location.search);
+        const file = urlParams.get('file');
+
+        if (file) {
+            fetch(file)
+                .then(response => response.text())
+                .then(text => {
+                    document.getElementById('content').textContent = text;
+                    document.title = file;
+                })
+                .catch(err => {
+                    document.getElementById('content').textContent = "エラー: ファイルが見つかりません。";
+                });
+        }
+    </script>
+</body>
+</html>
