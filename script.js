@@ -181,7 +181,9 @@ function showDetail(book) {
 
     const ownedCount = book.owned.length;
     const percent = Math.round((ownedCount / book.total) * 100);
-
+    const infoLinkHtml = book.info_url 
+        ? `<p class="meta"><strong>作品URL:</strong> <a href="${book.info_url}" target="_blank" style="color: #4f46e5; text-decoration: underline;">作品ページを開く</a></p>` 
+        : '';
     const pdfButtonHtml = book.pdf_url 
         ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
         : '';
@@ -193,6 +195,7 @@ function showDetail(book) {
                 <h2>${book.favorite ? '⭐ ' : ''}${book.title}</h2>
                 <p class="meta"><strong>著者:</strong> ${book.author}</p>
                 ${book.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${book.illustrator}</p>` : ''}
+                ${infoLinkHtml}
                 <div class="summary-section">
                     <h3>あらすじ</h3>
                     <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
