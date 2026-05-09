@@ -31,7 +31,6 @@ function showList() {
     changeMainView(currentMainView);
 }
 
-// 表示モード（リスト/スライド）の切り替え
 function changeMainView(mode) {
     currentMainView = mode;
     const isList = mode === 'list';
@@ -77,7 +76,6 @@ function applyFilters() {
         return matchText && matchPub && matchGen;
     });
 
-    // ソート処理
     if (sort === 'favorite') {
         filtered.sort((a, b) => (a.favorite === b.favorite) ? 0 : (a.favorite ? -1 : 1));
     } else if (sort === 'title') {
@@ -100,13 +98,21 @@ function applyFilters() {
     }
 }
 
+// 一覧画面の描画（イラストレーター表示・Webリンク追加・バー修正）
 function renderBooks(list) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
 
     list.forEach(book => {
-        const owned = book.owned.length;
-        const percent = Math.round((owned / book.total) * 100);
+        const owned = book.owned ? book.owned.length : 0;
+        const total = book.total || 1;
+        const percent = Math.round((owned / total) * 100);
+        
+        const illustText = book.illustrator ? ` / 絵: ${book.illustrator}` : '';
+        const webLinkHtml = book.info_url 
+            ? `<span style="margin-left:8px; color:#4f46e5; font-size:12px;">🔗Web</span>` 
+            : '';
+
         const card = document.createElement('div');
         card.className = 'book-card';
         card.onclick = () => window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
@@ -114,13 +120,17 @@ function renderBooks(list) {
         card.innerHTML = `
             <div class="card-content">
                 <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
-                <div class="book-info">
-                    <div class="book-title">${book.favorite ? '⭐ ' : ''}${book.title}</div>
-                    <div class="meta">${book.publisher} / ${book.author}</div>
+                <div class="book-info" style="flex:1;">
+                    <div class="book-title">
+                        ${book.favorite ? '⭐ ' : ''}${book.title}${webLinkHtml}
+                    </div>
+                    <div class="meta">${book.publisher} / ${book.author}${illustText}</div>
                     <div class="tag">${book.genre}</div>
-                    <div class="progress-container">
-                        <div class="progress-text">${owned}/${book.total}巻 (${percent}%)</div>
-                        <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
+                    <div class="progress-container" style="width: 100%;">
+                        <div class="progress-text">${owned}/${total}巻 (${percent}%)</div>
+                        <div class="progress" style="width: 100%; background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;">
+                            <div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -132,36 +142,32 @@ function renderBooks(list) {
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
-    
     const targetGenres = ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "SF"];
     const genreMap = {};
     
     list.forEach(book => {
         const bookGenres = book.genre ? book.genre.split(/[・/]/) : ["その他"];
         targetGenres.forEach(target => {
-            const isMatch = bookGenres.some(bg => bg.includes(target));
-            if (isMatch) {
+            if (bookGenres.some(bg => bg.includes(target))) {
                 if (!genreMap[target]) genreMap[target] = [];
-                if (!genreMap[target].includes(book)) genreMap[target].push(book);
+                genreMap[target].push(book);
             }
         });
     });
 
     const displayGenres = targetGenres.filter(g => genreMap[g]);
-    
     if (displayGenres.length === 0) {
         container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">該当する作品がありません</p>';
         return;
     }
 
     displayGenres.forEach(gName => {
-        const booksInGenre = genreMap[gName];
         const row = document.createElement('div');
         row.className = 'genre-row';
         row.innerHTML = `
             <div class="genre-header"><h3>${gName}</h3></div>
             <div class="horizontal-scroll">
-                ${booksInGenre.map(b => `
+                ${genreMap[gName].map(b => `
                     <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(b.title)}'">
                         <img src="${b.image || 'https://via.placeholder.com/100x140?text=No+Image'}" loading="lazy">
                         <div class="mini-title">${b.title}</div>
@@ -176,11 +182,12 @@ function showDetail(book) {
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
-    const detailView = document.getElementById('detail-view');
-    detailView.style.display = 'block';
+    document.getElementById('detail-view').style.display = 'block';
 
-    const ownedCount = book.owned.length;
-    const percent = Math.round((ownedCount / book.total) * 100);
+    const ownedCount = book.owned ? book.owned.length : 0;
+    const totalCount = book.total || 1;
+    const percent = Math.round((ownedCount / totalCount) * 100);
+
     const infoLinkHtml = book.info_url 
         ? `<p class="meta"><strong>作品URL:</strong> <a href="${book.info_url}" target="_blank" style="color: #4f46e5; text-decoration: underline;">作品ページを開く</a></p>` 
         : '';
@@ -193,17 +200,19 @@ function showDetail(book) {
             <img src="${book.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
             <div class="detail-info">
                 <h2>${book.favorite ? '⭐ ' : ''}${book.title}</h2>
-                <p class="meta"><strong>著者:</strong> ${book.author}</p>
-                ${book.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${book.illustrator}</p>` : ''}
-                ${infoLinkHtml}
+                <div class="meta-info">
+                    <p class="meta"><strong>著者:</strong> ${book.author}</p>
+                    ${book.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${book.illustrator}</p>` : ''}
+                    ${infoLinkHtml}
+                </div>
                 <div class="summary-section">
                     <h3>あらすじ</h3>
                     <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
                 </div>
                 <div class="detail-progress">
-                    <p class="meta"><strong>所持状況:</strong> ${ownedCount} / ${book.total}巻 (${percent}%)</p>
+                    <p class="meta"><strong>所持状況:</strong> ${ownedCount} / ${totalCount}巻 (${percent}%)</p>
                     <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
-                    <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned.join(', ')}</p>
+                    <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned ? book.owned.join(', ') : ''}</p>
                 </div>
                 ${pdfButtonHtml}
             </div>
