@@ -59,7 +59,7 @@ function applyFilters() {
     const genre = genFilter.value;
     const sort = sortFilter.value;
     
-    const isSafeMode = r18Toggle ? !r18Toggle.checked : true;
+    const isSafeMode = r18Toggle ? !r18Toggle.checked : false;
     const safeStatusLabel = document.getElementById('safe-status');
     if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "OFF" : "ON";
 
