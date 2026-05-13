@@ -1,76 +1,5 @@
 [
-  {
-    "title": "名探偵コナン",
-    "author": "青山剛昌",
-    "illustrator": "",
-    "publisher": "小学館",
-    "genre": "推理漫画",
-    "owned": [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104, 105, 107],
-    "total": 107,
-    "summary": "ホームズに憧れる高校生探偵・工藤新一は、謎の組織の取引現場を目撃したことで毒薬を飲まされ、体が小さくなってしまう。彼は「江戸川コナン」と名乗り、組織の行方を追いながら数々の難事件を解決していく。",
-    "image": "images/conan.JPG",
-    "favorite": true
-  },
-  {
-    "title": "名探偵コナン ゼロの日常",
-    "author": "青山剛昌",
-    "illustrator": "新井隆広",
-    "publisher": "小学館",
-    "genre": "推理漫画",
-    "owned": [1, 2, 3, 4, 5, 6],
-    "total": 6,
-    "summary": "「名探偵コナン」のスピンオフ作品。ある時は喫茶ポアロの探偵・安室透、ある時は公安警察の降谷零、またある時は黒ずくめの組織のバーボン。三つの顔を持つ男の、聖域（サンクチュアリ）のような誰も知らない日常を描く。",
-    "image": "images/zero.JPG",
-    "favorite": true
-  },
-  {
-    "title": "名探偵コナン 警察学校編",
-    "author": "青山剛昌",
-    "illustrator": "新井隆広",
-    "publisher": "小学館",
-    "genre": "推理漫画",
-    "owned": [1, 2],
-    "total": 2,
-    "summary": "降谷零（安室透）と、すでに殉職した4人の仲間たち——松田陣平、伊達航、諸伏景光、萩原研二。今や伝説となった「警察学校組」の、若き日の青き春を描く。なぜ彼らは警察官を目指し、いかにして絆を深めたのか。本編へと繋がる、情熱と涙の半年間の物語。",
-    "image": "images/police.JPG",
-    "favorite": true
-  },
-  {
-    "title": "青のオーケストラ",
-    "author": "亜久井真",
-    "illustrator": "",
-    "publisher": "小学館",
-    "genre": "青春漫画",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14],
-    "total": 14,
-    "summary": "とある理由でバイオリンを弾くのを辞めた元天才少年・青野一。中学3年の秋、一人の少女と高校のオーケストラ部を知ったことで、止まっていた彼の時間が再び動き出す。個性豊かな仲間たちと切磋琢磨し、音を重ねる喜びを再発見していく。情熱と葛藤、そして圧倒的な演奏描写で贈る、瑞々しいアンサンブル青春ドラマ。",
-    "image": "images/aono.JPG",
-    "favorite": true
-  },
-  {
-    "title": "薬屋のひとりごと",
-    "author": "日向夏",
-    "illustrator": "ねこクラゲ",
-    "publisher": "スクウェア・エニックス",
-    "genre": "日常漫画",
-    "owned": [9, 10, 11, 12, 13, 14],
-    "total": 16,
-    "summary": "後宮を舞台に、花街で薬師をしていた少女・猫猫（マオマオ）が、持ち前の知識と好奇心で宮中の難事件を次々と解決していく謎解きエンターテインメント。美貌の宦官・壬氏（ジンシ）に才覚を見出され、毒見役や薬師として翻弄されながらも、陰謀渦巻く後宮の闇を鮮やかに切り開く。知識と毒が織りなす、爽快な後宮ミステリー。",
-    "image": "images/hitorigoto.JPG",
-    "favorite": true
-  },
-  {
-    "title": "葬送のフリーレン",
-    "author": "山田鐘人",
-    "illustrator": "アベツカサ",
-    "publisher": "小学館",
-    "genre": "ファンタジー漫画",
-    "owned": [8],
-    "total": 15,
-    "summary": "魔王を倒した勇者一行の後日譚。長寿なエルフの魔法使いフリーレンは、かつての仲間たちの死に直面し、人間を知るための旅に出る。新たな仲間と共に「魂の眠る地」を目指す旅路の中で、かつての旅の思い出を辿りながら、人との繋がりや心の機微を静かに描き出す、後日譚（アフター）ファンタジー。",
-    "image": "images/sousouno.JPG",
-    "favorite": true
-  },
+
   {
     "title": "クラスで2番目に可愛い女の子と友達になった",
     "author": "たかた",
@@ -201,6 +130,43 @@
     "pdf_url": "pdfs/N3228LP.pdf",
     "info_url": "https://kakuyomu.jp/works/1177354054971779256"
   },
+  {
+    "title": "青のオーケストラ",
+    "author": "亜久井真",
+    "illustrator": "",
+    "publisher": "小学館",
+    "genre": "青春漫画",
+    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14],
+    "total": 14,
+    "summary": "とある理由でバイオリンを弾くのを辞めた元天才少年・青野一。中学3年の秋、一人の少女と高校のオーケストラ部を知ったことで、止まっていた彼の時間が再び動き出す。個性豊かな仲間たちと切磋琢磨し、音を重ねる喜びを再発見していく。情熱と葛藤、そして圧倒的な演奏描写で贈る、瑞々しいアンサンブル青春ドラマ。",
+    "image": "images/aono.JPG",
+    "favorite": true
+  },
+  {
+    "title": "薬屋のひとりごと",
+    "author": "日向夏",
+    "illustrator": "ねこクラゲ",
+    "publisher": "スクウェア・エニックス",
+    "genre": "日常漫画",
+    "owned": [9, 10, 11, 12, 13, 14],
+    "total": 16,
+    "summary": "後宮を舞台に、花街で薬師をしていた少女・猫猫（マオマオ）が、持ち前の知識と好奇心で宮中の難事件を次々と解決していく謎解きエンターテインメント。美貌の宦官・壬氏（ジンシ）に才覚を見出され、毒見役や薬師として翻弄されながらも、陰謀渦巻く後宮の闇を鮮やかに切り開く。知識と毒が織りなす、爽快な後宮ミステリー。",
+    "image": "images/hitorigoto.JPG",
+    "favorite": true
+  },
+  {
+    "title": "葬送のフリーレン",
+    "author": "山田鐘人",
+    "illustrator": "アベツカサ",
+    "publisher": "小学館",
+    "genre": "ファンタジー漫画",
+    "owned": [8],
+    "total": 15,
+    "summary": "魔王を倒した勇者一行の後日譚。長寿なエルフの魔法使いフリーレンは、かつての仲間たちの死に直面し、人間を知るための旅に出る。新たな仲間と共に「魂の眠る地」を目指す旅路の中で、かつての旅の思い出を辿りながら、人との繋がりや心の機微を静かに描き出す、後日譚（アフター）ファンタジー。",
+    "image": "images/sousouno.JPG",
+    "favorite": true
+  },
+
   {
     "title": "隣に住んでる聖女様は俺がキャラデザを担当した大人気ＶＴｕｂｅｒでした",
     "author": "乃中カノン",
@@ -369,7 +335,7 @@
     "illustrator": "みわべさくら",
     "publisher": "HJ文庫",
     "genre": "青春ライトノベル",
-    "owned": [1,2],
+    "owned": [1,2,3,4],
     "total": 11,
     "summary": "",
     "image": "images/saijonoosewa.JPG",
@@ -480,6 +446,42 @@
     "favorite": false,
     "pdf_url": "pdfs/陰キャの僕にセフレがいる事をクラスの君達はまだ知らない【書籍版タイトル】冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない - ヤマモトタケシ.pdf",
     "info_url": "https://kakuyomu.jp/works/1177354055568463313"
+  },
+  {
+    "title": "名探偵コナン",
+    "author": "青山剛昌",
+    "illustrator": "",
+    "publisher": "小学館",
+    "genre": "推理漫画",
+    "owned": [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104, 105, 107],
+    "total": 107,
+    "summary": "ホームズに憧れる高校生探偵・工藤新一は、謎の組織の取引現場を目撃したことで毒薬を飲まされ、体が小さくなってしまう。彼は「江戸川コナン」と名乗り、組織の行方を追いながら数々の難事件を解決していく。",
+    "image": "images/conan.JPG",
+    "favorite": false
+  },
+  {
+    "title": "名探偵コナン ゼロの日常",
+    "author": "青山剛昌",
+    "illustrator": "新井隆広",
+    "publisher": "小学館",
+    "genre": "推理漫画",
+    "owned": [1, 2, 3, 4, 5, 6],
+    "total": 6,
+    "summary": "「名探偵コナン」のスピンオフ作品。ある時は喫茶ポアロの探偵・安室透、ある時は公安警察の降谷零、またある時は黒ずくめの組織のバーボン。三つの顔を持つ男の、聖域（サンクチュアリ）のような誰も知らない日常を描く。",
+    "image": "images/zero.JPG",
+    "favorite": false
+  },
+  {
+    "title": "名探偵コナン 警察学校編",
+    "author": "青山剛昌",
+    "illustrator": "新井隆広",
+    "publisher": "小学館",
+    "genre": "推理漫画",
+    "owned": [1, 2],
+    "total": 2,
+    "summary": "降谷零（安室透）と、すでに殉職した4人の仲間たち——松田陣平、伊達航、諸伏景光、萩原研二。今や伝説となった「警察学校組」の、若き日の青き春を描く。なぜ彼らは警察官を目指し、いかにして絆を深めたのか。本編へと繋がる、情熱と涙の半年間の物語。",
+    "image": "images/police.JPG",
+    "favorite": false
   },
   {
     "title": "顔の良すぎる幼馴染と、気づいたら朝チュンしてた件",
@@ -967,7 +969,7 @@
     "total": 1,
     "summary": "",
     "image": "",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/ぼっちな俺、実はスクールカーストトップの学年一可愛い女の子とセフレです〜俺だけが知ってる彼女の本当の素顔〜 - さい.txt",
     "info_url": "https://kakuyomu.jp/works/16816927861212136293"
   },
@@ -994,7 +996,7 @@
     "total": 1,
     "summary": "",
     "image": "",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/清楚系美人な同級生を助けたら病んで「子作りがしたい」と寄ってくるようになった件 - さい.txt"
   },
   {
@@ -1020,7 +1022,7 @@
     "total": 1,
     "summary": "",
     "image": "",
-    "favorite": false,
+    "favorite": true,
     "pdf_url": "pdfs/妹さんは、こんなこと、してくれないでしょ？ - やまもりやもり💕コミカライズ発売中！.pdf",
     "info_url": "https://kakuyomu.jp/works/16818093089670587278"
   },
@@ -1047,7 +1049,7 @@
     "total": 1,
     "summary": "",
     "image": "",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/誰でもヤらせてくれる」と噂の隣のギャル。実は超がつくほど家庭的で、毎日めちゃくちゃ甘やかしてくる - 茨木野.pdf"
   },
   {
@@ -1190,7 +1192,7 @@
     "total": 1,
     "summary": "",
     "image": "",
-    "favorite": false,
+    "favorite": true,
     "pdf_url": "pdfs/俺の家に何故か学園の女神さまが入り浸っている件 - 紫ユウ.txt"
   },
   {
@@ -1553,6 +1555,399 @@
     "owned": [1, 2],
     "image": "",
     "summary": "誰に対しても冷徹で、近づきがたい「氷の令嬢」こと、冬河さん。しかし、ふとしたきっかけで彼女の「本当の姿」を知ってしまった俺は、少しずつ彼女の心の氷を溶かしていくことに。冷たかった彼女が、俺にだけ見せる甘すぎるギャップに悶絶必至。一歩ずつ、けれど確実に縮まっていく二人の距離を描く純愛物語。"
+  }
+
+
+
+  ,
+  {
+    "title": "仲の良い美少女百合カップルをおちんぽに屈服させるだけの話",
+    "author": "地球",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "R18ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N8242FD.pdf",
+    "info_url": "https://novel18.syosetu.com/n8242fd/"
+  },
+  {
+    "title": "黒猫を拾ったら俺んちが二大美少女の溜まり場になった。",
+    "author": "マナシロカナタ",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/【書籍化】黒猫を拾ったら俺んちが二大美少女の溜まり場になった。【Web版】 - マナシロカナタ✨ネコタマ３巻6_22発売.pdf",
+    "info_url": "https://kakuyomu.jp/works/16818093077692859163"
+  },
+  {
+    "title": "今はセフレでいいから　〜ギャルな幼馴染のギャル友の初体験を手伝ったら、激オモ感情を向けてくるようになった〜",
+    "author": "佐間野 隆紀",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "R18ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N4845KR.pdf",
+    "info_url": "https://novel18.syosetu.com/n4845kr/"
+  },
+  {
+    "title": "クラスメイトから「オクテすぎて手も繋いだことなさそうｗｗ」とからかわれているけど、ふたりきりになると獣のような濃厚ドスケベセックスをしている地味系高校生カップルの話",
+    "author": "三越利範",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "R18ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N1749MD.pdf",
+    "info_url": "https://novel18.syosetu.com/n1749md/"
+  },
+  {
+    "title": "妹の友達たちとセフレになってハーレムを作る話　〜妹に内緒の背徳エッチ〜",
+    "author": "川坂藍斗",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "R18ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N0112MA.pdf",
+    "info_url": "https://novel18.syosetu.com/n0112ma/"
+  },
+  {
+    "title": "俺は超有名エロ配信者の共有竿役 〜配信者ランキング1位の女神と2位の小悪魔に、毎日精液を搾り取られる生活を送っています〜",
+    "author": "丸々丸々",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "R18ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N3267LI.pdf",
+    "info_url": "https://novel18.syosetu.com/n3267li/"
+  }
+  
+  
+  
+  ,
+  {
+    "title": "ずっと好きだった幼馴染と付き合い始めたら一途ビッチの性欲ジャンキーだったんだがどうすりゃいいですか？",
+    "author": "月野 観空",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/ずっと好きだった幼馴染と付き合い始めたら一途ビッチの性欲ジャンキーだったんだがどうすりゃいいですか？ - 月野 観空.pdf",
+    "info_url": "https://kakuyomu.jp/works/16817330658395392076"
+  },
+  {
+    "title": "幼馴染に嫌われたと勘違いして不登校になりかけたけど、実は両想いだった件",
+    "author": "桜　偉村",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "本作は、完結済みの拙作『幼馴染に「あんたのせいで彼氏ができない」と言われたため、距離を取ったら次の日から学校に来なくなった』のヒロイン・篠原 夏希（しのはら なつき）視点のサイドストーリーとなります。まず本編より少し未来のお話から始まり、その後は夏希の視点で描かれる回想形式となっています。本編を先に読んでいただくと、より深く楽しんでいただける内容となっております！どちらもぜひ、ご一読ください！※以下、本編のURLです。https://kakuyomu.jp/works/16818622172684021557",
+    "image": "",
+    "favorite": true,
+    "pdf_url": "pdfs/幼馴染に嫌われたと勘違いして不登校になりかけたけど、実は両想いだった件 - 桜 偉村.pdf",
+    "info_url": "https://kakuyomu.jp/works/16818622173863753371"
+  },
+  {
+    "title": "幼馴染に「あんたのせいで彼氏ができない」と言われたため、距離を取ったら次の日から学校に来なくなった",
+    "author": "桜　偉村",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "「澪がいるから、みんな諦めるんでしょ」そんな一言を聞いて、俺は思った。——自分が『幼馴染』というだけで当然のように隣にいるから、夏希は恋愛ができないのだと。だから俺は、これからは別々で行こうと提案した。夏希は引き留めてこなかった。ようやくお邪魔虫が離れてくれたと、安堵していることだろう。——けれど次の日、彼女は学校に来なかった。鈍感系主人公・白石 澪（しらいし れい）と、不器用な幼馴染・篠原 夏希（しのはら なつき）が織りなす、クスッと笑える甘々なすれ違い系ラブコメディ、ここに開幕！",
+    "image": "",
+    "favorite": true,
+    "pdf_url": "pdfs/幼馴染に「あんたのせいで彼氏ができない」と言われたため、距離を取ったら次の日から学校に来なくなった - 桜 偉村.pdf",
+    "info_url": "https://kakuyomu.jp/works/16818622172684021557"
+  },
+
+
+
+
+
+
+
+  {
+    "title": "冴えない僕の家に可愛くイケてる女子たちがやって来て溜まり場にする。",
+    "author": "三葉 空",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": "https://kakuyomu.jp/works/16816700426920412759"
+  },
+  {
+    "title": "学校一の美少女にシて欲しいと告られた陰キャエロゲーマーの俺が、なぜか彼氏（仮）になって彼女を救う件（半強制）",
+    "author": "猫屋敷むぎ",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": "https://kakuyomu.jp/works/822139845796870465"
+  },
+  {
+    "title": "ガリ勉くんと裏アカさん　～散々お世話になっているエロ系裏垢女子の正体がクラスのアイドルだった件～",
+    "author": "鈴木えんぺら",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "青春ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": "https://kakuyomu.jp/works/16816452220316242482"
+  },
+  {
+    "title": "VTuberなんだが配信切り忘れたら伝説になってた",
+    "author": "七斗七",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "日常ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": true,
+    "pdf_url": "pdfs/",
+    "info_url": "https://kakuyomu.jp/works/1177354054918075225"
+  },
+  {
+    "title": "放課後インスタントセックス",
+    "author": "佐々木かず",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "R18ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": true,
+    "pdf_url": "pdfs/N7640GF.pdf",
+    "info_url": "https://novel18.syosetu.com/n7640gf/"
+  },
+  {
+    "title": "二人暮らしなら妹とするのも当たり前だよね。",
+    "author": "月見ハク",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "R18ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N0701JW.pdf",
+    "info_url": "https://novel18.syosetu.com/n0701jw/"
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  },
+  {
+    "title": "",
+    "author": "",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": ""
   }
 
 ]
