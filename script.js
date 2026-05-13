@@ -61,7 +61,7 @@ function applyFilters() {
     
     const isSafeMode = r18Toggle ? !r18Toggle.checked : true;
     const safeStatusLabel = document.getElementById('safe-status');
-    if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
+    if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "OFF" : "ON";
 
     let filtered = books.filter(book => {
         const isR18 = book.genre && book.genre.includes('R18');
