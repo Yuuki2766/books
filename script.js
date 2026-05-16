@@ -142,7 +142,7 @@ function renderBooks(list) {
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
-    const targetGenres = ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "ライトノベル","漫画","小説","R18"];
+    const targetGenres = ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "ライトノベル","漫画","小説","ネット","R18"];
     const genreMap = {};
     
     list.forEach(book => {
