@@ -3,7 +3,7 @@ let currentMainView = 'list';
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
 
-// データの読み込み（localStorage最優先）
+// データの読み込み
 const localSavedData = localStorage.getItem('local_books_data');
 if (localSavedData) {
     books = JSON.parse(localSavedData);
@@ -79,6 +79,23 @@ function changeMainView(mode) {
     applyFilters();
 }
 
+function toggleEditModeUi() {
+    const toggle = document.getElementById('editModeToggle');
+    const label = document.getElementById('edit-mode-label');
+    if (!toggle || !label) return;
+
+    if (toggle.checked) {
+        label.style.background = '#f43f5e';
+        label.style.color = '#fff';
+        label.style.borderColor = '#f43f5e';
+    } else {
+        label.style.background = '#333';
+        label.style.color = '#aaa';
+        label.style.borderColor = '#444';
+    }
+    applyFilters();
+}
+
 function applyFilters() {
     const searchInput = document.getElementById('search');
     const pubFilter = document.getElementById('publisherFilter');
@@ -86,7 +103,7 @@ function applyFilters() {
     const sortFilter = document.getElementById('sortFilter');
     const r18Toggle = document.getElementById('r18Toggle');
     const depressToggle = document.getElementById('depressToggle'); 
-    const editModeToggle = document.getElementById('editModeToggle'); // 編集モード状態
+    const editModeToggle = document.getElementById('editModeToggle'); 
 
     if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
 
@@ -102,7 +119,6 @@ function applyFilters() {
 
     const hideDepressing = depressToggle ? depressToggle.checked : false;
 
-    // ソートやフィルタ前の一番の根っこのインデックスを持たせる
     let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
 
     let filtered = indexedBooks.filter(item => {
@@ -122,7 +138,6 @@ function applyFilters() {
         return matchText && matchPub && matchGen;
     });
 
-    // 編集（並び替え）モードがONの時はソートを無効化（元配列順固定）してドラッグを破綻させない
     if (isEditMode) {
         filtered.sort((a, b) => a.originalIndex - b.originalIndex);
     } else {
@@ -166,11 +181,10 @@ function renderBooks(list, isEditMode) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        // ★ 編集モードスイッチがONの時だけ、ドラッグ関連のリスナーを有効化して移動可能にする
         if (isEditMode) {
             card.draggable = true;
             card.style.cursor = 'move';
-            card.style.border = '2px dashed #f43f5e'; // 編集状態だとわかりやすくする枠線
+            card.style.border = '2px dashed rgba(244, 63, 94, 0.4)'; 
             card.setAttribute('data-index', originalIndex);
             
             card.addEventListener('dragstart', (e) => {
@@ -193,12 +207,10 @@ function renderBooks(list, isEditMode) {
             });
         }
 
-        // 通常時は全体クリックで詳細へ。編集モード時は星のタップのみ受け付ける
         const clickAction = isEditMode 
             ? "" 
             : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
 
-        // 編集モードONの時だけ星を表示し、誤タップを防ぐ
         const starHtml = isEditMode 
             ? `<div class="fav-star-btn" style="cursor:pointer; font-size:24px; padding:0 15px 0 0; z-index:10;" onclick="toggleFavoriteInline(event, ${originalIndex})">
                 ${book.favorite ? '⭐' : '☆'}
@@ -352,6 +364,7 @@ function addNewBookLocal() {
     const ownedInput = document.getElementById('new-owned').value.trim();
     const totalInput = document.getElementById('new-total').value;
     const summary = document.getElementById('new-summary').value.trim();
+    const image = document.getElementById('new-image').value.trim();
     const pdf_url = document.getElementById('new-pdf').value.trim();
     const info_url = document.getElementById('new-info').value.trim();
     
@@ -380,7 +393,7 @@ function addNewBookLocal() {
         owned: ownedArray,
         total: parseInt(totalInput, 10) || 1,
         summary: summary,
-        image: "", 
+        image: image, 
         favorite: favorite,
         isDepressing: isDepressing,
         pdf_url: pdf_url,
@@ -399,7 +412,7 @@ function addNewBookLocal() {
 function copyJsonToClipboard() {
     const jsonString = JSON.stringify(books, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
-        alert('最新のJSONデータをクリップボードにコピーしました！\nGitHubの books.json にそのまま貼り付けて保存してください。');
+        alert('最新のJSONデータをクリップボードにコピーしました！\nGitHub of books.json にそのまま貼り付けて保存してください。');
     }).catch(err => {
         alert('コピーに失敗しました。');
     });
@@ -423,3 +436,28 @@ const r18Toggle = document.getElementById('r18Toggle');
 if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
 const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
+
+
+// ⚡ 【新機能】下スクロールで隠れ、上スクロールで現れるスマートヘッダーロジック
+let lastScrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+    const header = document.getElementById('main-header');
+    if (!header) return;
+
+    const currentScrollY = window.scrollY;
+
+    // 画面の一番上（バウンス考慮で少し余裕を持たせる）にいるときは必ず出す
+    if (currentScrollY < 50) {
+        header.classList.remove('scroll-hide');
+    } 
+    // 下スクロール時は隠す（ある程度スクロールが進んでから）
+    else if (currentScrollY > lastScrollY && currentScrollY > 120) {
+        header.classList.add('scroll-hide');
+    } 
+    // 上スクロール時は表示する
+    else if (currentScrollY < lastScrollY) {
+        header.classList.remove('scroll-hide');
+    }
+
+    lastScrollY = currentScrollY;
+});
