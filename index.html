@@ -69,6 +69,7 @@
             </select>
             <select id="sortFilter">
                 <option value="default">標準</option>
+                <option value="custom">カスタム（ドラッグ並び替え用）</option>
                 <option value="title">作品名順</option>
                 <option value="author">作者順</option>
                 <option value="favorite">お気に入り順</option>
@@ -77,7 +78,7 @@
         </div>
 
         <div class="admin-link-row" style="text-align: right; margin-top: 12px; font-size: 14px;">
-            <a href="#admin" id="link-admin-view" style="color: #a5b4fc; text-decoration: none; font-weight: bold;">⚙️ オンラインデータ編集・追加</a>
+            <a href="#admin" id="link-admin-view" style="color: #a5b4fc; text-decoration: none; font-weight: bold;">⚙️ データ管理・書籍追加画面</a>
         </div>
     </div>
 </header>
@@ -100,18 +101,20 @@
     <div id="admin-view" style="display: none; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 10px; color: #222;">
         <button class="back-btn" onclick="goBack()">← マネージャーに戻る</button>
         
-        <h2 style="margin-top: 10px; font-size: 20px; border-bottom: 2px solid #4f46e5; padding-bottom: 8px;">⚙️ GitHubデータ編集・管理画面</h2>
+        <h2 style="margin-top: 10px; font-size: 20px; border-bottom: 2px solid #4f46e5; padding-bottom: 8px;">⚙️ ローカルデータ管理・エクスポート</h2>
         
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 14px;">
-            <h3 style="margin: 0 0 10px 0; font-size: 15px; color: #1e293b;">🔐 GitHub API セキュリティ接続設定</h3>
-            <p style="margin: 0 0 12px 0; color: #64748b; line-height: 1.4;">
-                GitHub Pages上の <code>books.json</code> を安全に直接更新するため、個人アクセストークンを入力してください。<br>
-                ※トークンはあなたのブラウザ（localStorage）にのみ保存され、外部サーバーには送信されません。
+        <div style="background: #eef2ff; border: 1px solid #c7d2fe; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 14px;">
+            <h3 style="margin: 0 0 10px 0; font-size: 15px; color: #4f46e5;">📋 GitHub（books.json）への反映手順</h3>
+            <p style="margin: 0 0 12px 0; color: #374151; line-height: 1.4;">
+                ここで追加・並び替えた最新データをGitHub上の <code>books.json</code> にバックアップします。<br>
+                下のボタンを押して最新のJSONデータをコピーし、GitHubリポジトリの <code>books.json</code> にそのまま上書きペーストして保存（Commit）してください。
             </p>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <input type="password" id="ghToken" placeholder="GitHub 個人アクセストークン (Fine-grained または repo 権限)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
-                <input type="text" id="ghRepo" placeholder="リポジトリパス (例: ユーザー名/リポジトリ名)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
-            </div>
+            <button type="button" onclick="copyJsonToClipboard()" style="padding: 10px 16px; background: #4f46e5; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                📋 最新のJSONデータを一発コピーする
+            </button>
+            <button type="button" onclick="clearLocalChanges()" style="padding: 10px 16px; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-left:10px;">
+                ⚠️ ローカルの変更をリセットして最初から読み直す
+            </button>
         </div>
 
         <h3 style="font-size: 16px; margin-bottom: 12px; color: #1e293b;">📝 新しい作品の追加</h3>
@@ -174,8 +177,8 @@
                 </label>
             </div>
 
-            <button type="button" onclick="addNewBookOnline()" style="padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
-                🚀 GitHubリポジトリへ直接保存（追加コミット）
+            <button type="button" onclick="addNewBookLocal()" style="padding: 12px; background: #10b981; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                ➕ このブラウザのリストに直接追加する
             </button>
         </form>
     </div>
