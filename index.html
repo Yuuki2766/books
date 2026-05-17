@@ -18,6 +18,10 @@
                     <input type="checkbox" id="r18Toggle">
                     セーフモード：<span id="safe-status">ON</span>
                 </label>
+                <label style="margin-left: 15px;">
+                    <input type="checkbox" id="depressToggle" checked>
+                    鬱展開を隠す
+                </label>
             </div>
             <div class="view-mode-btns">
                 <button onclick="changeMainView('list')" id="btn-list-view" class="active">一覧</button>
@@ -48,7 +52,6 @@
                 <option value="電撃コミックス">電撃コミックス</option>
                 <option value="小説家になろう">小説家になろう</option>
                 <option value="カクヨム">カクヨム</option>
-
             </select>
             <select id="genreFilter">
                 <option value="">全ジャンル</option>
@@ -57,11 +60,12 @@
                 <option value="青春">青春</option>
                 <option value="日常">日常</option>
                 <option value="ファンタジー">ファンタジー</option>
-                <option value="ラブコメ">ラブコメ</option>
+                <option value="恋愛">恋愛</option>
                 <option value="ライトノベル">ライトノベル</option>
                 <option value="小説">小説</option>
-                <option valeu="ネット">ネット</option>
+                <option value="ネット">ネット</option>
                 <option value="R18">R18</option>
+                <option value="鬱">鬱</option>
             </select>
             <select id="sortFilter">
                 <option value="default">標準</option>
@@ -70,6 +74,10 @@
                 <option value="favorite">お気に入り順</option>
                 <option value="progress">収集率順</option>
             </select>
+        </div>
+
+        <div class="admin-link-row" style="text-align: right; margin-top: 12px; font-size: 14px;">
+            <a href="#admin" id="link-admin-view" style="color: #a5b4fc; text-decoration: none; font-weight: bold;">⚙️ オンラインデータ編集・追加</a>
         </div>
     </div>
 </header>
@@ -80,7 +88,6 @@
         <div id="book-list"></div>
     </div>
 
-    <!-- ジャンル別縦並び & 横スクロールコンテナ -->
     <div id="slide-view" style="display: none;">
         <div id="genre-rows-container"></div>
     </div>
@@ -88,6 +95,89 @@
     <div id="detail-view" style="display: none;">
         <button class="back-btn" onclick="goBack()">← 一覧に戻る</button>
         <div id="detail-content"></div>
+    </div>
+
+    <div id="admin-view" style="display: none; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 10px; color: #222;">
+        <button class="back-btn" onclick="goBack()">← マネージャーに戻る</button>
+        
+        <h2 style="margin-top: 10px; font-size: 20px; border-bottom: 2px solid #4f46e5; padding-bottom: 8px;">⚙️ GitHubデータ編集・管理画面</h2>
+        
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 14px;">
+            <h3 style="margin: 0 0 10px 0; font-size: 15px; color: #1e293b;">🔐 GitHub API セキュリティ接続設定</h3>
+            <p style="margin: 0 0 12px 0; color: #64748b; line-height: 1.4;">
+                GitHub Pages上の <code>books.json</code> を安全に直接更新するため、個人アクセストークンを入力してください。<br>
+                ※トークンはあなたのブラウザ（localStorage）にのみ保存され、外部サーバーには送信されません。
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <input type="password" id="ghToken" placeholder="GitHub 個人アクセストークン (Fine-grained または repo 権限)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+                <input type="text" id="ghRepo" placeholder="リポジトリパス (例: ユーザー名/リポジトリ名)" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box;">
+            </div>
+        </div>
+
+        <h3 style="font-size: 16px; margin-bottom: 12px; color: #1e293b;">📝 新しい作品の追加</h3>
+        <form id="add-book-form" style="display: flex; flex-direction: column; gap: 12px; max-width: 500px;">
+            <div>
+                <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">タイトル *</label>
+                <input type="text" id="new-title" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">作者</label>
+                    <input type="text" id="new-author" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">イラストレーター</label>
+                    <input type="text" id="new-illustrator" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">レーベル・出版社</label>
+                    <input type="text" id="new-publisher" placeholder="例: カクヨム, ガガガ文庫" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">ジャンル (スラッシュ区切り)</label>
+                    <input type="text" id="new-genre" placeholder="例: 青春/ライトノベル" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">既刊・所持巻数 (カンマ区切り)</label>
+                    <input type="text" id="new-owned" placeholder="例: 1, 2, 3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">総巻数</label>
+                    <input type="number" id="new-total" value="1" min="1" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+            </div>
+            <div>
+                <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">あらすじ</label>
+                <textarea id="new-summary" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-family:sans-serif; box-sizing: border-box;"></textarea>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">PDF/TXTのURLパス</label>
+                    <input type="text" id="new-pdf" placeholder="例: pdfs/filename.txt" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">作品の公式URL</label>
+                    <input type="text" id="new-info" placeholder="例: https://kakuyomu.jp/..." style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 20px; margin: 5px 0;">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="new-depress"> 鬱展開属性を付与
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="new-favorite"> 最初からお気に入りに登録
+                </label>
+            </div>
+
+            <button type="button" onclick="addNewBookOnline()" style="padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+                🚀 GitHubリポジトリへ直接保存（追加コミット）
+            </button>
+        </form>
     </div>
 </main>
 
