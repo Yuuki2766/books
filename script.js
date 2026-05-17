@@ -1,22 +1,31 @@
 let books = [];
-let currentMainView = 'list'; // 'list' または 'slide'
+let currentMainView = 'list'; 
 let savedScrollPosition = 0;   // 戻るボタン用のスクロール位置保持変数
+let draggedItemIndex = null;   // ドラッグ＆ドロップ用
 
-// データの読み込み
-fetch('books.json')
-    .then(res => res.json())
-    .then(data => {
-        books = data;
-        applyFilters(); 
-        checkRoute();
-    });
+// データの読み込み（localStorageにローカル変更データがあればそれを最優先する）
+const localSavedData = localStorage.getItem('local_books_data');
+if (localSavedData) {
+    books = JSON.parse(localSavedData);
+    applyFilters(); 
+    checkRoute();
+} else {
+    fetch('books.json')
+        .then(res => res.json())
+        .then(data => {
+            books = data;
+            applyFilters(); 
+            checkRoute();
+        }).catch(err => {
+            alert("books.json のロードに失敗しました。ファイルパスを確認してください。");
+        });
+}
 
 window.addEventListener('hashchange', checkRoute);
 
 function checkRoute() {
     const hash = window.location.hash;
     if (hash.startsWith('#detail/')) {
-        // 詳細を開く前に現在のスクロール位置を記憶（既に詳細や管理を開いている場合は上書きしない）
         if (document.getElementById('detail-view').style.display === 'none' && 
             document.getElementById('admin-view').style.display === 'none') {
             savedScrollPosition = window.scrollY;
@@ -27,7 +36,6 @@ function checkRoute() {
         const book = books.find(b => b.title === title && b.publisher === publisher);
         if (book) showDetail(book); else showList();
     } else if (hash === '#admin') {
-        // 管理画面を開く前に現在のスクロール位置を記憶
         if (document.getElementById('detail-view').style.display === 'none' && 
             document.getElementById('admin-view').style.display === 'none') {
             savedScrollPosition = window.scrollY;
@@ -44,7 +52,7 @@ function showList() {
     document.getElementById('main-header').style.display = 'block';
     changeMainView(currentMainView);
 
-    // 一覧に戻った後、元のスクロール位置をミリ秒のズレを挟んで復元
+    // スクロール位置を10ms後に正確に復元
     setTimeout(() => {
         window.scrollTo(0, savedScrollPosition);
     }, 10);
@@ -56,10 +64,6 @@ function showAdmin() {
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('admin-view').style.display = 'block';
-    
-    // 画面を開いた際、localStorageに保存されたトークン・リポジトリ情報があれば自動でセット
-    if (localStorage.getItem('gh_token')) document.getElementById('ghToken').value = localStorage.getItem('gh_token');
-    if (localStorage.getItem('gh_repo')) document.getElementById('ghRepo').value = localStorage.getItem('gh_repo');
 }
 
 function changeMainView(mode) {
@@ -82,7 +86,7 @@ function applyFilters() {
     const genFilter = document.getElementById('genreFilter');
     const sortFilter = document.getElementById('sortFilter');
     const r18Toggle = document.getElementById('r18Toggle');
-    const depressToggle = document.getElementById('depressToggle'); // 鬱展開トグル
+    const depressToggle = document.getElementById('depressToggle'); 
 
     if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
 
@@ -95,14 +99,16 @@ function applyFilters() {
     const safeStatusLabel = document.getElementById('safe-status');
     if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
 
-    const hideDepressing = depressToggle ? depressToggle.checked : false; // 鬱トグルの状態（trueなら隠す）
+    const hideDepressing = depressToggle ? depressToggle.checked : false;
 
-    let filtered = books.filter(book => {
-        // R18セーフモードフィルター
+    // ソート処理の前に、参照用インデックスを付与した一時オブジェクト配列を作成
+    let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
+
+    let filtered = indexedBooks.filter(item => {
+        const book = item.book;
         const isR18 = book.genre && book.genre.includes('R18');
         if (isSafeMode && isR18) return false;
 
-        // 鬱展開フィルター（プロパティが存在するか、もしくはジャンル文字列に「鬱」があるか）
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
         if (hideDepressing && isDepress) return false;
 
@@ -116,69 +122,101 @@ function applyFilters() {
     });
 
     if (sort === 'favorite') {
-        filtered.sort((a, b) => (a.favorite === b.favorite) ? 0 : (a.favorite ? -1 : 1));
+        filtered.sort((a, b) => (a.book.favorite === b.book.favorite) ? 0 : (a.book.favorite ? -1 : 1));
     } else if (sort === 'title') {
         filtered.sort((a, b) => {
-            const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(a.title);
-            const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(b.title);
+            const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(a.book.title);
+            const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(b.book.title);
             if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
-            return a.title.localeCompare(b.title, 'ja');
+            return a.book.title.localeCompare(b.book.title, 'ja');
         });
     } else if (sort === 'author') {
-        filtered.sort((a, b) => a.author.localeCompare(b.author, 'ja'));
+        filtered.sort((a, b) => a.book.author.localeCompare(b.book.author, 'ja'));
     } else if (sort === 'progress') {
-        filtered.sort((a, b) => (b.owned.length / b.total) - (a.owned.length / a.total));
+        filtered.sort((a, b) => (b.book.owned.length / b.book.total) - (a.book.owned.length / a.book.total));
+    } else if (sort === 'custom') {
+        // 並び替え用ソート：元の books 配列の並び順のままにする
+        filtered.sort((a, b) => a.originalIndex - b.originalIndex);
     }
 
     if (currentMainView === 'list') {
-        renderBooks(filtered);
+        renderBooks(filtered, sort === 'custom');
     } else {
-        renderNetflixView(filtered);
+        renderNetflixView(filtered.map(item => item.book));
     }
 }
 
-// 一覧画面の描画
-function renderBooks(list) {
+// 一覧の描画 (お気に入りオンオフボタン、並び替え用のドラッグ属性を追加)
+function renderBooks(list, isCustomSortActive) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
 
-    list.forEach(book => {
+    list.forEach((item) => {
+        const book = item.book;
+        const originalIndex = item.originalIndex;
         const owned = book.owned ? book.owned.length : 0;
         const total = book.total || 1;
         const percent = Math.round((owned / total) * 100);
         
         const illustText = book.illustrator ? ` / 絵: ${book.illustrator}` : '';
-        const webLinkHtml = book.info_url 
-            ? `<span style="margin-left:8px; color:#4f46e5; font-size:12px;">🔗Web</span>` 
-            : '';
+        const webLinkHtml = book.info_url ? `<span style="margin-left:8px; color:#4f46e5; font-size:12px;">🔗Web</span>` : '';
 
         const card = document.createElement('div');
         card.className = 'book-card';
-        card.onclick = () => window.location.hash = `detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}`;
+        
+        // カスタムソート時のみドラッグ可能にする
+        if (isCustomSortActive) {
+            card.draggable = true;
+            card.style.cursor = 'move';
+            card.setAttribute('data-index', originalIndex);
+            
+            card.addEventListener('dragstart', (e) => {
+                draggedItemIndex = originalIndex;
+                card.style.opacity = '0.5';
+            });
+            card.addEventListener('dragend', () => {
+                card.style.opacity = '1';
+                draggedItemIndex = null;
+            });
+            card.addEventListener('dragover', (e) => e.preventDefault());
+            card.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (draggedItemIndex !== null && draggedItemIndex !== originalIndex) {
+                    // 配列内の順序を入れ替える
+                    const movedItem = books.splice(draggedItemIndex, 1)[0];
+                    books.splice(originalIndex, 0, movedItem);
+                    saveToLocalStorage();
+                    applyFilters();
+                }
+            });
+        }
 
+        // お気に入りスターをクリックした際に他への遷移を止めて反転保存する
         card.innerHTML = `
             <div class="card-content">
-                <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
-                <div class="book-info" style="flex:1;">
-                    <div class="book-title">
-                        ${book.favorite ? '⭐ ' : ''}${book.title}${webLinkHtml}
-                    </div>
-                    <div class="meta">${book.publisher} / ${book.author}${illustText}</div>
-                    <div class="tag">${book.genre}</div>
-                    <div class="progress-container" style="width: 100%;">
-                        <div class="progress-text">${owned}/${total}巻 (${percent}%)</div>
-                        <div class="progress" style="width: 100%; background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;">
-                            <div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div>
+                <div class="fav-star-btn" style="cursor:pointer; font-size:22px; padding:0 10px 0 0;" onclick="toggleFavoriteInline(event, ${originalIndex})">
+                    ${book.favorite ? '⭐' : '☆'}
+                </div>
+                <div class="card-clickable-area" style="flex:1; display:flex;" onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'">
+                    <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
+                    <div class="book-info" style="flex:1;">
+                        <div class="book-title">${book.title}${webLinkHtml}</div>
+                        <div class="meta">${book.publisher} / ${book.author}${illustText}</div>
+                        <div class="tag">${book.genre}</div>
+                        <div class="progress-container" style="width: 100%;">
+                            <div class="progress-text">${owned}/${total}巻 (${percent}%)</div>
+                            <div class="progress" style="width: 100%; background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;">
+                                <div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>`;
         container.appendChild(card);
     });
-    updateSummary(list);
+    updateSummary(list.map(item => item.book));
 }
 
-// スライド画面の描画（「鬱」ターゲットジャンルを追加）
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
@@ -186,12 +224,10 @@ function renderNetflixView(list) {
     const genreMap = {};
     
     list.forEach(book => {
-        // 通常のジャンル切り出しに加えて、isDepressingプロパティがあれば「鬱」ジャンルにも配属させる
         const bookGenres = book.genre ? book.genre.split(/[・/]/) : ["その他"];
         if (book.isDepressing && !bookGenres.includes("鬱")) {
             bookGenres.push("鬱");
         }
-
         targetGenres.forEach(target => {
             if (bookGenres.some(bg => bg.includes(target))) {
                 if (!genreMap[target]) genreMap[target] = [];
@@ -240,11 +276,17 @@ function showDetail(book) {
         ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
         : '';
 
+    // 詳細画面のタイトル横にもお気に入り切り替えを設置
+    const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher);
+
     document.getElementById('detail-content').innerHTML = `
         <div class="detail-container">
             <img src="${book.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
             <div class="detail-info">
-                <h2>${book.favorite ? '⭐ ' : ''}${book.title}</h2>
+                <h2 style="display:flex; align-items:center; gap:10px;">
+                    <span id="detail-fav-star" style="cursor:pointer;" onclick="toggleFavoriteInline(event, ${originalIndex}, true)">${book.favorite ? '⭐' : '☆'}</span>
+                    ${book.title}
+                </h2>
                 <div class="meta-info">
                     <p class="meta"><strong>著者:</strong> ${book.author}</p>
                     ${book.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${book.illustrator}</p>` : ''}
@@ -280,11 +322,20 @@ function updateSummary(list) {
 
 function goBack() { window.location.hash = ''; }
 
-// ★新規追加：GitHub APIを利用して books.json に新規書籍データをオンラインコミットする関数
-async function addNewBookOnline() {
-    const token = document.getElementById('ghToken').value.trim();
-    const repo = document.getElementById('ghRepo').value.trim(); // "ユーザー名/リポジトリ名"
-    
+// 【お気に入りオンオフ反転処理】
+function toggleFavoriteInline(event, index, isDetail = false) {
+    event.stopPropagation(); // 親カードのonclickイベント発火を止める
+    books[index].favorite = !books[index].favorite;
+    saveToLocalStorage();
+    if (isDetail) {
+        document.getElementById('detail-fav-star').textContent = books[index].favorite ? '⭐' : '☆';
+    } else {
+        applyFilters();
+    }
+}
+
+// 【ローカルでの書籍新規追加】
+function addNewBookLocal() {
     const title = document.getElementById('new-title').value.trim();
     const author = document.getElementById('new-author').value.trim();
     const illustrator = document.getElementById('new-illustrator').value.trim();
@@ -299,16 +350,11 @@ async function addNewBookOnline() {
     const isDepressing = document.getElementById('new-depress').checked;
     const favorite = document.getElementById('new-favorite').checked;
 
-    if (!token || !repo || !title) {
-        alert('GitHub接続設定（トークン・リポジトリ）と作品タイトルは必須入力項目です。');
+    if (!title) {
+        alert('作品タイトルは必須です。');
         return;
     }
 
-    // 次回入力の手間を省くため、接続情報をローカルストレージへ保存
-    localStorage.setItem('gh_token', token);
-    localStorage.setItem('gh_repo', repo);
-
-    // 所持巻数の文字列入力を数値の配列 [1, 2, 3] に変換
     let ownedArray = [1];
     if (ownedInput !== "") {
         ownedArray = ownedInput.split(',').map(item => {
@@ -317,7 +363,6 @@ async function addNewBookOnline() {
         });
     }
 
-    // JSONスキーマに沿った新しい本オブジェクトを組み立て
     const newBook = {
         title: title,
         author: author,
@@ -327,68 +372,49 @@ async function addNewBookOnline() {
         owned: ownedArray,
         total: parseInt(totalInput, 10) || 1,
         summary: summary,
-        image: "", // 新設時は空文字
+        image: "", 
         favorite: favorite,
         isDepressing: isDepressing,
         pdf_url: pdf_url,
         info_url: info_url
     };
 
-    // 既存のローカル配列の末尾に結合し、整形されたJSON文字列を生成
-    const updatedBooks = [...books, newBook];
-    const jsonString = JSON.stringify(updatedBooks, null, 2);
+    books.push(newBook);
+    saveToLocalStorage();
+    
+    alert(`「${title}」をマネージャーに追加しました！`);
+    document.getElementById('add-book-form').reset();
+    applyFilters();
+    window.location.hash = ''; // 一覧へ自動で戻る
+}
 
-    try {
-        const fileUrl = `https://api.github.com/repos/${repo}/contents/books.json`;
-        
-        // 1. GitHub API から既存の books.json の SHA（バージョンファイル識別子）を取得
-        const resGet = await fetch(fileUrl, {
-            headers: { 'Authorization': `token ${token}` }
-        });
-        if (!resGet.ok) throw new Error('books.json の取得に失敗しました。リポジトリパスまたはトークンを確認してください。');
-        const fileData = await resGet.json();
-        const sha = fileData.sha;
+// 【クリップボードへのJSON一括コピー】
+function copyJsonToClipboard() {
+    const jsonString = JSON.stringify(books, null, 2);
+    navigator.clipboard.writeText(jsonString).then(() => {
+        alert('最新のJSONデータをクリップボードにコピーしました！\nGitHubの books.json にそのまま貼り付けて保存してください。');
+    }).catch(err => {
+        alert('コピーに失敗しました。お使いのブラウザの権限を確認してください。');
+    });
+}
 
-        // 2. 新しいJSON文字列をUTF-8を維持しながらBase64にエンコードしてPUT（コミット）送信
-        const utf8Bytes = new TextEncoder().encode(jsonString);
-        const base64Content = btoa(String.fromCharCode(...utf8Bytes));
-
-        const resPut = await fetch(fileUrl, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `token ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: `Add new book: "${title}" via Web Admin`,
-                content: base64Content,
-                sha: sha
-            })
-        });
-
-        if (resPut.ok) {
-            alert(`「${title}」をGitHubに直接保存しました！\nPagesへの反映（数分）を待たずに、現在の画面上にも即時追加反映されます。`);
-            books = updatedBooks; // メモリ上のデータを更新
-            document.getElementById('add-book-form').reset();
-            applyFilters();
-            window.location.hash = ''; // 一覧画面に自動で戻る
-        } else {
-            const errLog = await resPut.json();
-            alert('GitHub書き込みエラー: ' + errLog.message);
-        }
-    } catch (err) {
-        alert('エラーが発生しました: ' + err.message);
+// 【データのブラウザ保存・初期化ユーティリティ】
+function saveToLocalStorage() {
+    localStorage.setItem('local_books_data', JSON.stringify(books));
+}
+function clearLocalChanges() {
+    if (confirm('ローカルの変更をすべて削除し、元の books.json を再読込しますか？\n（コピーしていない追加分は消えてしまいます）')) {
+        localStorage.removeItem('local_books_data');
+        location.reload();
     }
 }
 
-// 各種イベントリスナーの設定
+// 各種イベントリスナー
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('publisherFilter').addEventListener('change', applyFilters);
 document.getElementById('genreFilter').addEventListener('change', applyFilters);
 document.getElementById('sortFilter').addEventListener('change', applyFilters);
-
 const r18Toggle = document.getElementById('r18Toggle');
 if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
-
 const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
