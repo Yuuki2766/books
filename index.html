@@ -29,6 +29,13 @@
             </div>
         </div>
 
+        <div style="margin: 10px 0; background: #333; padding: 8px; border-radius: 8px; display: inline-block;">
+            <label style="cursor: pointer; font-weight: bold; color: #f43f5e;">
+                <input type="checkbox" id="editModeToggle" onchange="applyFilters()"> 
+                🛠️ 並び替え・お気に入り編集モードを有効にする
+            </label>
+        </div>
+
         <div class="select-row">
             <select id="publisherFilter">
                 <option value="">全出版社</option>
@@ -69,7 +76,6 @@
             </select>
             <select id="sortFilter">
                 <option value="default">標準</option>
-                <option value="custom">カスタム（ドラッグ並び替え用）</option>
                 <option value="title">作品名順</option>
                 <option value="author">作者順</option>
                 <option value="favorite">お気に入り順</option>
@@ -78,7 +84,7 @@
         </div>
 
         <div class="admin-link-row" style="text-align: right; margin-top: 12px; font-size: 14px;">
-            <a href="#admin" id="link-admin-view" style="color: #a5b4fc; text-decoration: none; font-weight: bold;">⚙️ データ管理・書籍追加画面</a>
+            <a href="#admin" id="link-admin-view" style="color: #a5b4fc; text-decoration: none; font-weight: bold;">⚙️ 新規書籍の追加・エクスポート画面</a>
         </div>
     </div>
 </header>
@@ -106,8 +112,8 @@
         <div style="background: #eef2ff; border: 1px solid #c7d2fe; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 14px;">
             <h3 style="margin: 0 0 10px 0; font-size: 15px; color: #4f46e5;">📋 GitHub（books.json）への反映手順</h3>
             <p style="margin: 0 0 12px 0; color: #374151; line-height: 1.4;">
-                ここで追加・並び替えた最新データをGitHub上の <code>books.json</code> にバックアップします。<br>
-                下のボタンを押して最新のJSONデータをコピーし、GitHubリポジトリの <code>books.json</code> にそのまま上書きペーストして保存（Commit）してください。
+                ここで追加・編集・並び替えた最新データをGitHubに保存します。<br>
+                下のボタンを押して最新のJSONデータをコピーし、GitHubの <code>books.json</code> に上書き保存（Commit）してください。
             </p>
             <button type="button" onclick="copyJsonToClipboard()" style="padding: 10px 16px; background: #4f46e5; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
                 📋 最新のJSONデータを一発コピーする
