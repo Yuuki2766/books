@@ -1,9 +1,9 @@
 let books = [];
 let currentMainView = 'list'; 
-let savedScrollPosition = 0;   // 戻るボタン用のスクロール位置保持変数
-let draggedItemIndex = null;   // ドラッグ＆ドロップ用
+let savedScrollPosition = 0;   
+let draggedItemIndex = null;   
 
-// データの読み込み（localStorageにローカル変更データがあればそれを最優先する）
+// データの読み込み（localStorage最優先）
 const localSavedData = localStorage.getItem('local_books_data');
 if (localSavedData) {
     books = JSON.parse(localSavedData);
@@ -17,7 +17,7 @@ if (localSavedData) {
             applyFilters(); 
             checkRoute();
         }).catch(err => {
-            alert("books.json のロードに失敗しました。ファイルパスを確認してください。");
+            alert("books.json のロードに失敗しました。");
         });
 }
 
@@ -52,7 +52,6 @@ function showList() {
     document.getElementById('main-header').style.display = 'block';
     changeMainView(currentMainView);
 
-    // スクロール位置を10ms後に正確に復元
     setTimeout(() => {
         window.scrollTo(0, savedScrollPosition);
     }, 10);
@@ -87,6 +86,7 @@ function applyFilters() {
     const sortFilter = document.getElementById('sortFilter');
     const r18Toggle = document.getElementById('r18Toggle');
     const depressToggle = document.getElementById('depressToggle'); 
+    const editModeToggle = document.getElementById('editModeToggle'); // 編集モード状態
 
     if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
 
@@ -94,6 +94,7 @@ function applyFilters() {
     const publisher = pubFilter.value;
     const genre = genFilter.value;
     const sort = sortFilter.value;
+    const isEditMode = editModeToggle ? editModeToggle.checked : false;
     
     const isSafeMode = r18Toggle ? !r18Toggle.checked : false;
     const safeStatusLabel = document.getElementById('safe-status');
@@ -101,7 +102,7 @@ function applyFilters() {
 
     const hideDepressing = depressToggle ? depressToggle.checked : false;
 
-    // ソート処理の前に、参照用インデックスを付与した一時オブジェクト配列を作成
+    // ソートやフィルタ前の一番の根っこのインデックスを持たせる
     let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
 
     let filtered = indexedBooks.filter(item => {
@@ -121,33 +122,34 @@ function applyFilters() {
         return matchText && matchPub && matchGen;
     });
 
-    if (sort === 'favorite') {
-        filtered.sort((a, b) => (a.book.favorite === b.book.favorite) ? 0 : (a.book.favorite ? -1 : 1));
-    } else if (sort === 'title') {
-        filtered.sort((a, b) => {
-            const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(a.book.title);
-            const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(b.book.title);
-            if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
-            return a.book.title.localeCompare(b.book.title, 'ja');
-        });
-    } else if (sort === 'author') {
-        filtered.sort((a, b) => a.book.author.localeCompare(b.book.author, 'ja'));
-    } else if (sort === 'progress') {
-        filtered.sort((a, b) => (b.book.owned.length / b.book.total) - (a.book.owned.length / a.book.total));
-    } else if (sort === 'custom') {
-        // 並び替え用ソート：元の books 配列の並び順のままにする
+    // 編集（並び替え）モードがONの時はソートを無効化（元配列順固定）してドラッグを破綻させない
+    if (isEditMode) {
         filtered.sort((a, b) => a.originalIndex - b.originalIndex);
+    } else {
+        if (sort === 'favorite') {
+            filtered.sort((a, b) => (a.book.favorite === b.book.favorite) ? 0 : (a.book.favorite ? -1 : 1));
+        } else if (sort === 'title') {
+            filtered.sort((a, b) => {
+                const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(a.book.title);
+                const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(b.book.title);
+                if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
+                return a.book.title.localeCompare(b.book.title, 'ja');
+            });
+        } else if (sort === 'author') {
+            filtered.sort((a, b) => a.book.author.localeCompare(b.book.author, 'ja'));
+        } else if (sort === 'progress') {
+            filtered.sort((a, b) => (b.book.owned.length / b.book.total) - (a.book.owned.length / a.book.total));
+        }
     }
 
     if (currentMainView === 'list') {
-        renderBooks(filtered, sort === 'custom');
+        renderBooks(filtered, isEditMode);
     } else {
         renderNetflixView(filtered.map(item => item.book));
     }
 }
 
-// 一覧の描画 (お気に入りオンオフボタン、並び替え用のドラッグ属性を追加)
-function renderBooks(list, isCustomSortActive) {
+function renderBooks(list, isEditMode) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
 
@@ -164,15 +166,16 @@ function renderBooks(list, isCustomSortActive) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        // カスタムソート時のみドラッグ可能にする
-        if (isCustomSortActive) {
+        // ★ 編集モードスイッチがONの時だけ、ドラッグ関連のリスナーを有効化して移動可能にする
+        if (isEditMode) {
             card.draggable = true;
             card.style.cursor = 'move';
+            card.style.border = '2px dashed #f43f5e'; // 編集状態だとわかりやすくする枠線
             card.setAttribute('data-index', originalIndex);
             
             card.addEventListener('dragstart', (e) => {
                 draggedItemIndex = originalIndex;
-                card.style.opacity = '0.5';
+                card.style.opacity = '0.4';
             });
             card.addEventListener('dragend', () => {
                 card.style.opacity = '1';
@@ -182,7 +185,6 @@ function renderBooks(list, isCustomSortActive) {
             card.addEventListener('drop', (e) => {
                 e.preventDefault();
                 if (draggedItemIndex !== null && draggedItemIndex !== originalIndex) {
-                    // 配列内の順序を入れ替える
                     const movedItem = books.splice(draggedItemIndex, 1)[0];
                     books.splice(originalIndex, 0, movedItem);
                     saveToLocalStorage();
@@ -191,13 +193,22 @@ function renderBooks(list, isCustomSortActive) {
             });
         }
 
-        // お気に入りスターをクリックした際に他への遷移を止めて反転保存する
+        // 通常時は全体クリックで詳細へ。編集モード時は星のタップのみ受け付ける
+        const clickAction = isEditMode 
+            ? "" 
+            : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
+
+        // 編集モードONの時だけ星を表示し、誤タップを防ぐ
+        const starHtml = isEditMode 
+            ? `<div class="fav-star-btn" style="cursor:pointer; font-size:24px; padding:0 15px 0 0; z-index:10;" onclick="toggleFavoriteInline(event, ${originalIndex})">
+                ${book.favorite ? '⭐' : '☆'}
+               </div>`
+            : (book.favorite ? `<div style="font-size:18px; padding:0 10px 0 0;">⭐</div>` : `<div style="width:28px;"></div>`);
+
         card.innerHTML = `
-            <div class="card-content">
-                <div class="fav-star-btn" style="cursor:pointer; font-size:22px; padding:0 10px 0 0;" onclick="toggleFavoriteInline(event, ${originalIndex})">
-                    ${book.favorite ? '⭐' : '☆'}
-                </div>
-                <div class="card-clickable-area" style="flex:1; display:flex;" onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'">
+            <div class="card-content" ${clickAction} style="display:flex; align-items:center; width:100%;">
+                ${starHtml}
+                <div style="flex:1; display:flex;">
                     <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
                     <div class="book-info" style="flex:1;">
                         <div class="book-title">${book.title}${webLinkHtml}</div>
@@ -276,7 +287,6 @@ function showDetail(book) {
         ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
         : '';
 
-    // 詳細画面のタイトル横にもお気に入り切り替えを設置
     const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher);
 
     document.getElementById('detail-content').innerHTML = `
@@ -322,9 +332,8 @@ function updateSummary(list) {
 
 function goBack() { window.location.hash = ''; }
 
-// 【お気に入りオンオフ反転処理】
 function toggleFavoriteInline(event, index, isDetail = false) {
-    event.stopPropagation(); // 親カードのonclickイベント発火を止める
+    event.stopPropagation(); 
     books[index].favorite = !books[index].favorite;
     saveToLocalStorage();
     if (isDetail) {
@@ -334,7 +343,6 @@ function toggleFavoriteInline(event, index, isDetail = false) {
     }
 }
 
-// 【ローカルでの書籍新規追加】
 function addNewBookLocal() {
     const title = document.getElementById('new-title').value.trim();
     const author = document.getElementById('new-author').value.trim();
@@ -385,31 +393,28 @@ function addNewBookLocal() {
     alert(`「${title}」をマネージャーに追加しました！`);
     document.getElementById('add-book-form').reset();
     applyFilters();
-    window.location.hash = ''; // 一覧へ自動で戻る
+    window.location.hash = ''; 
 }
 
-// 【クリップボードへのJSON一括コピー】
 function copyJsonToClipboard() {
     const jsonString = JSON.stringify(books, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
         alert('最新のJSONデータをクリップボードにコピーしました！\nGitHubの books.json にそのまま貼り付けて保存してください。');
     }).catch(err => {
-        alert('コピーに失敗しました。お使いのブラウザの権限を確認してください。');
+        alert('コピーに失敗しました。');
     });
 }
 
-// 【データのブラウザ保存・初期化ユーティリティ】
 function saveToLocalStorage() {
     localStorage.setItem('local_books_data', JSON.stringify(books));
 }
 function clearLocalChanges() {
-    if (confirm('ローカルの変更をすべて削除し、元の books.json を再読込しますか？\n（コピーしていない追加分は消えてしまいます）')) {
+    if (confirm('ローカルの変更をすべて削除し、元の books.json を再読込しますか？')) {
         localStorage.removeItem('local_books_data');
         location.reload();
     }
 }
 
-// 各種イベントリスナー
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('publisherFilter').addEventListener('change', applyFilters);
 document.getElementById('genreFilter').addEventListener('change', applyFilters);
