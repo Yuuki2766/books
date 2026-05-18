@@ -1,642 +1,380 @@
-let books = [];
-let currentMainView = 'list'; 
-let savedScrollPosition = 0;   
-let draggedItemIndex = null;   
-
-// データの読み込み
-const localSavedData = localStorage.getItem('local_books_data');
-if (localSavedData) {
-    books = JSON.parse(localSavedData);
-    applyFilters(); 
-    checkRoute();
-} else {
-    fetch('books.json')
-        .then(res => res.json())
-        .then(data => {
-            books = data;
-            applyFilters(); 
-            checkRoute();
-        }).catch(err => {
-            alert("books.json のロードに失敗しました。");
-        });
-}
-
-window.addEventListener('hashchange', checkRoute);
-
-function checkRoute() {
-    const hash = window.location.hash;
-    if (hash.startsWith('#detail/')) {
-        if (document.getElementById('detail-view').style.display === 'none' && 
-            document.getElementById('admin-view').style.display === 'none') {
-            savedScrollPosition = window.scrollY;
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>書籍マネージャー</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ⚡ 手動開閉用のヘッダースタイル */
+        #main-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: translateY(0);
+            opacity: 1;
         }
-        const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
-        const publisher = params[0];
-        const title = params[1];
-        const book = books.find(b => b.title === title && b.publisher === publisher);
-        if (book) showDetail(book); else showList();
-    } else if (hash === '#admin') {
-        if (document.getElementById('detail-view').style.display === 'none' && 
-            document.getElementById('admin-view').style.display === 'none') {
-            savedScrollPosition = window.scrollY;
+        /* このクラスがつくと上に引っ込んで完全に消える */
+        #main-header.panel-hide {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none; /* 隠れている時はクリック判定を無効化 */
         }
-        showAdmin();
-    } else {
-        showList();
-    }
-}
 
-function showList() {
-    document.getElementById('detail-view').style.display = 'none';
-    document.getElementById('admin-view').style.display = 'none';
-    document.getElementById('main-header').style.display = 'block';
-    changeMainView(currentMainView);
+        /* ⚡ 検索を開くための浮遊ボタン（画面右下に固定） */
+        #btn-trigger-search {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        #btn-trigger-search:hover {
+            background: #4338ca;
+            transform: scale(1.05);
+        }
 
-    setTimeout(() => {
-        window.scrollTo(0, savedScrollPosition);
-    }, 10);
-}
+        /* 検索を「隠す」ボタンのスタイル */
+        .header-toggle-btn {
+            background: #334155;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            height: 32px;
+            box-sizing: border-box;
+        }
+        .header-toggle-btn:hover {
+            background: #475569;
+        }
 
-function showAdmin() {
-    document.getElementById('detail-view').style.display = 'none';
-    document.getElementById('list-view').style.display = 'none';
-    document.getElementById('slide-view').style.display = 'none';
-    document.getElementById('main-header').style.display = 'none';
-    document.getElementById('admin-view').style.display = 'block';
-}
+        /* スマホでの星マーク周りや編集ボタンのレイアウト微調整 */
+        .card-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 8px;
+        }
+        .fav-star-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+        }
+        .edit-controls-right {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-left: auto;
+            padding-left: 8px;
+        }
+        .order-btn {
+            background: #4b5563;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 32px;
+            height: 32px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .vol-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-function changeMainView(mode) {
-    currentMainView = mode;
-    const isList = mode === 'list';
-    document.getElementById('list-view').style.display = isList ? 'block' : 'none';
-    document.getElementById('slide-view').style.display = isList ? 'none' : 'block';
+        /* 詳細ページ内インライン編集フォーム用の簡易スタイル */
+        .edit-form-container {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .edit-form-container label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #334155;
+        }
+        .edit-form-container input, .edit-form-container textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .edit-form-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        /* ⚡ メディア切り替えタブのスタイル */
+        .media-tab-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        .media-tab-btn {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .media-tab-btn:hover {
+            background: #e2e8f0;
+        }
+        .media-tab-btn.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+
+        /* 一覧カード内のインラインバッジ */
+        .title-badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+            font-weight: bold;
+            color: white;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+<button id="btn-trigger-search" onclick="toggleHeaderPanel()" style="display: none;">
+    🔍 検索・フィルタを開く
+</button>
+
+<header id="main-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h1 style="margin: 0;">📚 書籍マネージャー</h1>
+        <button class="header-toggle-btn" onclick="toggleHeaderPanel()">🔼 検索を隠す</button>
+    </div>
     
-    const btnList = document.getElementById('btn-list-view');
-    const btnSlide = document.getElementById('btn-slide-view');
-    if (btnList) btnList.classList.toggle('active', isList);
-    if (btnSlide) btnSlide.classList.toggle('active', !isList);
-    
-    applyFilters();
-}
-
-function toggleEditModeUi() {
-    const toggle = document.getElementById('editModeToggle');
-    const label = document.getElementById('edit-mode-label');
-    if (!toggle || !label) return;
-
-    if (toggle.checked) {
-        label.style.background = '#f43f5e';
-        label.style.color = '#fff';
-        label.style.borderColor = '#f43f5e';
-    } else {
-        label.style.background = '#333';
-        label.style.color = '#aaa';
-        label.style.borderColor = '#444';
-    }
-    applyFilters();
-}
-
-function applyFilters() {
-    const searchInput = document.getElementById('search');
-    const pubFilter = document.getElementById('publisherFilter');
-    const genFilter = document.getElementById('genreFilter');
-    const sortFilter = document.getElementById('sortFilter');
-    const r18Toggle = document.getElementById('r18Toggle');
-    const depressToggle = document.getElementById('depressToggle'); 
-    const editModeToggle = document.getElementById('editModeToggle'); 
-
-    if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
-
-    const keyword = searchInput.value.toLowerCase();
-    const publisher = pubFilter.value;
-    const genre = genFilter.value;
-    const sort = sortFilter.value;
-    const isEditMode = editModeToggle ? editModeToggle.checked : false;
-    
-    const isSafeMode = r18Toggle ? r18Toggle.checked : false;
-    const safeStatusLabel = document.getElementById('safe-status');
-    if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
-
-    const hideDepressing = depressToggle ? depressToggle.checked : false;
-
-    let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
-
-    let filtered = indexedBooks.filter(item => {
-        const book = item.book;
-        const isR18 = book.genre && book.genre.includes('R18');
+    <div class="filter-group">
+        <input type="text" id="search" placeholder="タイトル・作者で検索">
         
-        if (isSafeMode && isR18) return false;
-
-        const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
-        if (hideDepressing && isDepress) return false;
-
-        const title = book.title || "";
-        const author = book.author || "";
-        const bGenre = book.genre || "";
-        const matchText = title.toLowerCase().includes(keyword) || author.toLowerCase().includes(keyword) || bGenre.toLowerCase().includes(keyword);
-        const matchPub = publisher === '' || book.publisher === publisher;
-        const matchGen = genre === '' || book.genre.includes(genre);
-        return matchText && matchPub && matchGen;
-    });
-
-    if (isEditMode) {
-        filtered.sort((a, b) => a.originalIndex - b.originalIndex);
-    } else {
-        if (sort === 'favorite') {
-            filtered.sort((a, b) => (a.book.favorite === b.book.favorite) ? 0 : (a.book.favorite ? -1 : 1));
-        } else if (sort === 'title') {
-            filtered.sort((a, b) => {
-                const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(a.book.title);
-                const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(b.book.title);
-                if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
-                return a.book.title.localeCompare(b.book.title, 'ja');
-            });
-        } else if (sort === 'author') {
-            filtered.sort((a, b) => a.book.author.localeCompare(b.book.author, 'ja'));
-        } else if (sort === 'progress') {
-            filtered.sort((a, b) => (b.book.owned.length / b.book.total) - (a.book.owned.length / a.book.total));
-        }
-    }
-
-    if (currentMainView === 'list') {
-        renderBooks(filtered, isEditMode);
-    } else {
-        renderNetflixView(filtered.map(item => item.book));
-    }
-}
-
-function renderBooks(list, isEditMode) {
-    const container = document.getElementById('book-list');
-    container.innerHTML = '';
-
-    list.forEach((item) => {
-        const book = item.book;
-        const originalIndex = item.originalIndex;
-        const owned = book.owned ? book.owned.length : 0;
-        const total = book.total || 1;
-        const percent = Math.round((owned / total) * 100);
-        
-        const illustText = book.illustrator ? ` / 絵: ${book.illustrator}` : '';
-        const webLinkHtml = book.info_url ? `<span style="margin-left:8px; color:#4f46e5; font-size:12px;">🔗Web</span>` : '';
-
-        const card = document.createElement('div');
-        card.className = 'book-card';
-        
-        if (isEditMode) {
-            card.draggable = true;
-            card.style.cursor = 'move';
-            card.style.border = '2px dashed rgba(244, 63, 94, 0.4)'; 
-            card.setAttribute('data-index', originalIndex);
-            
-            card.addEventListener('dragstart', (e) => {
-                draggedItemIndex = originalIndex;
-                card.style.opacity = '0.4';
-            });
-            card.addEventListener('dragend', () => {
-                card.style.opacity = '1';
-                draggedItemIndex = null;
-            });
-            card.addEventListener('dragover', (e) => e.preventDefault());
-            card.addEventListener('drop', (e) => {
-                e.preventDefault();
-                if (draggedItemIndex !== null && draggedItemIndex !== originalIndex) {
-                    const movedItem = books.splice(draggedItemIndex, 1)[0];
-                    books.splice(originalIndex, 0, movedItem);
-                    saveToLocalStorage();
-                    applyFilters();
-                }
-            });
-        }
-
-        const clickAction = isEditMode 
-            ? "" 
-            : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
-
-        const starHtml = `
-            <div class="fav-star-container" ${isEditMode ? `onclick="toggleFavoriteInline(event, ${originalIndex})"` : ''} style="cursor:${isEditMode ? 'pointer' : 'default'}; font-size:20px;">
-                ${book.favorite ? '⭐' : (isEditMode ? '☆' : '')}
-            </div>`;
-
-        const progressHtml = isEditMode 
-            ? `<div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
-                <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, -1)">-</button>
-                <span style="font-size:14px; font-weight:bold; color:#222;">所持: ${owned} / 総: ${total}巻</span>
-                <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, 1)">+</button>
-               </div>`
-            : `<div class="progress-container" style="width: 100%;">
-                <div class="progress-text">${owned}/${total}巻 (${percent}%)</div>
-                <div class="progress" style="width: 100%; background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;">
-                    <div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div>
-                </div>
-               </div>`;
-
-        const mobileOrderControls = isEditMode 
-            ? `<div class="edit-controls-right" onclick="event.stopPropagation();">
-                <button class="order-btn" onclick="moveOrderInline(${originalIndex}, -1)">▲</button>
-                <button class="order-btn" onclick="moveOrderInline(${originalIndex}, 1)">▼</button>
-               </div>`
-            : '';
-
-        card.innerHTML = `
-            <div class="card-content" ${clickAction}>
-                ${starHtml}
-                <div style="flex:1; display:flex; min-width:0;">
-                    <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
-                    <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
-                        <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.title}${webLinkHtml}</div>
-                        <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.publisher} / ${book.author}${illustText}</div>
-                        <div class="tag">${book.genre}</div>
-                        ${progressHtml}
-                    </div>
-                </div>
-                ${mobileOrderControls}
-            </div>`;
-        container.appendChild(card);
-    });
-    updateSummary(list.map(item => item.book));
-}
-
-function changeOwnedVolume(event, index, direction) {
-    event.stopPropagation();
-    const book = books[index];
-    if (!book.owned) book.owned = [];
-    if (direction === 1) {
-        const nextVol = book.owned.length + 1;
-        book.owned.push(nextVol);
-        if (book.owned.length > book.total) book.total = book.owned.length;
-    } else if (direction === -1) {
-        if (book.owned.length > 0) book.owned.pop();
-    }
-    saveToLocalStorage();
-    applyFilters();
-}
-
-function moveOrderInline(index, direction) {
-    const targetIndex = index + direction;
-    if (targetIndex < 0 || targetIndex >= books.length) return;
-    const temp = books[index];
-    books[index] = books[targetIndex];
-    books[targetIndex] = temp;
-    saveToLocalStorage();
-    applyFilters();
-}
-
-function renderNetflixView(list) {
-    const container = document.getElementById('genre-rows-container');
-    container.innerHTML = '';
-    const targetGenres = ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "ライトノベル", "漫画", "小説", "ネット", "R18", "鬱"];
-    const genreMap = {};
-    
-    list.forEach(book => {
-        const bookGenres = book.genre ? book.genre.split(/[・/]/) : ["その他"];
-        if (book.isDepressing && !bookGenres.includes("鬱")) {
-            bookGenres.push("鬱");
-        }
-        targetGenres.forEach(target => {
-            if (bookGenres.some(bg => bg.includes(target))) {
-                if (!genreMap[target]) genreMap[target] = [];
-                genreMap[target].push(book);
-            }
-        });
-    });
-
-    const displayGenres = targetGenres.filter(g => genreMap[g]);
-    if (displayGenres.length === 0) {
-        container.innerHTML = '<p style="text-align:center; padding:50px; color:#666;">該当する作品がありません</p>';
-        return;
-    }
-
-    displayGenres.forEach(gName => {
-        const row = document.createElement('div');
-        row.className = 'genre-row';
-        row.innerHTML = `
-            <div class="genre-header"><h3>${gName}</h3></div>
-            <div class="horizontal-scroll">
-                ${genreMap[gName].map(b => `
-                    <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(b.title)}'">
-                        <img src="${b.image || 'https://via.placeholder.com/100x140?text=No+Image'}" loading="lazy">
-                        <div class="mini-title">${b.title}</div>
-                    </div>
-                `).join('')}
-            </div>`;
-        container.appendChild(row);
-    });
-}
-
-function showDetail(book) {
-    document.getElementById('list-view').style.display = 'none';
-    document.getElementById('slide-view').style.display = 'none';
-    document.getElementById('main-header').style.display = 'none';
-    document.getElementById('detail-view').style.display = 'block';
-
-    const ownedCount = book.owned ? book.owned.length : 0;
-    const totalCount = book.total || 1;
-    const percent = Math.round((ownedCount / totalCount) * 100);
-
-    const infoLinkHtml = book.info_url 
-        ? `<p class="meta"><strong>作品URL:</strong> <a href="${book.info_url}" target="_blank" style="color: #4f46e5; text-decoration: underline;">作品ページを開く</a></p>` 
-        : '';
-    const pdfButtonHtml = book.pdf_url 
-        ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
-        : '';
-
-    const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher);
-
-    document.getElementById('detail-content').innerHTML = `
-        <div class="detail-container" id="detail-view-main-card">
-            <img src="${book.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
-            <div class="detail-info">
-                <h2 style="display:flex; align-items:center; gap:10px;">
-                    <span id="detail-fav-star" style="cursor:pointer;" onclick="toggleFavoriteInline(event, ${originalIndex}, true)">${book.favorite ? '⭐' : '☆'}</span>
-                    ${book.title}
-                </h2>
-                <div class="meta-info">
-                    <p class="meta"><strong>著者:</strong> ${book.author}</p>
-                    ${book.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${book.illustrator}</p>` : ''}
-                    <p class="meta"><strong>出版社・レーベル:</strong> ${book.publisher}</p>
-                    <p class="meta"><strong>ジャンル:</strong> ${book.genre}</p>
-                    ${infoLinkHtml}
-                </div>
-                <div class="summary-section">
-                    <h3>あらすじ</h3>
-                    <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
-                </div>
-                <div class="detail-progress">
-                    <p class="meta"><strong>所持状況:</strong> ${ownedCount} / ${totalCount}巻 (${percent}%)</p>
-                    <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
-                    <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned ? book.owned.join(', ') : ''}</p>
-                </div>
-                ${pdfButtonHtml}
-                
-                <button onclick="openInlineEditForm(${originalIndex})" style="background:#0f172a; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">
-                    🛠️ この本の内容を直接編集する
-                </button>
+        <div class="header-controls">
+            <div class="safe-mode-area">
+                <label>
+                    <input type="checkbox" id="r18Toggle">
+                    セーフモード：<span id="safe-status">ON</span>
+                </label>
+                <label style="margin-left: 15px;">
+                    <input type="checkbox" id="depressToggle" checked>
+                    鬱展開を隠す
+                </label>
+            </div>
+            <div class="view-mode-btns">
+                <button onclick="changeMainView('list')" id="btn-list-view" class="active">一覧</button>
+                <button onclick="changeMainView('slide')" id="btn-slide-view">スライド</button>
             </div>
         </div>
-        <div id="inline-edit-form-zone"></div>`;
-}
 
-function openInlineEditForm(index) {
-    const book = books[index];
-    const zone = document.getElementById('inline-edit-form-zone');
-    
-    if (zone.innerHTML !== "") {
-        zone.innerHTML = "";
-        return;
-    }
-
-    zone.innerHTML = `
-        <div class="edit-form-container">
-            <h3 style="margin-top:0; color:#0f172a;">📝 作品情報の直接編集</h3>
+        <div class="select-row">
+            <select id="publisherFilter">
+                <option value="">全出版社</option>
+                <option value="小学館">小学館</option>
+                <option value="集英社">集英社</option>
+                <option value="講談社">講談社</option>
+                <option value="スクウェア・エニックス">スクウェア・エニックス</option>
+                <option value="宝島社">宝島社</option>
+                <option value="オーバーラップ">オーバーラップ</option>
+                <option value="ホビージャパン">ホビージャパン</option>
+                <option value="KADOKAWA">KADOKAWA</option>
+                <option value="電撃文庫">電撃文庫</option>
+                <option value="ガガガ文庫">ガガガ文庫</option>
+                <option value="ファンタジア文庫">ファンタジア文庫</option>
+                <option value="スニーカー文庫">スニーカー文庫</option>
+                <option value="MF文庫J">MF文庫J</option>
+                <option value="ファミ通文庫">ファミ通文庫</option>
+                <option value="GA文庫">GA文庫</option>
+                <option value="メディアワークス文庫">メディアワークス文庫</option>
+                <option value="HJ文庫">HJ文庫</option>
+                <option value="電撃コミックス">電撃コミックス</option>
+                <option value="小説家になろう">小説家になろう</option>
+                <option value="カクヨム">カクヨム</option>
+            </select>
+            <select id="genreFilter">
+                <option value="">全ジャンル</option>
+                <option value="漫画">漫画</option>
+                <option value="推理">推理</option>
+                <option value="青春">青春</option>
+                <option value="日常">日常</option>
+                <option value="ファンタジー">ファンタジー</option>
+                <option value="恋愛">恋愛</option>
+                <option value="ライトノベル">ライトノベル</option>
+                <option value="小説">小説</option>
+                <option value="ネット">ネット</option>
+                <option value="R18">R18</option>
+                <option value="鬱">鬱</option>
+            </select>
+            <select id="sortFilter">
+                <option value="default">標準</option>
+                <option value="title">作品名順</option>
+                <option value="author">作者順</option>
+                <option value="favorite">お気に入り順</option>
+                <option value="progress">収集率順</option>
+            </select>
             
+            <label id="edit-mode-label" style="display: inline-flex; align-items: center; justify-content: center; background: #333; color: #aaa; padding: 0 12px; border-radius: 8px; font-size: 14px; cursor: pointer; border: 1px solid #444; height: 42px; box-sizing: border-box; user-select: none;">
+                <input type="checkbox" id="editModeToggle" onchange="toggleEditModeUi()" style="margin-right: 6px; cursor: pointer;"> 
+                <span>🛠️ 編集</span>
+            </label>
+        </div>
+
+        <div class="admin-link-row" style="text-align: right; margin-top: 12px; font-size: 14px;">
+            <a href="#admin" id="link-admin-view" style="color: #a5b4fc; text-decoration: none; font-weight: bold;">⚙️ 新規書籍の追加・エクスポート画面</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div id="list-view">
+        <div id="summary"></div>
+        <div id="book-list"></div>
+    </div>
+
+    <div id="slide-view" style="display: none;">
+        <div id="genre-rows-container"></div>
+    </div>
+
+    <div id="detail-view" style="display: none;">
+        <button class="back-btn" onclick="goBack()">← 一覧に戻る</button>
+        <div id="detail-content"></div>
+    </div>
+
+    <div id="admin-view" style="display: none; background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 10px; color: #222;">
+        <button class="back-btn" onclick="goBack()">← マネージャーに戻る</button>
+        
+        <h2 style="margin-top: 10px; font-size: 20px; border-bottom: 2px solid #4f46e5; padding-bottom: 8px;">⚙️ ローカルデータ管理・エクスポート</h2>
+        
+        <div style="background: #eef2ff; border: 1px solid #c7d2fe; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 14px;">
+            <h3 style="margin: 0 0 10px 0; font-size: 15px; color: #4f46e5;">📋 GitHub（books.json）への反映手順</h3>
+            <p style="margin: 0 0 12px 0; color: #374151; line-height: 1.4;">
+                ここで追加・並び替えた最新データをGitHubに保存します。<br>
+                下のボタンを押して最新のJSONデータをコピーし、GitHubの <code>books.json</code> に上書き保存（Commit）してください。
+            </p>
+            <button type="button" onclick="copyJsonToClipboard()" style="padding: 10px 16px; background: #4f46e5; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                📋 最新のJSONデータを一発コピーする
+            </button>
+            <button type="button" onclick="clearLocalChanges()" style="padding: 10px 16px; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-left:10px;">
+                ⚠️ ローカルの変更をリセットして最初から読み直す
+            </button>
+        </div>
+
+        <h3 style="font-size: 16px; margin-bottom: 12px; color: #1e293b;">📝 新しい作品の追加</h3>
+        <form id="add-book-form" style="display: flex; flex-direction: column; gap: 12px; max-width: 500px;">
             <div>
-                <label>作品タイトル</label>
-                <input type="text" id="edit-title" value="${book.title || ''}">
+                <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">タイトル *</label>
+                <input type="text" id="new-title" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">作者</label>
+                    <input type="text" id="new-author" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">イラストレーター</label>
+                    <input type="text" id="new-illustrator" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">レーベル・出版社</label>
+                    <input type="text" id="new-publisher" placeholder="例: カクヨム, ガガガ文庫" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">ジャンル (スラッシュ区切り)</label>
+                    <input type="text" id="new-genre" placeholder="例: 青春/ライトノベル" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">既刊・所持巻数 (カンマ区切り)</label>
+                    <input type="text" id="new-owned" placeholder="例: 1, 2, 3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">総巻数</label>
+                    <input type="number" id="new-total" value="1" min="1" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
             </div>
             <div>
-                <label>著者</label>
-                <input type="text" id="edit-author" value="${book.author || ''}">
+                <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">画像ファイルパス</label>
+                <input type="text" id="new-image" placeholder="例: images/cover.jpg" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
             </div>
             <div>
-                <label>イラストレーター</label>
-                <input type="text" id="edit-illustrator" value="${book.illustrator || ''}">
+                <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">あらすじ</label>
+                <textarea id="new-summary" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-family:sans-serif; box-sizing: border-box;"></textarea>
             </div>
-            <div>
-                <label>出版社・レーベル</label>
-                <input type="text" id="edit-publisher" value="${book.publisher || ''}">
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">PDF/TXTのURLパス</label>
+                    <input type="text" id="new-pdf" placeholder="例: pdfs/filename.txt" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">作品の公式URL</label>
+                    <input type="text" id="new-info" placeholder="例: https://kakuyomu.jp/..." style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                </div>
             </div>
-            <div>
-                <label>ジャンル (スラッシュ区切り)</label>
-                <input type="text" id="edit-genre" value="${book.genre || ''}">
-            </div>
-            <div>
-                <label>既刊・所持巻数 (カンマ区切り)</label>
-                <input type="text" id="edit-owned" value="${book.owned ? book.owned.join(', ') : '1'}">
-            </div>
-            <div>
-                <label>総巻数</label>
-                <input type="number" id="edit-total" value="${book.total || 1}">
-            </div>
-            <div>
-                <label>カバー画像ファイルパス</label>
-                <input type="text" id="edit-image" value="${book.image || ''}">
-            </div>
-            <div>
-                <label>あらすじ</label>
-                <textarea id="edit-summary" rows="4">${book.summary || ''}</textarea>
-            </div>
-            <div>
-                <label>PDF/TXT URLパス</label>
-                <input type="text" id="edit-pdf" value="${book.pdf_url || ''}">
-            </div>
-            <div>
-                <label>作品公式URL</label>
-                <input type="text" id="edit-info" value="${book.info_url || ''}">
-            </div>
-            <div style="display:flex; gap:15px; margin: 5px 0;">
-                <label><input type="checkbox" id="edit-depress" ${book.isDepressing ? 'checked' : ''}> 鬱展開属性を付与</label>
+            
+            <div style="display: flex; gap: 20px; margin: 5px 0;">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="new-depress"> 鬱展開属性を付与
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="new-favorite"> 最初からお気に入りに登録
+                </label>
             </div>
 
-            <div class="edit-form-btns">
-                <button onclick="saveInlineEdit(${index})" style="flex:1; background:#10b981; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer;">💾 編集を完了してJSONを取得</button>
-                <button onclick="document.getElementById('inline-edit-form-zone').innerHTML=''" style="background:#ef4444; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer;">キャンセル</button>
-            </div>
-        </div>`;
-    
-    zone.scrollIntoView({ behavior: 'smooth' });
-}
+            <button type="button" onclick="addNewBookLocal()" style="padding: 12px; background: #10b981; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                ➕ このブラウザのリストに直接追加する
+            </button>
+        </form>
+    </div>
+</main>
 
-function saveInlineEdit(index) {
-    const title = document.getElementById('edit-title').value.trim();
-    if (!title) {
-        alert('タイトルは空にできません。');
-        return;
-    }
-
-    const ownedInput = document.getElementById('edit-owned').value.trim();
-    let ownedArray = [];
-    if (ownedInput !== "") {
-        ownedArray = ownedInput.split(',').map(item => {
-            const num = parseFloat(item.trim());
-            return isNaN(num) ? item.trim() : num;
-        });
-    }
-
-    books[index].title = title;
-    books[index].author = document.getElementById('edit-author').value.trim();
-    books[index].illustrator = document.getElementById('edit-illustrator').value.trim();
-    books[index].publisher = document.getElementById('edit-publisher').value.trim();
-    books[index].genre = document.getElementById('edit-genre').value.trim();
-    books[index].owned = ownedArray;
-    books[index].total = parseInt(document.getElementById('edit-total').value, 10) || 1;
-    books[index].image = document.getElementById('edit-image').value.trim();
-    books[index].summary = document.getElementById('edit-summary').value.trim();
-    books[index].pdf_url = document.getElementById('edit-pdf').value.trim();
-    books[index].info_url = document.getElementById('edit-info').value.trim();
-    books[index].isDepressing = document.getElementById('edit-depress').checked;
-
-    saveToLocalStorage();
-    applyFilters();
-    exportCurrentJson();
-    showDetail(books[index]);
-}
-
-function exportCurrentJson() {
-    const jsonString = JSON.stringify(books, null, 2);
-    navigator.clipboard.writeText(jsonString).then(() => {
-        alert('✅ 変更を保存しました！\n\n今までの「すべての追加・編集・並び替え」が含まれた最新の全部入りJSONデータをクリップボードにコピーしました。\nそのまま GitHub の books.json に上書き保存してください！');
-    }).catch(err => {
-        alert('変更は保存されましたが、クリップボードへの自動コピーに失敗しました。管理画面からコピーしてください。');
-    });
-}
-
-function openPdf(url) {
-    if (url.toLowerCase().endsWith('.txt')) {
-        window.open(`viewer.html?file=${encodeURIComponent(url)}`, '_blank');
-    } else {
-        window.open(url, '_blank');
-    }
-}
-
-function updateSummary(list) {
-    const total = list.reduce((sum, b) => sum + (b.owned ? b.owned.length : 0), 0);
-    const summary = document.getElementById('summary');
-    if(summary) summary.textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
-}
-
-function goBack() { window.location.hash = ''; }
-
-function toggleFavoriteInline(event, index, isDetail = false) {
-    event.stopPropagation(); 
-    books[index].favorite = !books[index].favorite;
-    saveToLocalStorage();
-    if (isDetail) {
-        document.getElementById('detail-fav-star').textContent = books[index].favorite ? '⭐' : '☆';
-    } else {
-        applyFilters();
-    }
-}
-
-function addNewBookLocal() {
-    const title = document.getElementById('new-title').value.trim();
-    const author = document.getElementById('new-author').value.trim();
-    const illustrator = document.getElementById('new-illustrator').value.trim();
-    const publisher = document.getElementById('new-publisher').value.trim();
-    const genre = document.getElementById('new-genre').value.trim();
-    const ownedInput = document.getElementById('new-owned').value.trim();
-    const totalInput = document.getElementById('new-total').value;
-    const summary = document.getElementById('new-summary').value.trim();
-    const image = document.getElementById('new-image').value.trim();
-    const pdf_url = document.getElementById('new-pdf').value.trim();
-    const info_url = document.getElementById('new-info').value.trim();
-    
-    const isDepressing = document.getElementById('new-depress').checked;
-    const favorite = document.getElementById('new-favorite').checked;
-
-    if (!title) {
-        alert('作品タイトルは必須です。');
-        return;
-    }
-
-    let ownedArray = [1];
-    if (ownedInput !== "") {
-        ownedArray = ownedInput.split(',').map(item => {
-            const num = parseFloat(item.trim());
-            return isNaN(num) ? item.trim() : num;
-        });
-    }
-
-    const newBook = {
-        title: title,
-        author: author,
-        illustrator: illustrator,
-        publisher: publisher,
-        genre: genre,
-        owned: ownedArray,
-        total: parseInt(totalInput, 10) || 1,
-        summary: summary,
-        image: image, 
-        favorite: favorite,
-        isDepressing: isDepressing,
-        pdf_url: pdf_url,
-        info_url: info_url
-    };
-
-    books.push(newBook);
-    saveToLocalStorage();
-    
-    alert(`「${title}」をマネージャーに追加しました！`);
-    document.getElementById('add-book-form').reset();
-    applyFilters();
-    window.location.hash = ''; 
-}
-
-function copyJsonToClipboard() {
-    const jsonString = JSON.stringify(books, null, 2);
-    navigator.clipboard.writeText(jsonString).then(() => {
-        alert('最新のJSONデータをクリップボードにコピーしました！\nGitHubの books.json にそのまま貼り付けて保存してください。');
-    }).catch(err => {
-        alert('コピーに失敗しました。');
-    });
-}
-
-function saveToLocalStorage() {
-    localStorage.setItem('local_books_data', JSON.stringify(books));
-}
-function clearLocalChanges() {
-    if (confirm('ローカルの変更をすべて削除し、元の books.json を再読込しますか？')) {
-        localStorage.removeItem('local_books_data');
-        location.reload();
-    }
-}
-
-document.getElementById('search').addEventListener('input', applyFilters);
-document.getElementById('publisherFilter').addEventListener('change', applyFilters);
-document.getElementById('genreFilter').addEventListener('change', applyFilters);
-document.getElementById('sortFilter').addEventListener('change', applyFilters);
-const r18Toggle = document.getElementById('r18Toggle');
-if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
-const depressToggle = document.getElementById('depressToggle');
-if (depressToggle) depressToggle.addEventListener('change', applyFilters);
-
-
-// スマートヘッダーロジック（自動スクロール開閉）
-let lastScrollY = window.scrollY;
-
-window.removeEventListener('scroll', handleSmartHeader);
-window.addEventListener('scroll', handleSmartHeader);
-
-function handleSmartHeader() {
-    const header = document.getElementById('main-header');
-    if (!header) return;
-    if (header.style.display === 'none') return;
-
-    const currentScrollY = window.scrollY;
-
-    if (currentScrollY < 50) {
-        header.classList.remove('scroll-hide');
-    } else if (currentScrollY > lastScrollY && currentScrollY > 120) {
-        header.classList.add('scroll-hide');
-    } else if (currentScrollY < lastScrollY) {
-        header.classList.remove('scroll-hide');
-    }
-    lastScrollY = currentScrollY;
-}
-
-
-// ⚡【新設】手動で検索パネルを隠す / 開くトグル関数
-function toggleHeaderPanel() {
-    const header = document.getElementById('main-header');
-    const triggerBtn = document.getElementById('btn-trigger-search');
-    if (!header || !triggerBtn) return;
-
-    // panel-hide クラスを付け外しする
-    const isHidden = header.classList.toggle('panel-hide');
-
-    // ヘッダーが隠れたら浮遊ボタンを表示、ヘッダーが出たら浮遊ボタンを非表示
-    if (isHidden) {
-        triggerBtn.style.display = 'flex';
-    } else {
-        triggerBtn.style.display = 'none';
-    }
-}
+<script src="script.js"></script>
+</body>
+</html>

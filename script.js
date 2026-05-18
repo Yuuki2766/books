@@ -600,7 +600,7 @@ const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
 
 
-// ⚡【修正箇所】スマートヘッダーロジック（関数化して安全にイベント管理）
+// スマートヘッダーロジック（自動スクロール開閉）
 let lastScrollY = window.scrollY;
 
 window.removeEventListener('scroll', handleSmartHeader);
@@ -609,8 +609,6 @@ window.addEventListener('scroll', handleSmartHeader);
 function handleSmartHeader() {
     const header = document.getElementById('main-header');
     if (!header) return;
-
-    // 詳細画面・管理画面に遷移してヘッダーが隠されている場合は、スクロールイベントを無視する
     if (header.style.display === 'none') return;
 
     const currentScrollY = window.scrollY;
@@ -623,4 +621,22 @@ function handleSmartHeader() {
         header.classList.remove('scroll-hide');
     }
     lastScrollY = currentScrollY;
+}
+
+
+// ⚡【新設】手動で検索パネルを隠す / 開くトグル関数
+function toggleHeaderPanel() {
+    const header = document.getElementById('main-header');
+    const triggerBtn = document.getElementById('btn-trigger-search');
+    if (!header || !triggerBtn) return;
+
+    // panel-hide クラスを付け外しする
+    const isHidden = header.classList.toggle('panel-hide');
+
+    // ヘッダーが隠れたら浮遊ボタンを表示、ヘッダーが出たら浮遊ボタンを非表示
+    if (isHidden) {
+        triggerBtn.style.display = 'flex';
+    } else {
+        triggerBtn.style.display = 'none';
+    }
 }
