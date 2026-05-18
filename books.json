@@ -1,5 +1,5 @@
 [
-  { "series": "kuranika",
+  { "series":"kuranika",
     "title": "クラスで2番目に可愛い女の子と友達になった",
     "author": "たかた",
     "illustrator": "長部トム、日向あずり",
@@ -22,7 +22,7 @@
     "image": "images/kuranika.JPG",
     "favorite": true
   },
-  { "series": "kuranika",
+  { "series":"kuranika",
     "title": "クラスで2番目に可愛い女の子と友達になった",
     "author": "たかた",
     "illustrator": "",
@@ -38,7 +38,7 @@
     "pdf_url": "pdfs/クラスで２番目に可愛い女の子と友だちになった - たかた.pdf",
     "info_url": "https://kakuyomu.jp/works/1177354054971779256"
   },
-  { "series": "お隣の天使様",
+  {
     "title": "お隣の天使様にいつの間にか駄目人間にされていた件",
     "author": "佐伯さん",
     "illustrator": "はねこと",
@@ -67,7 +67,7 @@
     "image": "images/otonarinotensisama.JPEG",
     "favorite": true
   },
-  { "series": "お隣の天使様",
+  {
     "title": "お隣の天使様にいつの間にか駄目人間にされていた件",
     "author": "佐伯さん",
     "illustrator": "芝田わん",
@@ -86,7 +86,7 @@
     "image": "images/otonarinotensisamacomic.JPG",
     "favorite": true
   },
-  { "series": "お隣の天使様",
+  {
     "title": "お隣の天使様にいつの間にか駄目人間にされていた件 after the rain",
     "author": "佐伯さん",
     "illustrator": "ぷよ",
@@ -101,7 +101,7 @@
     "image": "images/otonarinotensisamaaftercomic.JPG",
     "favorite": true
   },
-  { "series": "お隣の天使様",
+  {
     "title": "お隣の天使様にいつの間にか駄目人間にされていた件",
     "author": "佐伯さん",
     "illustrator": "",
@@ -133,7 +133,7 @@
     "pdf_url": "pdfs/N6958GK.pdf",
     "info_url": "https://ncode.syosetu.com/n6958gk/"
   },
-  { "series": "家事代行のアルバイト",
+  {
     "title": "家事代行のアルバイトを始めたら学園一の美少女の家族に気に入られちゃいました。",
     "author": "塩本",
     "illustrator": "秋乃える",
@@ -149,7 +149,7 @@
     "pdf_url": "",
     "info_url": ""
   },
-  { "series": "家事代行のアルバイト",
+  {
     "title": "家事代行のアルバイトを始めたら学園一の美少女の家族に気に入られちゃいました。",
     "author": "塩本",
     "illustrator": "",
@@ -165,7 +165,7 @@
     "pdf_url": "pdfs/N8745IF.pdf",
     "info_url": "https://ncode.syosetu.com/n8745if/"
   },
-  { "series": "ぐうなつ",
+  {
     "title": "偶然助けた美少女がなぜか俺に懐いてしまった件について",
     "author": "桜ノ宮天音",
     "illustrator": "うなさか",
@@ -180,7 +180,7 @@
     "image": "images/guunatu.JPG",
     "favorite": true
   },
-  { "series": "ぐうなつ",
+  {
     "title": "偶然助けた美少女がなぜか俺に懐いてしまった件について",
     "author": "桜ノ宮天音",
     "illustrator": "",
