@@ -113,7 +113,7 @@ function applyFilters() {
     const sort = sortFilter.value;
     const isEditMode = editModeToggle ? editModeToggle.checked : false;
     
-    const isSafeMode = r18Toggle ? !r18Toggle.checked : false;
+    const isSafeMode = r18Toggle ? !r18Toggle.checked : true;
     const safeStatusLabel = document.getElementById('safe-status');
     if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
 
