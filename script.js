@@ -3,14 +3,15 @@ let currentMainView = 'list';
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
 
-// データの読み込み
+// ⚡【修正箇所】データの読み込み（キャッシュ対策付きの fetch に変更）
 const localSavedData = localStorage.getItem('local_books_data');
 if (localSavedData) {
     books = JSON.parse(localSavedData);
     applyFilters(); 
     checkRoute();
 } else {
-    fetch('books.json')
+    // 末尾にタイムスタンプを付与してブラウザの古いキャッシュを強制回避
+    fetch('books.json?_=' + new Date().getTime())
         .then(res => res.json())
         .then(data => {
             books = data;
@@ -49,7 +50,15 @@ function checkRoute() {
 function showList() {
     document.getElementById('detail-view').style.display = 'none';
     document.getElementById('admin-view').style.display = 'none';
-    document.getElementById('main-header').style.display = 'block';
+    
+    // ⚡【修正】手動で隠すパネル(panel-hide)が付いていない場合のみ block に戻す
+    const header = document.getElementById('main-header');
+    if (header && !header.classList.contains('panel-hide')) {
+        header.style.display = 'block';
+    } else if (header) {
+        header.style.display = 'block'; // アニメーションのために要素自体は残す
+    }
+    
     changeMainView(currentMainView);
 
     setTimeout(() => {
@@ -610,6 +619,9 @@ function handleSmartHeader() {
     const header = document.getElementById('main-header');
     if (!header) return;
     if (header.style.display === 'none') return;
+    
+    // ⚡【修正】手動で非表示にされている(panel-hide)場合はスクロール追従をスキップ
+    if (header.classList.contains('panel-hide')) return;
 
     const currentScrollY = window.scrollY;
 
