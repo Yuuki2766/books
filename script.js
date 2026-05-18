@@ -30,21 +30,20 @@ function checkRoute() {
             document.getElementById('admin-view').style.display === 'none') {
             savedScrollPosition = window.scrollY;
         }
-        const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
-        const publisher = params[0];
-        const key = params[1].trim(); 
+        
+        // ⚡ パラメータをシンプルにシリーズタグ（またはINDEX_形式）のみに
+        const key = decodeURIComponent(hash.replace('#detail/', '')).trim();
         
         let book;
-        // シリーズ未設定（INDEX_から始まる識別子）の場合はインデックスで特定
         if (key.startsWith('INDEX_')) {
             const idx = parseInt(key.replace('INDEX_', ''), 10);
             book = books[idx];
         } else {
-            // seriesタグ（ローマ字など）で一致する本を検索（空白・大文字小文字を排除して安全に比較）
+            // 純粋にシリーズタグだけで一致する本を検索（大文字小文字・空白を無視）
             const targetKeyClean = key.replace(/\s+/g, "").toLowerCase();
             book = books.find(b => {
                 const bSeriesClean = (b.series || "").replace(/\s+/g, "").toLowerCase();
-                return bSeriesClean === targetKeyClean && (b.publisher || "").trim() === publisher.trim();
+                return bSeriesClean === targetKeyClean;
             });
         }
 
@@ -185,13 +184,11 @@ function applyFilters() {
         if (isEditMode) {
             renderBooks(filtered, isEditMode);
         } else {
-            // ⚡ series識別タグを使ってグループ化を生成
             const grouped = [];
             filtered.forEach(item => {
                 const currentBook = item.book;
                 const rawSeriesTag = currentBook.series ? currentBook.series.trim() : "";
                 
-                // seriesタグが空欄のものはマージせず単発として扱う
                 if (rawSeriesTag === "") {
                     grouped.push({
                         isSingle: true,
@@ -200,6 +197,7 @@ function applyFilters() {
                     });
                 } else {
                     const compareKey = rawSeriesTag.replace(/\s+/g, "").toLowerCase();
+                    // ⚡ 純粋に「シリーズ名（タグ）」だけで同一かチェック
                     let existing = grouped.find(g => {
                         if (g.isSingle) return false;
                         return g.seriesTag.replace(/\s+/g, "").toLowerCase() === compareKey;
@@ -208,11 +206,10 @@ function applyFilters() {
                     if (existing) {
                         existing.variants.push(item);
                     } else {
-                        // ⚡ 新規グループ作成時、表示用タイトルには「最初に見つかったオブジェクトのtitle」を採用する
                         grouped.push({
                             isSingle: false,
                             seriesTag: rawSeriesTag,
-                            displayTitle: currentBook.title, 
+                            displayTitle: currentBook.title, // 最初のtitleを表示用タイトルに採用
                             variants: [item]
                         });
                     }
@@ -292,12 +289,10 @@ function renderGroupedBooks(groupedList) {
     container.innerHTML = '';
 
     groupedList.forEach(group => {
-        // 表示の顔となるメイン本（Web小説以外を優先）
         let primaryItem = group.variants.find(v => !v.book.publisher.includes('なろう') && !v.book.publisher.includes('カクヨム'));
         if (!primaryItem) primaryItem = group.variants[0];
         const book = primaryItem.book;
 
-        // メディア別の識別子バッジ（小説・漫画等）
         const badgesHtml = group.variants.map(v => {
             const media = getMediaType(v.book);
             return `<span class="title-badge" style="background:${media.color}; margin-left:5px; font-size:11px; padding:2px 6px; border-radius:4px; color:#fff; font-weight:bold;">${media.name}</span>`;
@@ -312,9 +307,10 @@ function renderGroupedBooks(groupedList) {
         
         let clickAction = "";
         if (group.isSingle) {
-            clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/INDEX_${group.variants[0].originalIndex}'"`;
+            clickAction = `onclick="window.location.hash = 'detail/INDEX_${group.variants[0].originalIndex}'"`;
         } else {
-            clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(group.seriesTag)}'"`;
+            // ⚡ シリーズ名（タグ）だけで詳細URLを生成
+            clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(group.seriesTag)}'"`;
         }
 
         card.innerHTML = `
@@ -356,7 +352,6 @@ function changeOwnedVolume(event, index, direction) {
     saveToLocalStorage(); applyFilters();
 }
 
-// インライン並び替え（編集時用）
 function moveOrderInline(index, direction) {
     const targetIndex = index + direction;
     if (targetIndex < 0 || targetIndex >= books.length) return;
@@ -398,12 +393,11 @@ function renderNetflixView(list) {
                     let hashUrl = "";
                     if (rawSeriesTag === "") {
                         const origIdx = books.findIndex(orig => orig === b);
-                        hashUrl = `detail/${encodeURIComponent(b.publisher)}/INDEX_${origIdx}`;
+                        hashUrl = `detail/INDEX_${origIdx}`;
                     } else {
-                        hashUrl = `detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(rawSeriesTag)}`;
+                        hashUrl = `detail/${encodeURIComponent(rawSeriesTag)}`;
                     }
 
-                    // ⚡ 横スクロールビュー側も、seriesが同一なら最初の本のタイトルを表示
                     let displayTitle = b.title;
                     if (rawSeriesTag !== "") {
                         const firstMatch = books.find(orig => (orig.series || "").trim() === rawSeriesTag);
@@ -463,7 +457,6 @@ function showDetail(book) {
             tabsHtml += `</div>`;
         }
 
-        // ⚡ シリーズ看板タイトルを取得（バリエーションの最初の作品タイトル）
         const seriesMainTitle = variants[0].title;
 
         document.getElementById('detail-content').innerHTML = `
@@ -484,7 +477,7 @@ function showDetail(book) {
                         <p class="meta"><strong>ジャンル:</strong> ${currentBook.genre}</p>
                         ${infoLinkHtml}
                     </div>
-                    <div class="summary-section"><h3>あらしじ</h3><p class="summary-text">${currentBook.summary || 'あらすじ情報は未登録です。'}</p></div>
+                    <div class="summary-section"><h3>あらすじ</h3><p class="summary-text">${currentBook.summary || 'あらすじ情報は未登録です。'}</p></div>
                     <div class="detail-progress">
                         <p class="meta"><strong>所持状況:</strong> ${ownedCount} / ${totalCount}巻 (${percent}%)</p>
                         <div class="progress" style="background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;"><div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div></div>
