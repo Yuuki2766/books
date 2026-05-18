@@ -31,7 +31,6 @@ function checkRoute() {
             savedScrollPosition = window.scrollY;
         }
         
-        // ⚡ パラメータをシンプルにシリーズタグ（またはINDEX_形式）のみに
         const key = decodeURIComponent(hash.replace('#detail/', '')).trim();
         
         let book;
@@ -39,10 +38,10 @@ function checkRoute() {
             const idx = parseInt(key.replace('INDEX_', ''), 10);
             book = books[idx];
         } else {
-            // 純粋にシリーズタグだけで一致する本を検索（大文字小文字・空白を無視）
+            // 空白・改行を一切排除して、純粋にシリーズ名タグだけで一致する本を検索
             const targetKeyClean = key.replace(/\s+/g, "").toLowerCase();
             book = books.find(b => {
-                const bSeriesClean = (b.series || "").replace(/\s+/g, "").toLowerCase();
+                const bSeriesClean = (b.series ? String(b.series) : "").replace(/\s+/g, "").toLowerCase();
                 return bSeriesClean === targetKeyClean;
             });
         }
@@ -187,17 +186,19 @@ function applyFilters() {
             const grouped = [];
             filtered.forEach(item => {
                 const currentBook = item.book;
-                const rawSeriesTag = currentBook.series ? currentBook.series.trim() : "";
+                // 空白や改行を徹底的に排除した比較用の綺麗なタグを作る
+                const rawSeries = currentBook.series ? String(currentBook.series) : "";
+                const compareKey = rawSeries.replace(/\s+/g, "").toLowerCase();
                 
-                if (rawSeriesTag === "") {
+                // 完全に空っぽ（""）の時だけを単発作品として扱う
+                if (compareKey === "") {
                     grouped.push({
                         isSingle: true,
                         displayTitle: currentBook.title, 
                         variants: [item]
                     });
                 } else {
-                    const compareKey = rawSeriesTag.replace(/\s+/g, "").toLowerCase();
-                    // ⚡ 純粋に「シリーズ名（タグ）」だけで同一かチェック
+                    // 純粋に「空白・改行抜きのシリーズ識別タグ」だけで完全に一致するかチェック
                     let existing = grouped.find(g => {
                         if (g.isSingle) return false;
                         return g.seriesTag.replace(/\s+/g, "").toLowerCase() === compareKey;
@@ -208,8 +209,8 @@ function applyFilters() {
                     } else {
                         grouped.push({
                             isSingle: false,
-                            seriesTag: rawSeriesTag,
-                            displayTitle: currentBook.title, // 最初のtitleを表示用タイトルに採用
+                            seriesTag: rawSeries.trim(), // 表示やハッシュ用に元の文字をトリムして持たせる
+                            displayTitle: currentBook.title, // 最初の本を表示用に
                             variants: [item]
                         });
                     }
@@ -309,7 +310,6 @@ function renderGroupedBooks(groupedList) {
         if (group.isSingle) {
             clickAction = `onclick="window.location.hash = 'detail/INDEX_${group.variants[0].originalIndex}'"`;
         } else {
-            // ⚡ シリーズ名（タグ）だけで詳細URLを生成
             clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(group.seriesTag)}'"`;
         }
 
@@ -389,18 +389,18 @@ function renderNetflixView(list) {
             <div class="genre-header"><h3>${gName}</h3></div>
             <div class="horizontal-scroll">
                 ${genreMap[gName].map(b => {
-                    const rawSeriesTag = b.series ? b.series.trim() : "";
+                    const rawSeries = b.series ? String(b.series).trim() : "";
                     let hashUrl = "";
-                    if (rawSeriesTag === "") {
+                    if (rawSeries === "") {
                         const origIdx = books.findIndex(orig => orig === b);
                         hashUrl = `detail/INDEX_${origIdx}`;
                     } else {
-                        hashUrl = `detail/${encodeURIComponent(rawSeriesTag)}`;
+                        hashUrl = `detail/${encodeURIComponent(rawSeries)}`;
                     }
 
                     let displayTitle = b.title;
-                    if (rawSeriesTag !== "") {
-                        const firstMatch = books.find(orig => (orig.series || "").trim() === rawSeriesTag);
+                    if (rawSeries !== "") {
+                        const firstMatch = books.find(orig => (orig.series ? String(orig.series).trim() : "") === rawSeries);
                         if (firstMatch) displayTitle = firstMatch.title;
                     }
 
@@ -421,13 +421,13 @@ function showDetail(book) {
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
 
-    const rawSeriesTag = book.series ? book.series.trim() : "";
+    const rawSeries = book.series ? String(book.series).trim() : "";
     let variants = [];
-    if (rawSeriesTag === "") {
+    if (rawSeries === "") {
         variants = [book];
     } else {
-        const compareKey = rawSeriesTag.replace(/\s+/g, "").toLowerCase();
-        variants = books.filter(b => (b.series || "").replace(/\s+/g, "").toLowerCase() === compareKey);
+        const compareKey = rawSeries.replace(/\s+/g, "").toLowerCase();
+        variants = books.filter(b => (b.series ? String(b.series) : "").replace(/\s+/g, "").toLowerCase() === compareKey);
     }
     
     let activeSubIndex = variants.findIndex(b => b.publisher === book.publisher && b.title === book.title);
@@ -469,7 +469,7 @@ function showDetail(book) {
                     </h2>
                     ${tabsHtml}
                     <div class="meta-info">
-                        <p class="meta"><strong>シリーズ代表名:</strong> ${rawSeriesTag !== "" ? seriesMainTitle : '（単発作品）'}</p>
+                        <p class="meta"><strong>シリーズ代表名:</strong> ${rawSeries !== "" ? seriesMainTitle : '（単発作品）'}</p>
                         <p class="meta"><strong>分類識別用タグ:</strong> ${currentBook.series || '（未登録）'}</p>
                         <p class="meta"><strong>著者:</strong> ${currentBook.author}</p>
                         ${currentBook.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${currentBook.illustrator}</p>` : ''}
