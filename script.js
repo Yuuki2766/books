@@ -32,11 +32,11 @@ function checkRoute() {
         }
         const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
         const publisher = params[0];
-        const key = params[1].trim(); // series名またはtitle名が入る
+        const key = params[1].trim(); // ここにはシリーズ名（なければタイトル）が入る
         
-        // seriesまたはtitleが一致するものを探す（空白トリムを考慮）
+        // ⚡ ルーティング一致判定もシリーズ名最優先
         const book = books.find(b => 
-            ((b.series || b.title || "").trim() === key || (b.title || "").trim() === key) && 
+            (((b.series || b.title || "").trim() === key)) && 
             (b.publisher || "").trim() === publisher.trim()
         );
         if (book) showDetail(book); else showList();
@@ -186,43 +186,24 @@ function applyFilters() {
         if (isEditMode) {
             renderBooks(filtered, isEditMode);
         } else {
-            // ⚡ シリーズ名の優先紐付けグループ化ロジック
+            // ⚡ 【超シンプル化】シリーズ名があればシリーズ名、なければタイトルだけで純粋にマージ
             const grouped = [];
             
             filtered.forEach(item => {
                 const currentBook = item.book;
-                const bSeries = (currentBook.series || "").trim();
-                const bTitle = (currentBook.title || "").trim();
-                const bAuthor = (currentBook.author || "").trim();
+                const cleanSeries = (currentBook.series && currentBook.series.trim() !== "") 
+                    ? currentBook.series.trim() 
+                    : currentBook.title.trim();
+                const cleanAuthor = (currentBook.author || "").trim();
                 
-                let existing = grouped.find(g => {
-                    if (g.author !== bAuthor) return false;
-                    
-                    // お互いにシリーズ名が設定されているならシリーズ名で厳密比較
-                    if (bSeries !== "" && g.series !== "" && !g.isFallbackSeries) {
-                        return g.series === bSeries;
-                    }
-                    // どちらかが未設定ならタイトルや暫定シリーズ名とクロスチェック
-                    return g.series === bTitle || g.rawTitles.includes(bTitle) || g.rawTitles.includes(bSeries) || (bSeries !== "" && g.series === bSeries);
-                });
+                let existing = grouped.find(g => g.series === cleanSeries && g.author === cleanAuthor);
                 
                 if (existing) {
                     existing.variants.push(item);
-                    if (!existing.rawTitles.includes(bTitle)) {
-                        existing.rawTitles.push(bTitle);
-                    }
-                    // 後から正式なシリーズ名を持ったデータが来たら、グループの一時シリーズ名を正式名に上書き昇格
-                    if (bSeries !== "" && (existing.isFallbackSeries || existing.series === bTitle)) {
-                        existing.series = bSeries;
-                        existing.isFallbackSeries = false;
-                    }
                 } else {
-                    const hasSeries = bSeries !== "";
                     grouped.push({
-                        series: hasSeries ? bSeries : bTitle, 
-                        isFallbackSeries: !hasSeries,        
-                        author: bAuthor,
-                        rawTitles: [bTitle],
+                        series: cleanSeries,
+                        author: cleanAuthor,
                         variants: [item]
                     });
                 }
@@ -341,7 +322,7 @@ function renderGroupedBooks(groupedList) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        // ⚡ 詳細画面ハッシュおよび画面表示名に、決定された正しいグループのシリーズ名(group.series)を固定適用
+        // ⚡ ハッシュリンクと一覧表示のタイトルにグループ共通のシリーズ名（group.series）を完全に固定
         const matchKey = group.series;
         const clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(matchKey)}'"`;
         const displayTitle = group.series;
@@ -450,21 +431,14 @@ function showDetail(book) {
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
 
-    const targetSeries = (book.series || "").trim();
-    const targetTitle = (book.title || "").trim();
+    // ⚡ 【超シンプル化】シリーズ名があれば最優先、なければタイトル。余計なクロス判定を全カット
+    const currentKey = (book.series && book.series.trim() !== "") ? book.series.trim() : book.title.trim();
     const cleanAuthor = (book.author || "").trim();
     
-    // ⚡ 詳細画面内でもシリーズ名最優先でバリエーションを集約
     const variants = books.filter(b => {
-        const bSeries = (b.series || "").trim();
-        const bTitle = (b.title || "").trim();
+        const bKey = (b.series && b.series.trim() !== "") ? b.series.trim() : b.title.trim();
         const bAuthor = (b.author || "").trim();
-        
-        if (bAuthor !== cleanAuthor) return false;
-        if (targetSeries !== "" && bSeries !== "") {
-            return bSeries === targetSeries;
-        }
-        return bTitle === targetTitle || bSeries === targetTitle || bTitle === targetSeries;
+        return bAuthor === cleanAuthor && bKey === currentKey;
     });
     
     let activeSubIndex = variants.findIndex(b => b.publisher === book.publisher);
@@ -498,7 +472,8 @@ function showDetail(book) {
             tabsHtml += `</div>`;
         }
 
-        const displayDetailTitle = currentBook.series 
+        // 詳細トップの大タイトル表記
+        const displayDetailTitle = (currentBook.series && currentBook.series.trim() !== "") 
             ? `<span style="font-size:14px; color:#f43f5e; display:block; font-weight:bold; margin-bottom:4px;">[シリーズ: ${currentBook.series}]</span>${currentBook.title}` 
             : currentBook.title;
 
