@@ -32,9 +32,9 @@ function checkRoute() {
         }
         const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
         const publisher = params[0];
-        const key = params[1].trim(); // series名またはtitle名が渡ってくる
+        const key = params[1].trim(); // series名またはtitle名が入る
         
-        // ⚡ series名（無ければtitle）と出版社（および空白トリム）を考慮して対象データを厳密に検索
+        // seriesまたはtitleが一致するものを探す（空白トリムを考慮）
         const book = books.find(b => 
             ((b.series || b.title || "").trim() === key || (b.title || "").trim() === key) && 
             (b.publisher || "").trim() === publisher.trim()
@@ -155,7 +155,6 @@ function applyFilters() {
         const series = book.series || "";
         const author = book.author || "";
         const bGenre = book.genre || "";
-        // 検索キーワードはシリーズ名も含めて引っかかるように拡張
         const matchText = title.toLowerCase().includes(keyword) || series.toLowerCase().includes(keyword) || author.toLowerCase().includes(keyword) || bGenre.toLowerCase().includes(keyword);
         const matchPub = publisher === '' || book.publisher === publisher;
         const matchGen = genre === '' || book.genre.includes(genre);
@@ -169,7 +168,6 @@ function applyFilters() {
             filtered.sort((a, b) => (a.book.favorite === b.book.favorite) ? 0 : (a.book.favorite ? -1 : 1));
         } else if (sort === 'title') {
             filtered.sort((a, b) => {
-                // ソート基準タイトル（seriesがあれば優先、無ければtitle）
                 const titleA = a.book.series || a.book.title || "";
                 const titleB = b.book.series || b.book.title || "";
                 const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(titleA);
@@ -188,7 +186,7 @@ function applyFilters() {
         if (isEditMode) {
             renderBooks(filtered, isEditMode);
         } else {
-            // ⚡ 通常モード時：シリーズ名（無ければタイトル）と同一作者でマージしてグループ化
+            // 通常モード時：シリーズ名（なければタイトル）かつ同一作者のアイテムをマージしてグループ化
             const grouped = [];
             filtered.forEach(item => {
                 const cleanSeries = (item.book.series || item.book.title || "").trim();
@@ -301,7 +299,7 @@ function renderGroupedBooks(groupedList) {
     container.innerHTML = '';
 
     groupedList.forEach(group => {
-        // GA文庫など「Webサイト以外」があれば優先して代表オブジェクトにする
+        // WEB以外のレーベルがあればそちらの表示（画像や個別タイトル等）を優先代表にする
         let primaryItem = group.variants.find(v => !v.book.publisher.includes('なろう') && !v.book.publisher.includes('カクヨム'));
         if (!primaryItem) {
             primaryItem = group.variants[0];
@@ -321,11 +319,11 @@ function renderGroupedBooks(groupedList) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        // ⚡ 【変更】詳細画面判定キーに共通のシリーズ名（無ければタイトル）を採用
+        // 詳細へ飛ぶリンクの基準キーにシリーズ名（無ければタイトル）を採用
         const matchKey = book.series || book.title;
         const clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(matchKey)}'"`;
 
-        // 表示タイトル自体は、シリーズ名が設定されていればそれをメイン表示
+        // 本棚トップの一覧用表示名：シリーズ名が設定されていればそれをメイン表示
         const displayTitle = book.series || book.title;
 
         card.innerHTML = `
@@ -432,14 +430,24 @@ function showDetail(book) {
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
 
-    // ⚡ 【変更】共通のシリーズ名、もしくはタイトルで全バリエーションを抽出
-    const currentKey = (book.series || book.title || "").trim();
+    // 共通のシリーズ名、もしくはタイトルで全バリエーションを正確に抽出
+    const targetSeries = (book.series || "").trim();
+    const targetTitle = (book.title || "").trim();
     const cleanAuthor = (book.author || "").trim();
     
-    const variants = books.filter(b => 
-        ((b.series || b.title || "").trim() === currentKey || (b.title || "").trim() === currentKey) && 
-        (b.author || "").trim() === cleanAuthor
-    );
+    const variants = books.filter(b => {
+        const bSeries = (b.series || "").trim();
+        const bTitle = (b.title || "").trim();
+        const bAuthor = (b.author || "").trim();
+        
+        if (bAuthor !== cleanAuthor) return false;
+        // 両方にシリーズが定義されていれば最優先でシリーズ比較
+        if (targetSeries !== "" && bSeries !== "") {
+            return bSeries === targetSeries;
+        }
+        // 片方または両方が未設定の場合は後方互換クロスチェック
+        return bTitle === targetTitle || bSeries === targetTitle || bTitle === targetSeries;
+    });
     
     let activeSubIndex = variants.findIndex(b => b.publisher === book.publisher);
     if (activeSubIndex === -1) activeSubIndex = 0;
@@ -457,7 +465,10 @@ function showDetail(book) {
             ? `<button class="read-btn" onclick="openPdf('${currentBook.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
             : '';
 
-        const originalIndex = books.findIndex(b => b.title === currentBook.title && b.publisher === currentBook.publisher);
+        // マスターデータ配列(books)における、現在選択中の個別レーベルの厳密なインデックスを取得
+        const originalIndex = books.findIndex(b => 
+            (b.title === currentBook.title && b.publisher === currentBook.publisher)
+        );
 
         let tabsHtml = '';
         if (variants.length > 1) {
@@ -470,9 +481,9 @@ function showDetail(book) {
             tabsHtml += `</div>`;
         }
 
-        // 表示用のヘッダーテキスト（シリーズがある場合は「シリーズ名：各タイトル」形式にするなど調整可能）
-        const displayDetailTitle = currentBook.series && currentBook.series !== currentBook.title 
-            ? `<span style="font-size:14px; color:#f43f5e; display:block;">${currentBook.series}</span>${currentBook.title}` 
+        // 詳細トップの大型ヘッダータイトル表示
+        const displayDetailTitle = currentBook.series 
+            ? `<span style="font-size:14px; color:#f43f5e; display:block; font-weight:bold; margin-bottom:4px;">[シリーズ: ${currentBook.series}]</span>${currentBook.title}` 
             : currentBook.title;
 
         document.getElementById('detail-content').innerHTML = `
@@ -487,7 +498,7 @@ function showDetail(book) {
                     ${tabsHtml}
 
                     <div class="meta-info">
-                        <p class="meta"><strong>シリーズ名:</strong> ${currentBook.series || '未設定（タイトルと同一視）'}</p>
+                        <p class="meta"><strong>シリーズ名:</strong> ${currentBook.series || currentBook.title}</p>
                         <p class="meta"><strong>個別タイトル:</strong> ${currentBook.title}</p>
                         <p class="meta"><strong>著者:</strong> ${currentBook.author}</p>
                         ${currentBook.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${currentBook.illustrator}</p>` : ''}
@@ -536,10 +547,10 @@ function openInlineEditForm(index) {
             
             <div>
                 <label>シリーズ名（同一シリーズの集約キー）</label>
-                <input type="text" id="edit-series" value="${book.series || ''}" placeholder="空欄の場合はタイトルが適用されます">
+                <input type="text" id="edit-series" value="${book.series || ''}" placeholder="空欄の場合は個別タイトルを代替集約キーにします">
             </div>
             <div>
-                <label>作品タイトル（個別本棚用表示）</label>
+                <label>作品タイトル（個別レーベル用表示）</label>
                 <input type="text" id="edit-title" value="${book.title || ''}">
             </div>
             <div>
@@ -634,7 +645,7 @@ function saveInlineEdit(index) {
 function exportCurrentJson() {
     const jsonString = JSON.stringify(books, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
-        alert('✅ 変更を保存しました！\n\n今までの「すべての追加・編集・並び替え」が含まれた最新の全部入りJSONデータをクリップボードにコピーしました。\nそのまま GitHub の books.json に上書き保存してください！');
+        alert('✅ 変更を保存しました！\n\n最新の全部入りJSONデータをクリップボードにコピーしました。\nそのまま GitHub の books.json に上書き保存してください！');
     }).catch(err => {
         alert('変更は保存されましたが、クリップボードへの自動コピーに失敗しました。管理画面からコピーしてください。');
     });
@@ -718,7 +729,9 @@ function addNewBookLocal() {
     saveToLocalStorage();
     
     alert(`「${title}」をマネージャーに追加しました！`);
-    document.getElementById('add-book-form').reset();
+    if (document.getElementById('add-book-form')) {
+        document.getElementById('add-book-form').reset();
+    }
     applyFilters();
     window.location.hash = ''; 
 }
@@ -735,6 +748,7 @@ function copyJsonToClipboard() {
 function saveToLocalStorage() {
     localStorage.setItem('local_books_data', JSON.stringify(books));
 }
+
 function clearLocalChanges() {
     if (confirm('ローカルの変更をすべて削除し、元の books.json を再読込しますか？')) {
         localStorage.removeItem('local_books_data');
