@@ -30,17 +30,11 @@ function checkRoute() {
             document.getElementById('admin-view').style.display === 'none') {
             savedScrollPosition = window.scrollY;
         }
-        // シリーズ名を取得
-        const seriesName = decodeURIComponent(hash.replace('#detail/', ''));
-        // 該当シリーズに属する本をすべて抽出
-        const seriesGroup = books.filter(b => b.series === seriesName);
-        
-        if (seriesGroup.length > 0) {
-            // グループデータを渡して詳細表示（デフォルトで1つ目の媒体を選択）
-            showDetail(seriesGroup, 0); 
-        } else {
-            showList();
-        }
+        const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
+        const publisher = params[0];
+        const title = params[1];
+        const book = books.find(b => b.title === title && b.publisher === publisher);
+        if (book) showDetail(book); else showList();
     } else if (hash === '#admin') {
         if (document.getElementById('detail-view').style.display === 'none' && 
             document.getElementById('admin-view').style.display === 'none') {
@@ -56,6 +50,8 @@ function showList() {
     document.getElementById('detail-view').style.display = 'none';
     document.getElementById('admin-view').style.display = 'none';
     
+    // display = 'block' を強制すると上の隠す状態とバッティングするため、
+    // ここでは要素自体の存在を担保し、changeMainView に委ねます
     const header = document.getElementById('main-header');
     if (header) header.style.display = ''; 
 
@@ -122,6 +118,7 @@ function applyFilters() {
     const sort = sortFilter.value;
     const isEditMode = editModeToggle ? editModeToggle.checked : false;
     
+    // ⚡【修正箇所】チェックが入っている（true）のときが「セーフモードON」
     const isSafeMode = r18Toggle ? r18Toggle.checked : false;
     const safeStatusLabel = document.getElementById('safe-status');
     if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
@@ -134,6 +131,7 @@ function applyFilters() {
         const book = item.book;
         const isR18 = book.genre && book.genre.includes('R18');
         
+        // ⚡【修正箇所】セーフモードONで、かつR18タグが含まれる作品を除外（falseを返す）
         if (isSafeMode && isR18) return false;
 
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
@@ -167,32 +165,10 @@ function applyFilters() {
         }
     }
 
-    // ★ フィルター後にシリーズ名（series）でグループ化する処理
-    let seriesRenderList = [];
-    let seenSeries = new Set();
-
-    filtered.forEach(item => {
-        const sName = item.book.series || "no-series-" + item.originalIndex;
-        if (!seenSeries.has(sName)) {
-            seenSeries.add(sName);
-            // 同一シリーズに属するフィルター後データを集約
-            const groupItems = filtered.filter(f => (f.book.series && f.book.series === sName) || (!f.book.series && f.originalIndex === item.originalIndex));
-            
-            // 代表として1件目のデータをベースにする
-            seriesRenderList.push({
-                book: item.book,
-                originalIndex: item.originalIndex,
-                groupItems: groupItems // 順序入れ替え等の操作で利用
-            });
-        }
-    });
-
     if (currentMainView === 'list') {
-        renderBooks(seriesRenderList, isEditMode);
+        renderBooks(filtered, isEditMode);
     } else {
-        // Netflix表示側もシリーズ重複を除去して引き渡す
-        const uniqueBooks = seriesRenderList.map(item => item.book);
-        renderNetflixView(uniqueBooks);
+        renderNetflixView(filtered.map(item => item.book));
     }
 }
 
@@ -239,14 +215,9 @@ function renderBooks(list, isEditMode) {
             });
         }
 
-        // ★ クリック時にシリーズ名ベースのハッシュへ遷移するように変更
-        const targetSeries = book.series ? book.series : "no-series";
         const clickAction = isEditMode 
             ? "" 
-            : (book.series 
-                ? `onclick="window.location.hash = 'detail/${encodeURIComponent(book.series)}'"`
-                : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"` // シリーズなし用のフォールバック
-              );
+            : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
 
         const starHtml = `
             <div class="fav-star-container" ${isEditMode ? `onclick="toggleFavoriteInline(event, ${originalIndex})"` : ''} style="cursor:${isEditMode ? 'pointer' : 'default'}; font-size:20px;">
@@ -273,19 +244,13 @@ function renderBooks(list, isEditMode) {
                </div>`
             : '';
 
-        // メディアまとめ表示用のバッジ（例: カクヨム, 角川スニーカー文庫 が統合されている場合に見せる）
-        const hasSeriesGroup = book.series ? books.filter(b => b.series === book.series) : [];
-        const groupBadgeHtml = hasSeriesGroup.length > 1 
-            ? `<span style="margin-left:6px; background:#e0e7ff; color:#4f46e5; font-size:11px; padding:2px 6px; border-radius:4px; font-weight:bold;">他 ${hasSeriesGroup.length - 1}媒体</span>`
-            : '';
-
         card.innerHTML = `
             <div class="card-content" ${clickAction}>
                 ${starHtml}
                 <div style="flex:1; display:flex; min-width:0;">
                     <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
                     <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
-                        <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.title}${webLinkHtml}${groupBadgeHtml}</div>
+                        <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.title}${webLinkHtml}</div>
                         <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.publisher} / ${book.author}${illustText}</div>
                         <div class="tag">${book.genre}</div>
                         ${progressHtml}
@@ -354,32 +319,23 @@ function renderNetflixView(list) {
         row.innerHTML = `
             <div class="genre-header"><h3>${gName}</h3></div>
             <div class="horizontal-scroll">
-                ${genreMap[gName].map(b => {
-                    const hashTarget = b.series ? `detail/${encodeURIComponent(b.series)}` : `detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(b.title)}`;
-                    return `
-                    <div class="mini-card" onclick="window.location.hash='${hashTarget}'">
+                ${genreMap[gName].map(b => `
+                    <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(b.title)}'">
                         <img src="${b.image || 'https://via.placeholder.com/100x140?text=No+Image'}" loading="lazy">
                         <div class="mini-title">${b.title}</div>
                     </div>
-                `}).join('')}
+                `).join('')}
             </div>`;
         container.appendChild(row);
     });
 }
 
-// ★ 引数を (seriesGroup, activeSubIndex) に変更してタブ切り替えに対応
-function showDetail(seriesGroup, activeSubIndex = 0) {
+function showDetail(book) {
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
 
-    // 配列ではない単体データ（旧フォールバック用）が渡ってきた場合のラップ
-    if (!Array.isArray(seriesGroup)) {
-        seriesGroup = [seriesGroup];
-    }
-
-    const book = seriesGroup[activeSubIndex];
     const ownedCount = book.owned ? book.owned.length : 0;
     const totalCount = book.total || 1;
     const percent = Math.round((ownedCount / totalCount) * 100);
@@ -391,43 +347,20 @@ function showDetail(seriesGroup, activeSubIndex = 0) {
         ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
         : '';
 
-    // 全体のマスター配列（books）内における、選択中オブジェクトの本当のインデックス
-    const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher && b.series === book.series);
-
-    // ★ 同一シリーズの媒体選択用タブUIを生成
-    let mediaTabsHtml = '';
-    if (seriesGroup.length > 1) {
-        mediaTabsHtml = `<div class="media-tabs" style="display:flex; gap:8px; margin-bottom:15px; border-bottom:1px solid #e2e8f0; padding-bottom:8px; overflow-x:auto;">`;
-        seriesGroup.forEach((bGroup, idx) => {
-            const isActive = idx === activeSubIndex;
-            const activeStyle = isActive 
-                ? "background:#4f46e5; color:white; font-weight:bold; border-color:#4f46e5;" 
-                : "background:#f1f5f9; color:#475569; border-color:#cbd5e1;";
-            
-            // 安全に対象タブを再レンダリングするイベントを仕込む
-            mediaTabsHtml += `
-                <button onclick="switchDetailMedia('${encodeURIComponent(book.series)}', ${idx})" 
-                        style="padding:6px 12px; border-radius:6px; border:1px solid; cursor:pointer; font-size:13px; white-space:nowrap; ${activeStyle}">
-                    ${bGroup.publisher || 'その他'}
-                </button>`;
-        });
-        mediaTabsHtml += `</div>`;
-    }
+    const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher);
 
     document.getElementById('detail-content').innerHTML = `
         <div class="detail-container" id="detail-view-main-card">
             <img src="${book.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
             <div class="detail-info">
-                ${mediaTabsHtml}
-                <h2 style="display:flex; align-items:center; gap:10px; margin-top:0;">
+                <h2 style="display:flex; align-items:center; gap:10px;">
                     <span id="detail-fav-star" style="cursor:pointer;" onclick="toggleFavoriteInline(event, ${originalIndex}, true)">${book.favorite ? '⭐' : '☆'}</span>
                     ${book.title}
                 </h2>
                 <div class="meta-info">
-                    <p class="meta"><strong>シリーズ名:</strong> ${book.series || '未設定'}</p>
                     <p class="meta"><strong>著者:</strong> ${book.author}</p>
                     ${book.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${book.illustrator}</p>` : ''}
-                    <p class="meta"><strong>出版社・レーベル/媒体:</strong> <span style="background:#e0e7ff; color:#4f46e5; padding:2px 6px; border-radius:4px; font-weight:bold;">${book.publisher}</span></p>
+                    <p class="meta"><strong>出版社・レーベル:</strong> ${book.publisher}</p>
                     <p class="meta"><strong>ジャンル:</strong> ${book.genre}</p>
                     ${infoLinkHtml}
                 </div>
@@ -443,18 +376,11 @@ function showDetail(seriesGroup, activeSubIndex = 0) {
                 ${pdfButtonHtml}
                 
                 <button onclick="openInlineEditForm(${originalIndex})" style="background:#0f172a; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">
-                    🛠️ この媒体（${book.publisher}版）の内容を直接編集する
+                    🛠️ この本の内容を直接編集する
                 </button>
             </div>
         </div>
         <div id="inline-edit-form-zone"></div>`;
-}
-
-// ★ タブを切り替えるためのヘルパー関数
-function switchDetailMedia(encodedSeries, targetSubIndex) {
-    const sName = decodeURIComponent(encodedSeries);
-    const seriesGroup = books.filter(b => b.series === sName);
-    showDetail(seriesGroup, targetSubIndex);
 }
 
 function openInlineEditForm(index) {
@@ -468,12 +394,8 @@ function openInlineEditForm(index) {
 
     zone.innerHTML = `
         <div class="edit-form-container">
-            <h3 style="margin-top:0; color:#0f172a;">📝 作品情報の直接編集 (${book.publisher}版)</h3>
+            <h3 style="margin-top:0; color:#0f172a;">📝 作品情報の直接編集</h3>
             
-            <div>
-                <label>シリーズ識別名 (これが一致する作品がまとめられます)</label>
-                <input type="text" id="edit-series" value="${book.series || ''}">
-            </div>
             <div>
                 <label>作品タイトル</label>
                 <input type="text" id="edit-title" value="${book.title || ''}">
@@ -487,7 +409,7 @@ function openInlineEditForm(index) {
                 <input type="text" id="edit-illustrator" value="${book.illustrator || ''}">
             </div>
             <div>
-                <label>出版社・レーベル/媒体名</label>
+                <label>出版社・レーベル</label>
                 <input type="text" id="edit-publisher" value="${book.publisher || ''}">
             </div>
             <div>
@@ -547,7 +469,6 @@ function saveInlineEdit(index) {
         });
     }
 
-    books[index].series = document.getElementById('edit-series').value.trim();
     books[index].title = title;
     books[index].author = document.getElementById('edit-author').value.trim();
     books[index].illustrator = document.getElementById('edit-illustrator').value.trim();
@@ -564,12 +485,7 @@ function saveInlineEdit(index) {
     saveToLocalStorage();
     applyFilters();
     exportCurrentJson();
-    
-    // 編集完了後、最新のシリーズグループ構成を再取得して、更新した媒体のインデックスで詳細に戻す
-    const currentSeries = books[index].series;
-    const updatedGroup = books.filter(b => b.series === currentSeries);
-    const newSubIndex = updatedGroup.findIndex(b => b.publisher === books[index].publisher && b.title === books[index].title);
-    showDetail(updatedGroup, newSubIndex >= 0 ? newSubIndex : 0);
+    showDetail(books[index]);
 }
 
 function exportCurrentJson() {
@@ -590,10 +506,9 @@ function openPdf(url) {
 }
 
 function updateSummary(list) {
-    // 全データの実冊数をカウント（重複なしの表示リスト用ではなく元の全データ基準など運用に合わせられます）
-    const total = books.reduce((sum, b) => sum + (b.owned ? b.owned.length : 0), 0);
+    const total = list.reduce((sum, b) => sum + (b.owned ? b.owned.length : 0), 0);
     const summary = document.getElementById('summary');
-    if(summary) summary.textContent = `全 ${books.length} 媒体 / 合計 ${total} 冊`;
+    if(summary) summary.textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
 }
 
 function goBack() { window.location.hash = ''; }
@@ -610,7 +525,6 @@ function toggleFavoriteInline(event, index, isDetail = false) {
 }
 
 function addNewBookLocal() {
-    const series = document.getElementById('new-series') ? document.getElementById('new-series').value.trim() : '';
     const title = document.getElementById('new-title').value.trim();
     const author = document.getElementById('new-author').value.trim();
     const illustrator = document.getElementById('new-illustrator').value.trim();
@@ -640,7 +554,6 @@ function addNewBookLocal() {
     }
 
     const newBook = {
-        series: series,
         title: title,
         author: author,
         illustrator: illustrator,
@@ -660,8 +573,7 @@ function addNewBookLocal() {
     saveToLocalStorage();
     
     alert(`「${title}」をマネージャーに追加しました！`);
-    const form = document.getElementById('add-book-form');
-    if (form) form.reset();
+    document.getElementById('add-book-form').reset();
     applyFilters();
     window.location.hash = ''; 
 }
