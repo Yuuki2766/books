@@ -211,19 +211,16 @@ function renderBooks(list, isEditMode) {
             ? "" 
             : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
 
-        // 🌟 スマホのスペース詰めのためのレイアウト改善
         const starHtml = `
             <div class="fav-star-container" ${isEditMode ? `onclick="toggleFavoriteInline(event, ${originalIndex})"` : ''} style="cursor:${isEditMode ? 'pointer' : 'default'}; font-size:20px;">
                 ${book.favorite ? '⭐' : (isEditMode ? '☆' : '')}
             </div>`;
 
-        // 🛠️ 編集モード時はプログレスバー箇所を「巻数カウンター」にする
         const progressHtml = isEditMode 
             ? `<div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
                 <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, -1)">-</button>
                 <span style="font-size:14px; font-weight:bold; color:#222;">所持: ${owned} / 総: ${total}巻</span>
                 <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, 1)">+</button>
-                <span style="font-size:11px; color:#666; margin-left:4px;">(総巻数も自動連動)</span>
                </div>`
             : `<div class="progress-container" style="width: 100%;">
                 <div class="progress-text">${owned}/${total}巻 (${percent}%)</div>
@@ -232,7 +229,6 @@ function renderBooks(list, isEditMode) {
                 </div>
                </div>`;
 
-        // 🛠️ 編集モード時、スマホ用の上下移動矢印ボタンを右端に配置
         const mobileOrderControls = isEditMode 
             ? `<div class="edit-controls-right" onclick="event.stopPropagation();">
                 <button class="order-btn" onclick="moveOrderInline(${originalIndex}, -1)">▲</button>
@@ -259,42 +255,27 @@ function renderBooks(list, isEditMode) {
     updateSummary(list.map(item => item.book));
 }
 
-// ⚡ 【新機能】その場で巻数を追加・削減するロジック
 function changeOwnedVolume(event, index, direction) {
-    event.stopPropagation(); // 詳細画面への遷移を防ぐ
+    event.stopPropagation();
     const book = books[index];
-    
     if (!book.owned) book.owned = [];
-
     if (direction === 1) {
-        // 新しい巻数を追加 (例: 3巻まであれば4を追加)
         const nextVol = book.owned.length + 1;
         book.owned.push(nextVol);
-        // もし総巻数(total)を超えてしまったら自動で総巻数も引き上げる
-        if (book.owned.length > book.total) {
-            book.total = book.owned.length;
-        }
+        if (book.owned.length > book.total) book.total = book.owned.length;
     } else if (direction === -1) {
-        // 最後の巻数を削除
-        if (book.owned.length > 0) {
-            book.owned.pop();
-        }
+        if (book.owned.length > 0) book.owned.pop();
     }
-
     saveToLocalStorage();
     applyFilters();
 }
 
-// ⚡ 【新機能】スマホ用のボタンによる並び替えロジック
 function moveOrderInline(index, direction) {
     const targetIndex = index + direction;
-    if (targetIndex < 0 || targetIndex >= books.length) return; // 範囲外なら処理しない
-
-    // 要素を入れ替える
+    if (targetIndex < 0 || targetIndex >= books.length) return;
     const temp = books[index];
     books[index] = books[targetIndex];
     books[targetIndex] = temp;
-
     saveToLocalStorage();
     applyFilters();
 }
@@ -341,6 +322,7 @@ function renderNetflixView(list) {
     });
 }
 
+// 🌟 詳細表示＆編集フォーム制御ロジック
 function showDetail(book) {
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('slide-view').style.display = 'none';
@@ -361,7 +343,7 @@ function showDetail(book) {
     const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher);
 
     document.getElementById('detail-content').innerHTML = `
-        <div class="detail-container">
+        <div class="detail-container" id="detail-view-main-card">
             <img src="${book.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
             <div class="detail-info">
                 <h2 style="display:flex; align-items:center; gap:10px;">
@@ -371,6 +353,8 @@ function showDetail(book) {
                 <div class="meta-info">
                     <p class="meta"><strong>著者:</strong> ${book.author}</p>
                     ${book.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${book.illustrator}</p>` : ''}
+                    <p class="meta"><strong>出版社・レーベル:</strong> ${book.publisher}</p>
+                    <p class="meta"><strong>ジャンル:</strong> ${book.genre}</p>
                     ${infoLinkHtml}
                 </div>
                 <div class="summary-section">
@@ -383,8 +367,139 @@ function showDetail(book) {
                     <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned ? book.owned.join(', ') : ''}</p>
                 </div>
                 ${pdfButtonHtml}
+                
+                <button onclick="openInlineEditForm(${originalIndex})" style="background:#0f172a; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">
+                    🛠️ この本の内容を直接編集する
+                </button>
+            </div>
+        </div>
+        <div id="inline-edit-form-zone"></div>`;
+}
+
+// ⚡ 【新機能】インライン編集フォームを開く
+function openInlineEditForm(index) {
+    const book = books[index];
+    const zone = document.getElementById('inline-edit-form-zone');
+    
+    // 既にフォームが開いていたら閉じる
+    if (zone.innerHTML !== "") {
+        zone.innerHTML = "";
+        return;
+    }
+
+    zone.innerHTML = `
+        <div class="edit-form-container">
+            <h3 style="margin-top:0; color:#0f172a;">📝 作品情報の直接編集</h3>
+            
+            <div>
+                <label>作品タイトル</label>
+                <input type="text" id="edit-title" value="${book.title || ''}">
+            </div>
+            <div>
+                <label>著者</label>
+                <input type="text" id="edit-author" value="${book.author || ''}">
+            </div>
+            <div>
+                <label>イラストレーター</label>
+                <input type="text" id="edit-illustrator" value="${book.illustrator || ''}">
+            </div>
+            <div>
+                <label>出版社・レーベル</label>
+                <input type="text" id="edit-publisher" value="${book.publisher || ''}">
+            </div>
+            <div>
+                <label>ジャンル (スラッシュ区切り)</label>
+                <input type="text" id="edit-genre" value="${book.genre || ''}">
+            </div>
+            <div>
+                <label>既刊・所持巻数 (カンマ区切り)</label>
+                <input type="text" id="edit-owned" value="${book.owned ? book.owned.join(', ') : '1'}">
+            </div>
+            <div>
+                <label>総巻数</label>
+                <input type="number" id="edit-total" value="${book.total || 1}">
+            </div>
+            <div>
+                <label>カバー画像ファイルパス</label>
+                <input type="text" id="edit-image" value="${book.image || ''}">
+            </div>
+            <div>
+                <label>あらすじ</label>
+                <textarea id="edit-summary" rows="4">${book.summary || ''}</textarea>
+            </div>
+            <div>
+                <label>PDF/TXT URLパス</label>
+                <input type="text" id="edit-pdf" value="${book.pdf_url || ''}">
+            </div>
+            <div>
+                <label>作品公式URL</label>
+                <input type="text" id="edit-info" value="${book.info_url || ''}">
+            </div>
+            <div style="display:flex; gap:15px; margin: 5px 0;">
+                <label><input type="checkbox" id="edit-depress" ${book.isDepressing ? 'checked' : ''}> 鬱展開属性を付与</label>
+            </div>
+
+            <div class="edit-form-btns">
+                <button onclick="saveInlineEdit(${index})" style="flex:1; background:#10b981; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer;">💾 編集を完了してJSONを取得</button>
+                <button onclick="document.getElementById('inline-edit-form-zone').innerHTML=''" style="background:#ef4444; color:white; border:none; padding:12px; border-radius:6px; font-weight:bold; cursor:pointer;">キャンセル</button>
             </div>
         </div>`;
+    
+    // フォーム位置までなめらかにスクロール
+    zone.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ⚡ 【新機能】インライン編集を保存し、ダイレクトに最新JSONを出力ダイアログにする
+function saveInlineEdit(index) {
+    const title = document.getElementById('edit-title').value.trim();
+    if (!title) {
+        alert('タイトルは空にできません。');
+        return;
+    }
+
+    const ownedInput = document.getElementById('edit-owned').value.trim();
+    let ownedArray = [];
+    if (ownedInput !== "") {
+        ownedArray = ownedInput.split(',').map(item => {
+            const num = parseFloat(item.trim());
+            return isNaN(num) ? item.trim() : num;
+        });
+    }
+
+    // データを完全更新
+    books[index].title = title;
+    books[index].author = document.getElementById('edit-author').value.trim();
+    books[index].illustrator = document.getElementById('edit-illustrator').value.trim();
+    books[index].publisher = document.getElementById('edit-publisher').value.trim();
+    books[index].genre = document.getElementById('edit-genre').value.trim();
+    books[index].owned = ownedArray;
+    books[index].total = parseInt(document.getElementById('edit-total').value, 10) || 1;
+    books[index].image = document.getElementById('edit-image').value.trim();
+    books[index].summary = document.getElementById('edit-summary').value.trim();
+    books[index].pdf_url = document.getElementById('edit-pdf').value.trim();
+    books[index].info_url = document.getElementById('edit-info').value.trim();
+    books[index].isDepressing = document.getElementById('edit-depress').checked;
+
+    saveToLocalStorage();
+    
+    // 一覧の状態も裏でフィルター再適用
+    applyFilters();
+
+    // 最新の全データをクリップボードへ一発転送
+    exportCurrentJson();
+
+    // 詳細表示を最新データで再リフレッシュ
+    showDetail(books[index]);
+}
+
+// ⚡ 【新機能】いつでもその場までの全編集を含むJSONを出力＆コピーする
+function exportCurrentJson() {
+    const jsonString = JSON.stringify(books, null, 2);
+    navigator.clipboard.writeText(jsonString).then(() => {
+        alert('✅ 変更を保存しました！\n\n今までの「すべての追加・編集・並び替え」が含まれた最新の全部入りJSONデータをクリップボードにコピーしました。\nそのまま GitHub の books.json に上書き保存してください！');
+    }).catch(err => {
+        alert('変更は保存されましたが、クリップボードへの自動コピーに失敗しました。管理画面からコピーしてください。');
+    });
 }
 
 function openPdf(url) {
