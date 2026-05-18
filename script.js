@@ -211,33 +211,92 @@ function renderBooks(list, isEditMode) {
             ? "" 
             : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
 
-        const starHtml = isEditMode 
-            ? `<div class="fav-star-btn" style="cursor:pointer; font-size:24px; padding:0 15px 0 0; z-index:10;" onclick="toggleFavoriteInline(event, ${originalIndex})">
-                ${book.favorite ? '⭐' : '☆'}
+        // 🌟 スマホのスペース詰めのためのレイアウト改善
+        const starHtml = `
+            <div class="fav-star-container" ${isEditMode ? `onclick="toggleFavoriteInline(event, ${originalIndex})"` : ''} style="cursor:${isEditMode ? 'pointer' : 'default'}; font-size:20px;">
+                ${book.favorite ? '⭐' : (isEditMode ? '☆' : '')}
+            </div>`;
+
+        // 🛠️ 編集モード時はプログレスバー箇所を「巻数カウンター」にする
+        const progressHtml = isEditMode 
+            ? `<div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+                <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, -1)">-</button>
+                <span style="font-size:14px; font-weight:bold; color:#222;">所持: ${owned} / 総: ${total}巻</span>
+                <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, 1)">+</button>
+                <span style="font-size:11px; color:#666; margin-left:4px;">(総巻数も自動連動)</span>
                </div>`
-            : (book.favorite ? `<div style="font-size:18px; padding:0 10px 0 0;">⭐</div>` : `<div style="width:28px;"></div>`);
+            : `<div class="progress-container" style="width: 100%;">
+                <div class="progress-text">${owned}/${total}巻 (${percent}%)</div>
+                <div class="progress" style="width: 100%; background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;">
+                    <div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div>
+                </div>
+               </div>`;
+
+        // 🛠️ 編集モード時、スマホ用の上下移動矢印ボタンを右端に配置
+        const mobileOrderControls = isEditMode 
+            ? `<div class="edit-controls-right" onclick="event.stopPropagation();">
+                <button class="order-btn" onclick="moveOrderInline(${originalIndex}, -1)">▲</button>
+                <button class="order-btn" onclick="moveOrderInline(${originalIndex}, 1)">▼</button>
+               </div>`
+            : '';
 
         card.innerHTML = `
-            <div class="card-content" ${clickAction} style="display:flex; align-items:center; width:100%;">
+            <div class="card-content" ${clickAction}>
                 ${starHtml}
-                <div style="flex:1; display:flex;">
+                <div style="flex:1; display:flex; min-width:0;">
                     <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
-                    <div class="book-info" style="flex:1;">
-                        <div class="book-title">${book.title}${webLinkHtml}</div>
-                        <div class="meta">${book.publisher} / ${book.author}${illustText}</div>
+                    <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
+                        <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.title}${webLinkHtml}</div>
+                        <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.publisher} / ${book.author}${illustText}</div>
                         <div class="tag">${book.genre}</div>
-                        <div class="progress-container" style="width: 100%;">
-                            <div class="progress-text">${owned}/${total}巻 (${percent}%)</div>
-                            <div class="progress" style="width: 100%; background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;">
-                                <div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div>
-                            </div>
-                        </div>
+                        ${progressHtml}
                     </div>
                 </div>
+                ${mobileOrderControls}
             </div>`;
         container.appendChild(card);
     });
     updateSummary(list.map(item => item.book));
+}
+
+// ⚡ 【新機能】その場で巻数を追加・削減するロジック
+function changeOwnedVolume(event, index, direction) {
+    event.stopPropagation(); // 詳細画面への遷移を防ぐ
+    const book = books[index];
+    
+    if (!book.owned) book.owned = [];
+
+    if (direction === 1) {
+        // 新しい巻数を追加 (例: 3巻まであれば4を追加)
+        const nextVol = book.owned.length + 1;
+        book.owned.push(nextVol);
+        // もし総巻数(total)を超えてしまったら自動で総巻数も引き上げる
+        if (book.owned.length > book.total) {
+            book.total = book.owned.length;
+        }
+    } else if (direction === -1) {
+        // 最後の巻数を削除
+        if (book.owned.length > 0) {
+            book.owned.pop();
+        }
+    }
+
+    saveToLocalStorage();
+    applyFilters();
+}
+
+// ⚡ 【新機能】スマホ用のボタンによる並び替えロジック
+function moveOrderInline(index, direction) {
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= books.length) return; // 範囲外なら処理しない
+
+    // 要素を入れ替える
+    const temp = books[index];
+    books[index] = books[targetIndex];
+    books[targetIndex] = temp;
+
+    saveToLocalStorage();
+    applyFilters();
 }
 
 function renderNetflixView(list) {
@@ -412,7 +471,7 @@ function addNewBookLocal() {
 function copyJsonToClipboard() {
     const jsonString = JSON.stringify(books, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
-        alert('最新のJSONデータをクリップボードにコピーしました！\nGitHub of books.json にそのまま貼り付けて保存してください。');
+        alert('最新のJSONデータをクリップボードにコピーしました！\nGitHubの books.json にそのまま貼り付けて保存してください。');
     }).catch(err => {
         alert('コピーに失敗しました。');
     });
@@ -437,27 +496,18 @@ if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
 const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
 
-
-// ⚡ 【新機能】下スクロールで隠れ、上スクロールで現れるスマートヘッダーロジック
+// スマートヘッダーロジック
 let lastScrollY = window.scrollY;
 window.addEventListener('scroll', () => {
     const header = document.getElementById('main-header');
     if (!header) return;
-
     const currentScrollY = window.scrollY;
-
-    // 画面の一番上（バウンス考慮で少し余裕を持たせる）にいるときは必ず出す
     if (currentScrollY < 50) {
         header.classList.remove('scroll-hide');
-    } 
-    // 下スクロール時は隠す（ある程度スクロールが進んでから）
-    else if (currentScrollY > lastScrollY && currentScrollY > 120) {
+    } else if (currentScrollY > lastScrollY && currentScrollY > 120) {
         header.classList.add('scroll-hide');
-    } 
-    // 上スクロール時は表示する
-    else if (currentScrollY < lastScrollY) {
+    } else if (currentScrollY < lastScrollY) {
         header.classList.remove('scroll-hide');
     }
-
     lastScrollY = currentScrollY;
 });
