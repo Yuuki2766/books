@@ -113,7 +113,6 @@ function applyFilters() {
     const sort = sortFilter.value;
     const isEditMode = editModeToggle ? editModeToggle.checked : false;
     
-    // ⚡【修正箇所】チェックが入っている（true）のときが「セーフモードON」
     const isSafeMode = r18Toggle ? r18Toggle.checked : false;
     const safeStatusLabel = document.getElementById('safe-status');
     if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
@@ -126,7 +125,6 @@ function applyFilters() {
         const book = item.book;
         const isR18 = book.genre && book.genre.includes('R18');
         
-        // ⚡【修正箇所】セーフモードONで、かつR18タグが含まれる作品を除外（falseを返す）
         if (isSafeMode && isR18) return false;
 
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
@@ -601,12 +599,22 @@ if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
 const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
 
-// スマートヘッダーロジック
+
+// ⚡【修正箇所】スマートヘッダーロジック（関数化して安全にイベント管理）
 let lastScrollY = window.scrollY;
-window.addEventListener('scroll', () => {
+
+window.removeEventListener('scroll', handleSmartHeader);
+window.addEventListener('scroll', handleSmartHeader);
+
+function handleSmartHeader() {
     const header = document.getElementById('main-header');
     if (!header) return;
+
+    // 詳細画面・管理画面に遷移してヘッダーが隠されている場合は、スクロールイベントを無視する
+    if (header.style.display === 'none') return;
+
     const currentScrollY = window.scrollY;
+
     if (currentScrollY < 50) {
         header.classList.remove('scroll-hide');
     } else if (currentScrollY > lastScrollY && currentScrollY > 120) {
@@ -615,4 +623,4 @@ window.addEventListener('scroll', () => {
         header.classList.remove('scroll-hide');
     }
     lastScrollY = currentScrollY;
-});
+}
