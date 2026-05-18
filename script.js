@@ -115,7 +115,7 @@ function applyFilters() {
     
     const isSafeMode = r18Toggle ? !r18Toggle.checked : false;
     const safeStatusLabel = document.getElementById('safe-status');
-    if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "OFF" : "ON";
+    if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
 
     const hideDepressing = depressToggle ? depressToggle.checked : false;
 
