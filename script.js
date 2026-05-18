@@ -33,7 +33,9 @@ function checkRoute() {
         const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
         const publisher = params[0];
         const title = params[1];
-        const book = books.find(b => b.title === title && b.publisher === publisher);
+        
+        // タイトルと出版社（および空白トリム）を考慮して対象データを厳密に検索
+        const book = books.find(b => (b.title || "").trim() === title.trim() && (b.publisher || "").trim() === publisher.trim());
         if (book) showDetail(book); else showList();
     } else if (hash === '#admin') {
         if (document.getElementById('detail-view').style.display === 'none' && 
@@ -99,7 +101,7 @@ function toggleEditModeUi() {
     applyFilters();
 }
 
-// ⚡ メディア種別を自動判定する内部関数
+// メディア種別を自動判定する内部関数
 function getMediaType(book) {
     const genreStr = book.genre || '';
     const pubStr = book.publisher || '';
@@ -178,16 +180,19 @@ function applyFilters() {
         if (isEditMode) {
             renderBooks(filtered, isEditMode);
         } else {
-            // ⚡ 通常モード時は、同一タイトルかつ同一作者のアイテムをマージしてグループ化
+            // 通常モード時：同一タイトルかつ同一作者のアイテムをマージしてグループ化（空白文字トリム適用）
             const grouped = [];
             filtered.forEach(item => {
-                const existing = grouped.find(g => g.title === item.book.title && g.author === item.book.author);
+                const cleanTitle = (item.book.title || "").trim();
+                const cleanAuthor = (item.book.author || "").trim();
+                
+                const existing = grouped.find(g => g.title === cleanTitle && g.author === cleanAuthor);
                 if (existing) {
                     existing.variants.push(item);
                 } else {
                     grouped.push({
-                        title: item.book.title,
-                        author: item.book.author,
+                        title: cleanTitle,
+                        author: cleanAuthor,
                         variants: [item]
                     });
                 }
@@ -199,7 +204,7 @@ function applyFilters() {
     }
 }
 
-// ⚡ 編集モード(並び替え等)の時に動く、従来型の全展開レンダリング
+// 編集モード(並び替え等)の時に動く、従来型の全展開レンダリング
 function renderBooks(list, isEditMode) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
@@ -280,13 +285,17 @@ function renderBooks(list, isEditMode) {
     updateSummary(list.map(item => item.book));
 }
 
-// ⚡ 通常表示時に動く、グループ統合型のレンダリング関数
+// 通常表示時に動く、グループ統合型のレンダリング関数
 function renderGroupedBooks(groupedList) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
 
     groupedList.forEach(group => {
-        const primaryItem = group.variants[0];
+        // GA文庫など「Webサイト以外」があればそれを優先して代表の表示オブジェクト(primaryItem)にする
+        let primaryItem = group.variants.find(v => !v.book.publisher.includes('なろう') && !v.book.publisher.includes('カクヨム'));
+        if (!primaryItem) {
+            primaryItem = group.variants[0];
+        }
         const book = primaryItem.book;
 
         // 包含する全メディアのインラインバッジ文字列を作る
@@ -302,6 +311,7 @@ function renderGroupedBooks(groupedList) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
+        // 詳細へ飛ぶリンクのバッティング・文字化けを防ぐエンコード処理
         const clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
 
         card.innerHTML = `
@@ -399,14 +409,18 @@ function renderNetflixView(list) {
     });
 }
 
-// ⚡ 詳細表示（同じタイトルのオブジェクトをまとめて内包し、サブタブで内部スイッチする）
+// 詳細表示（同じタイトルのオブジェクトをまとめて内包し、サブタブで内部スイッチする）
 function showDetail(book) {
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
 
-    const variants = books.filter(b => b.title === book.title && b.author === book.author);
+    // トリムした文字列状態で同一タイトル・同一作者の全バリエーションを取得
+    const cleanTitle = (book.title || "").trim();
+    const cleanAuthor = (book.author || "").trim();
+    const variants = books.filter(b => (b.title || "").trim() === cleanTitle && (b.author || "").trim() === cleanAuthor);
+    
     let activeSubIndex = variants.findIndex(b => b.publisher === book.publisher);
     if (activeSubIndex === -1) activeSubIndex = 0;
 
@@ -703,7 +717,7 @@ if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
 const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
 
-// ⚡ ボタン操作による手動ヘッダー開閉コントロール
+// ボタン操作による手動ヘッダー開閉コントロール
 function toggleHeaderPanel() {
     const header = document.getElementById('main-header');
     const triggerBtn = document.getElementById('btn-trigger-search');
