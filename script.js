@@ -49,7 +49,12 @@ function checkRoute() {
 function showList() {
     document.getElementById('detail-view').style.display = 'none';
     document.getElementById('admin-view').style.display = 'none';
-    document.getElementById('main-header').style.display = 'block';
+    
+    // display = 'block' を強制すると上の隠す状態とバッティングするため、
+    // ここでは要素自体の存在を担保し、changeMainView に委ねます
+    const header = document.getElementById('main-header');
+    if (header) header.style.display = ''; 
+
     changeMainView(currentMainView);
 
     setTimeout(() => {
@@ -601,18 +606,19 @@ if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
 const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
 
-// スマートヘッダーロジック
-let lastScrollY = window.scrollY;
-window.addEventListener('scroll', () => {
+function toggleHeaderPanel() {
     const header = document.getElementById('main-header');
+    const triggerBtn = document.getElementById('btn-trigger-search');
     if (!header) return;
-    const currentScrollY = window.scrollY;
-    if (currentScrollY < 50) {
-        header.classList.remove('scroll-hide');
-    } else if (currentScrollY > lastScrollY && currentScrollY > 120) {
-        header.classList.add('scroll-hide');
-    } else if (currentScrollY < lastScrollY) {
-        header.classList.remove('scroll-hide');
+
+    // クラスの付け外しで上にしまうアニメーションを制御
+    const isHidden = header.classList.toggle('panel-hide');
+
+    if (isHidden) {
+        // ヘッダーを隠したとき：画面右下の「🔍 検索・フィルタを開く」ボタンを表示
+        if (triggerBtn) triggerBtn.style.display = 'flex';
+    } else {
+        // ヘッダーを開いたとき：右下の浮遊ボタンを非表示にする
+        if (triggerBtn) triggerBtn.style.display = 'none';
     }
-    lastScrollY = currentScrollY;
-});
+}
