@@ -32,10 +32,13 @@ function checkRoute() {
         }
         const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
         const publisher = params[0];
-        const title = params[1];
+        const key = params[1].trim(); // series名またはtitle名が渡ってくる
         
-        // タイトルと出版社（および空白トリム）を考慮して対象データを厳密に検索
-        const book = books.find(b => (b.title || "").trim() === title.trim() && (b.publisher || "").trim() === publisher.trim());
+        // ⚡ series名（無ければtitle）と出版社（および空白トリム）を考慮して対象データを厳密に検索
+        const book = books.find(b => 
+            ((b.series || b.title || "").trim() === key || (b.title || "").trim() === key) && 
+            (b.publisher || "").trim() === publisher.trim()
+        );
         if (book) showDetail(book); else showList();
     } else if (hash === '#admin') {
         if (document.getElementById('detail-view').style.display === 'none' && 
@@ -149,9 +152,11 @@ function applyFilters() {
         if (hideDepressing && isDepress) return false;
 
         const title = book.title || "";
+        const series = book.series || "";
         const author = book.author || "";
         const bGenre = book.genre || "";
-        const matchText = title.toLowerCase().includes(keyword) || author.toLowerCase().includes(keyword) || bGenre.toLowerCase().includes(keyword);
+        // 検索キーワードはシリーズ名も含めて引っかかるように拡張
+        const matchText = title.toLowerCase().includes(keyword) || series.toLowerCase().includes(keyword) || author.toLowerCase().includes(keyword) || bGenre.toLowerCase().includes(keyword);
         const matchPub = publisher === '' || book.publisher === publisher;
         const matchGen = genre === '' || book.genre.includes(genre);
         return matchText && matchPub && matchGen;
@@ -164,10 +169,13 @@ function applyFilters() {
             filtered.sort((a, b) => (a.book.favorite === b.book.favorite) ? 0 : (a.book.favorite ? -1 : 1));
         } else if (sort === 'title') {
             filtered.sort((a, b) => {
-                const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(a.book.title);
-                const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(b.book.title);
+                // ソート基準タイトル（seriesがあれば優先、無ければtitle）
+                const titleA = a.book.series || a.book.title || "";
+                const titleB = b.book.series || b.book.title || "";
+                const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(titleA);
+                const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(titleB);
                 if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
-                return a.book.title.localeCompare(b.book.title, 'ja');
+                return titleA.localeCompare(titleB, 'ja');
             });
         } else if (sort === 'author') {
             filtered.sort((a, b) => a.book.author.localeCompare(b.book.author, 'ja'));
@@ -180,18 +188,18 @@ function applyFilters() {
         if (isEditMode) {
             renderBooks(filtered, isEditMode);
         } else {
-            // 通常モード時：同一タイトルかつ同一作者のアイテムをマージしてグループ化（空白文字トリム適用）
+            // ⚡ 通常モード時：シリーズ名（無ければタイトル）と同一作者でマージしてグループ化
             const grouped = [];
             filtered.forEach(item => {
-                const cleanTitle = (item.book.title || "").trim();
+                const cleanSeries = (item.book.series || item.book.title || "").trim();
                 const cleanAuthor = (item.book.author || "").trim();
                 
-                const existing = grouped.find(g => g.title === cleanTitle && g.author === cleanAuthor);
+                const existing = grouped.find(g => g.series === cleanSeries && g.author === cleanAuthor);
                 if (existing) {
                     existing.variants.push(item);
                 } else {
                     grouped.push({
-                        title: cleanTitle,
+                        series: cleanSeries,
                         author: cleanAuthor,
                         variants: [item]
                     });
@@ -218,6 +226,7 @@ function renderBooks(list, isEditMode) {
         
         const illustText = book.illustrator ? ` / 絵: ${book.illustrator}` : '';
         const webLinkHtml = book.info_url ? `<span style="margin-left:8px; color:#4f46e5; font-size:12px;">🔗Web</span>` : '';
+        const seriesText = book.series ? `<div style="font-size:11px; color:#f43f5e; font-weight:bold; margin-bottom:2px;">[シリーズ: ${book.series}]</div>` : '';
 
         const card = document.createElement('div');
         card.className = 'book-card';
@@ -272,6 +281,7 @@ function renderBooks(list, isEditMode) {
                 <div style="flex:1; display:flex; min-width:0;">
                     <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
                     <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
+                        ${seriesText}
                         <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.title}${webLinkHtml}</div>
                         <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.publisher} / ${book.author}${illustText}</div>
                         <div class="tag">${book.genre}</div>
@@ -291,7 +301,7 @@ function renderGroupedBooks(groupedList) {
     container.innerHTML = '';
 
     groupedList.forEach(group => {
-        // GA文庫など「Webサイト以外」があればそれを優先して代表の表示オブジェクト(primaryItem)にする
+        // GA文庫など「Webサイト以外」があれば優先して代表オブジェクトにする
         let primaryItem = group.variants.find(v => !v.book.publisher.includes('なろう') && !v.book.publisher.includes('カクヨム'));
         if (!primaryItem) {
             primaryItem = group.variants[0];
@@ -311,8 +321,12 @@ function renderGroupedBooks(groupedList) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        // 詳細へ飛ぶリンクのバッティング・文字化けを防ぐエンコード処理
-        const clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
+        // ⚡ 【変更】詳細画面判定キーに共通のシリーズ名（無ければタイトル）を採用
+        const matchKey = book.series || book.title;
+        const clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(matchKey)}'"`;
+
+        // 表示タイトル自体は、シリーズ名が設定されていればそれをメイン表示
+        const displayTitle = book.series || book.title;
 
         card.innerHTML = `
             <div class="card-content" ${clickAction}>
@@ -323,7 +337,7 @@ function renderGroupedBooks(groupedList) {
                     <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
                     <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
                         <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                            ${book.title}${badgesHtml}
+                            ${displayTitle}${badgesHtml}
                         </div>
                         <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.author}</div>
                         <div class="progress-container" style="width: 100%;">
@@ -398,28 +412,34 @@ function renderNetflixView(list) {
         row.innerHTML = `
             <div class="genre-header"><h3>${gName}</h3></div>
             <div class="horizontal-scroll">
-                ${genreMap[gName].map(b => `
-                    <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(b.title)}'">
+                ${genreMap[gName].map(b => {
+                    const matchKey = b.series || b.title;
+                    return `
+                    <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(matchKey)}'">
                         <img src="${b.image || 'https://via.placeholder.com/100x140?text=No+Image'}" loading="lazy">
-                        <div class="mini-title">${b.title}</div>
+                        <div class="mini-title">${b.series || b.title}</div>
                     </div>
-                `).join('')}
+                `}).join('')}
             </div>`;
         container.appendChild(row);
     });
 }
 
-// 詳細表示（同じタイトルのオブジェクトをまとめて内包し、サブタブで内部スイッチする）
+// 詳細表示（シリーズ名、もしくはタイトルが一致するオブジェクトを集約して内部タブで切り替える）
 function showDetail(book) {
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
 
-    // トリムした文字列状態で同一タイトル・同一作者の全バリエーションを取得
-    const cleanTitle = (book.title || "").trim();
+    // ⚡ 【変更】共通のシリーズ名、もしくはタイトルで全バリエーションを抽出
+    const currentKey = (book.series || book.title || "").trim();
     const cleanAuthor = (book.author || "").trim();
-    const variants = books.filter(b => (b.title || "").trim() === cleanTitle && (b.author || "").trim() === cleanAuthor);
+    
+    const variants = books.filter(b => 
+        ((b.series || b.title || "").trim() === currentKey || (b.title || "").trim() === currentKey) && 
+        (b.author || "").trim() === cleanAuthor
+    );
     
     let activeSubIndex = variants.findIndex(b => b.publisher === book.publisher);
     if (activeSubIndex === -1) activeSubIndex = 0;
@@ -450,18 +470,25 @@ function showDetail(book) {
             tabsHtml += `</div>`;
         }
 
+        // 表示用のヘッダーテキスト（シリーズがある場合は「シリーズ名：各タイトル」形式にするなど調整可能）
+        const displayDetailTitle = currentBook.series && currentBook.series !== currentBook.title 
+            ? `<span style="font-size:14px; color:#f43f5e; display:block;">${currentBook.series}</span>${currentBook.title}` 
+            : currentBook.title;
+
         document.getElementById('detail-content').innerHTML = `
             <div class="detail-container" id="detail-view-main-card">
                 <img src="${currentBook.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
                 <div class="detail-info">
-                    <h2 style="display:flex; align-items:center; gap:10px;">
-                        <span id="detail-fav-star" style="cursor:pointer;" onclick="toggleFavoriteInline(event, ${originalIndex}, true)">${currentBook.favorite ? '⭐' : '☆'}</span>
-                        ${currentBook.title}
+                    <h2 style="display:block; align-items:center; gap:10px; margin-top:0;">
+                        <span id="detail-fav-star" style="cursor:pointer; margin-right:8px;" onclick="toggleFavoriteInline(event, ${originalIndex}, true)">${currentBook.favorite ? '⭐' : '☆'}</span>
+                        ${displayDetailTitle}
                     </h2>
                     
                     ${tabsHtml}
 
                     <div class="meta-info">
+                        <p class="meta"><strong>シリーズ名:</strong> ${currentBook.series || '未設定（タイトルと同一視）'}</p>
+                        <p class="meta"><strong>個別タイトル:</strong> ${currentBook.title}</p>
                         <p class="meta"><strong>著者:</strong> ${currentBook.author}</p>
                         ${currentBook.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${currentBook.illustrator}</p>` : ''}
                         <p class="meta"><strong>出版社・レーベル:</strong> ${currentBook.publisher}</p>
@@ -508,7 +535,11 @@ function openInlineEditForm(index) {
             <h3 style="margin-top:0; color:#0f172a;">📝 作品情報の直接編集</h3>
             
             <div>
-                <label>作品タイトル</label>
+                <label>シリーズ名（同一シリーズの集約キー）</label>
+                <input type="text" id="edit-series" value="${book.series || ''}" placeholder="空欄の場合はタイトルが適用されます">
+            </div>
+            <div>
+                <label>作品タイトル（個別本棚用表示）</label>
                 <input type="text" id="edit-title" value="${book.title || ''}">
             </div>
             <div>
@@ -580,6 +611,7 @@ function saveInlineEdit(index) {
         });
     }
 
+    books[index].series = document.getElementById('edit-series').value.trim();
     books[index].title = title;
     books[index].author = document.getElementById('edit-author').value.trim();
     books[index].illustrator = document.getElementById('edit-illustrator').value.trim();
@@ -636,6 +668,7 @@ function toggleFavoriteInline(event, index, isDetail = false) {
 }
 
 function addNewBookLocal() {
+    const series = document.getElementById('new-series') ? document.getElementById('new-series').value.trim() : '';
     const title = document.getElementById('new-title').value.trim();
     const author = document.getElementById('new-author').value.trim();
     const illustrator = document.getElementById('new-illustrator').value.trim();
@@ -665,6 +698,7 @@ function addNewBookLocal() {
     }
 
     const newBook = {
+        series: series,
         title: title,
         author: author,
         illustrator: illustrator,
