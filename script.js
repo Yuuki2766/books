@@ -113,7 +113,8 @@ function applyFilters() {
     const sort = sortFilter.value;
     const isEditMode = editModeToggle ? editModeToggle.checked : false;
     
-    const isSafeMode = r18Toggle ? !r18Toggle.checked : false;
+    // ⚡【修正箇所】チェックが入っている（true）のときが「セーフモードON」
+    const isSafeMode = r18Toggle ? r18Toggle.checked : false;
     const safeStatusLabel = document.getElementById('safe-status');
     if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
 
@@ -124,6 +125,8 @@ function applyFilters() {
     let filtered = indexedBooks.filter(item => {
         const book = item.book;
         const isR18 = book.genre && book.genre.includes('R18');
+        
+        // ⚡【修正箇所】セーフモードONで、かつR18タグが含まれる作品を除外（falseを返す）
         if (isSafeMode && isR18) return false;
 
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
@@ -322,7 +325,6 @@ function renderNetflixView(list) {
     });
 }
 
-// 🌟 詳細表示＆編集フォーム制御ロジック
 function showDetail(book) {
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('slide-view').style.display = 'none';
@@ -376,12 +378,10 @@ function showDetail(book) {
         <div id="inline-edit-form-zone"></div>`;
 }
 
-// ⚡ 【新機能】インライン編集フォームを開く
 function openInlineEditForm(index) {
     const book = books[index];
     const zone = document.getElementById('inline-edit-form-zone');
     
-    // 既にフォームが開いていたら閉じる
     if (zone.innerHTML !== "") {
         zone.innerHTML = "";
         return;
@@ -445,11 +445,9 @@ function openInlineEditForm(index) {
             </div>
         </div>`;
     
-    // フォーム位置までなめらかにスクロール
     zone.scrollIntoView({ behavior: 'smooth' });
 }
 
-// ⚡ 【新機能】インライン編集を保存し、ダイレクトに最新JSONを出力ダイアログにする
 function saveInlineEdit(index) {
     const title = document.getElementById('edit-title').value.trim();
     if (!title) {
@@ -466,7 +464,6 @@ function saveInlineEdit(index) {
         });
     }
 
-    // データを完全更新
     books[index].title = title;
     books[index].author = document.getElementById('edit-author').value.trim();
     books[index].illustrator = document.getElementById('edit-illustrator').value.trim();
@@ -481,18 +478,11 @@ function saveInlineEdit(index) {
     books[index].isDepressing = document.getElementById('edit-depress').checked;
 
     saveToLocalStorage();
-    
-    // 一覧の状態も裏でフィルター再適用
     applyFilters();
-
-    // 最新の全データをクリップボードへ一発転送
     exportCurrentJson();
-
-    // 詳細表示を最新データで再リフレッシュ
     showDetail(books[index]);
 }
 
-// ⚡ 【新機能】いつでもその場までの全編集を含むJSONを出力＆コピーする
 function exportCurrentJson() {
     const jsonString = JSON.stringify(books, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
