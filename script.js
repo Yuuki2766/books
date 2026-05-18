@@ -30,15 +30,20 @@ function checkRoute() {
             document.getElementById('admin-view').style.display === 'none') {
             savedScrollPosition = window.scrollY;
         }
+        // ⚡ パラメータを「#detail/著者名/シリーズ名(またはタイトル)」に変更して確実に紐付け
         const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
-        const publisher = params[0];
-        const key = params[1].trim(); // ここにはシリーズ名（なければタイトル）が入る
+        if (params.length < 2) { showList(); return; }
         
-        // ⚡ ルーティング一致判定もシリーズ名最優先
-        const book = books.find(b => 
-            (((b.series || b.title || "").trim() === key)) && 
-            (b.publisher || "").trim() === publisher.trim()
-        );
+        const authorKey = params[0].trim();
+        const seriesKey = params[1].trim(); 
+        
+        // 該当するグループの最初の1冊を代表として見つける
+        const book = books.find(b => {
+            const bKey = (b.series && b.series.trim() !== "") ? b.series.trim() : b.title.trim();
+            const bAuthor = (b.author || "").trim();
+            return bAuthor === authorKey && bKey === seriesKey;
+        });
+
         if (book) showDetail(book); else showList();
     } else if (hash === '#admin') {
         if (document.getElementById('detail-view').style.display === 'none' && 
@@ -170,9 +175,6 @@ function applyFilters() {
             filtered.sort((a, b) => {
                 const titleA = a.book.series || a.book.title || "";
                 const titleB = b.book.series || b.book.title || "";
-                const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(titleA);
-                const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(titleB);
-                if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
                 return titleA.localeCompare(titleB, 'ja');
             });
         } else if (sort === 'author') {
@@ -186,7 +188,7 @@ function applyFilters() {
         if (isEditMode) {
             renderBooks(filtered, isEditMode);
         } else {
-            // ⚡ 【超シンプル化】シリーズ名があればシリーズ名、なければタイトルだけで純粋にマージ
+            // ⚡ シリーズ名（なければタイトル）と著者名で綺麗にグループ化
             const grouped = [];
             
             filtered.forEach(item => {
@@ -215,7 +217,6 @@ function applyFilters() {
     }
 }
 
-// 編集モード(並び替え等)の時に動く、従来型の全展開レンダリング
 function renderBooks(list, isEditMode) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
@@ -225,7 +226,6 @@ function renderBooks(list, isEditMode) {
         const originalIndex = item.originalIndex;
         const owned = book.owned ? book.owned.length : 0;
         const total = book.total || 1;
-        const percent = Math.round((owned / total) * 100);
         
         const illustText = book.illustrator ? ` / 絵: ${book.illustrator}` : '';
         const webLinkHtml = book.info_url ? `<span style="margin-left:8px; color:#4f46e5; font-size:12px;">🔗Web</span>` : '';
@@ -240,7 +240,7 @@ function renderBooks(list, isEditMode) {
             card.style.border = '2px dashed rgba(244, 63, 94, 0.4)'; 
             card.setAttribute('data-index', originalIndex);
             
-            card.addEventListener('dragstart', (e) => {
+            card.addEventListener('dragstart', () => {
                 draggedItemIndex = originalIndex;
                 card.style.opacity = '0.4';
             });
@@ -261,7 +261,6 @@ function renderBooks(list, isEditMode) {
         }
 
         const clickAction = "";
-
         const starHtml = `
             <div class="fav-star-container" onclick="toggleFavoriteInline(event, ${originalIndex})" style="cursor:pointer; font-size:20px;">
                 ${book.favorite ? '⭐' : '☆'}
@@ -298,7 +297,6 @@ function renderBooks(list, isEditMode) {
     updateSummary(list.map(item => item.book));
 }
 
-// 通常表示時に動く、グループ統合型のレンダリング関数
 function renderGroupedBooks(groupedList) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
@@ -322,10 +320,8 @@ function renderGroupedBooks(groupedList) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        // ⚡ ハッシュリンクと一覧表示のタイトルにグループ共通のシリーズ名（group.series）を完全に固定
-        const matchKey = group.series;
-        const clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(matchKey)}'"`;
-        const displayTitle = group.series;
+        // ⚡ ハッシュのパスを「#detail/著者名/シリーズ名」に修正して一意性を担保
+        const clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(group.author)}/${encodeURIComponent(group.series)}'"`;
 
         card.innerHTML = `
             <div class="card-content" ${clickAction}>
@@ -336,9 +332,9 @@ function renderGroupedBooks(groupedList) {
                     <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
                     <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
                         <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                            ${displayTitle}${badgesHtml}
+                            ${group.series}${badgesHtml}
                         </div>
-                        <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.author}</div>
+                        <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${group.author}</div>
                         <div class="progress-container" style="width: 100%;">
                             <div class="progress-text">全メディア合計: ${totalOwned}/${totalMax}巻 (${percent}%)</div>
                             <div class="progress" style="width: 100%; background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;">
@@ -412,40 +408,43 @@ function renderNetflixView(list) {
             <div class="genre-header"><h3>${gName}</h3></div>
             <div class="horizontal-scroll">
                 ${genreMap[gName].map(b => {
-                    const matchKey = b.series || b.title;
+                    const matchKey = (b.series && b.series.trim() !== "") ? b.series.trim() : b.title.trim();
+                    const matchAuthor = (b.author || "").trim();
                     return `
-                    <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(matchKey)}'">
+                    <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(matchAuthor)}/${encodeURIComponent(matchKey)}'">
                         <img src="${b.image || 'https://via.placeholder.com/100x140?text=No+Image'}" loading="lazy">
-                        <div class="mini-title">${b.series || b.title}</div>
-                    </div>
-                `}).join('')}
+                        <div class="mini-title">${matchKey}</div>
+                    </div>`;
+                }).join('')}
             </div>`;
         container.appendChild(row);
     });
 }
 
-// 詳細表示（シリーズ名、もしくはタイトルが一致するオブジェクトを集約して内部タブで切り替える）
 function showDetail(book) {
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
 
-    // ⚡ 【超シンプル化】シリーズ名があれば最優先、なければタイトル。余計なクロス判定を全カット
     const currentKey = (book.series && book.series.trim() !== "") ? book.series.trim() : book.title.trim();
     const cleanAuthor = (book.author || "").trim();
     
+    // ⚡ 「同じ著者」かつ「同じシリーズ名（またはタイトル）」のバリアントをすべて抽出
     const variants = books.filter(b => {
         const bKey = (b.series && b.series.trim() !== "") ? b.series.trim() : b.title.trim();
         const bAuthor = (b.author || "").trim();
         return bAuthor === cleanAuthor && bKey === currentKey;
     });
     
-    let activeSubIndex = variants.findIndex(b => b.publisher === book.publisher);
+    // 最初に表示するタブのインデックスを決定
+    let activeSubIndex = variants.findIndex(b => b.publisher === book.publisher && b.title === book.title);
     if (activeSubIndex === -1) activeSubIndex = 0;
 
     function renderDetailContent(subIndex) {
         const currentBook = variants[subIndex];
+        if (!currentBook) return;
+
         const ownedCount = currentBook.owned ? currentBook.owned.length : 0;
         const totalCount = currentBook.total || 1;
         const percent = Math.round((ownedCount / totalCount) * 100);
@@ -457,22 +456,22 @@ function showDetail(book) {
             ? `<button class="read-btn" onclick="openPdf('${currentBook.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
             : '';
 
+        // オリジナルの配列内インデックスを正確に取得（編集用）
         const originalIndex = books.findIndex(b => 
-            (b.title === currentBook.title && b.publisher === currentBook.publisher)
+            b.title === currentBook.title && b.publisher === currentBook.publisher && b.author === currentBook.author
         );
 
         let tabsHtml = '';
         if (variants.length > 1) {
-            tabsHtml = `<div class="media-tab-container">`;
+            tabsHtml = `<div class="media-tab-container" style="display:flex; gap:8px; margin-bottom:15px; overflow-x:auto;">`;
             variants.forEach((v, idx) => {
                 const media = getMediaType(v);
-                const activeClass = idx === subIndex ? 'active' : '';
-                tabsHtml += `<button class="media-tab-btn ${activeClass}" onclick="window.switchDetailTab(${idx})">${media.name}版 (${v.publisher})</button>`;
+                const activeStyle = idx === subIndex ? 'background:#4f46e5; color:white;' : 'background:#eee; color:#333;';
+                tabsHtml += `<button class="media-tab-btn" style="padding:8px 12px; border:none; border-radius:4px; cursor:pointer; font-size:13px; font-weight:bold; ${activeStyle}" onclick="window.switchDetailTab(${idx})">${media.name}版 (${v.publisher})</button>`;
             });
             tabsHtml += `</div>`;
         }
 
-        // 詳細トップの大タイトル表記
         const displayDetailTitle = (currentBook.series && currentBook.series.trim() !== "") 
             ? `<span style="font-size:14px; color:#f43f5e; display:block; font-weight:bold; margin-bottom:4px;">[シリーズ: ${currentBook.series}]</span>${currentBook.title}` 
             : currentBook.title;
@@ -503,7 +502,7 @@ function showDetail(book) {
                     </div>
                     <div class="detail-progress">
                         <p class="meta"><strong>所持状況:</strong> ${ownedCount} / ${totalCount}巻 (${percent}%)</p>
-                        <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
+                        <div class="progress" style="background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;"><div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div></div>
                         <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${currentBook.owned ? currentBook.owned.join(', ') : ''}</p>
                     </div>
                     ${pdfButtonHtml}
