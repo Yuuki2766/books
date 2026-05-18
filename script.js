@@ -37,16 +37,17 @@ function checkRoute() {
         const seriesKey = params[1].trim(); 
         
         let book;
-        // シリーズ名が空（INDEX_から始まる一意の識別子）の場合は該当インデックスの本を特定
+        // シリーズ名が未入力（INDEX_から始まる識別子）の場合は配列のインデックスで本を特定
         if (seriesKey.startsWith('INDEX_')) {
             const targetIdx = parseInt(seriesKey.replace('INDEX_', ''), 10);
             book = books[targetIdx];
         } else {
-            // 入力された「シリーズ名」と「著者名」が完全一致するものを検索
+            // 入力された「シリーズ名」と「著者名」が完全一致（空白を詰めて比較）するものを検索
             book = books.find(b => {
-                const bSeries = (b.series || "").trim();
+                const bSeries = (b.series || "").replace(/\s+/g, "").toLowerCase();
                 const bAuthor = (b.author || "").trim();
-                return bAuthor === authorKey && bSeries === seriesKey;
+                const targetSeriesClean = seriesKey.replace(/\s+/g, "").toLowerCase();
+                return bAuthor === authorKey && bSeries === targetSeriesClean;
             });
         }
         
@@ -110,7 +111,7 @@ function toggleEditModeUi() {
     applyFilters();
 }
 
-// メディア種別を判定するヘルパー
+// メディア種別判定ヘルパー
 function getMediaType(book) {
     const genreStr = book.genre || '';
     const pubStr = book.publisher || '';
@@ -184,14 +185,14 @@ function applyFilters() {
         if (isEditMode) {
             renderBooks(filtered, isEditMode);
         } else {
-            // ⚡ タイトルでの自動フォールバックを完全廃止し、入力された series のみを参照してグループ化
+            // ⚡ 【核心の修正】入力された series の文字列を、スペースを排除して厳格にグループ化
             const grouped = [];
             filtered.forEach(item => {
                 const currentBook = item.book;
                 const rawSeries = currentBook.series ? currentBook.series.trim() : "";
                 const cleanAuthor = (currentBook.author || "").trim();
                 
-                // シリーズ名(series)が直接入力されていないものは絶対にまとめず、単一書籍として独立させる
+                // シリーズ名(series)が入力されていないものは絶対にマージせず、単発の書籍として1枚ずつバラで出力
                 if (rawSeries === "") {
                     grouped.push({
                         isSingle: true,
@@ -200,13 +201,20 @@ function applyFilters() {
                         variants: [item]
                     });
                 } else {
-                    let existing = grouped.find(g => !g.isSingle && g.series === rawSeries && g.author === cleanAuthor);
+                    // 表記揺れを防ぐため、スペースを除去した文字列で同一かどうか判定
+                    const compareKey = rawSeries.replace(/\s+/g, "").toLowerCase();
+                    let existing = grouped.find(g => {
+                        if (g.isSingle) return false;
+                        const gCompareKey = g.series.replace(/\s+/g, "").toLowerCase();
+                        return gCompareKey === compareKey && g.author === cleanAuthor;
+                    });
+
                     if (existing) {
                         existing.variants.push(item);
                     } else {
                         grouped.push({
                             isSingle: false,
-                            series: rawSeries,
+                            series: rawSeries, // 画面表示には最初に見つかった入力文字列を使用
                             author: cleanAuthor,
                             variants: [item]
                         });
@@ -287,13 +295,15 @@ function renderGroupedBooks(groupedList) {
     container.innerHTML = '';
 
     groupedList.forEach(group => {
+        // 表示用のプライマリ本を決定（Web版以外を優先）
         let primaryItem = group.variants.find(v => !v.book.publisher.includes('なろう') && !v.book.publisher.includes('カクヨム'));
         if (!primaryItem) primaryItem = group.variants[0];
         const book = primaryItem.book;
 
+        // 小説、漫画などのバッジを横並びで生成
         const badgesHtml = group.variants.map(v => {
             const media = getMediaType(v.book);
-            return `<span class="title-badge" style="background:${media.color}">${media.name}</span>`;
+            return `<span class="title-badge" style="background:${media.color}; margin-left:5px; font-size:11px; padding:2px 6px; border-radius:4px; color:#fff; font-weight:bold;">${media.name}</span>`;
         }).join('');
 
         const totalOwned = group.variants.reduce((sum, v) => sum + (v.book.owned ? v.book.owned.length : 0), 0);
@@ -303,7 +313,6 @@ function renderGroupedBooks(groupedList) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        // ⚡ シリーズ名が入力されていない単発作品は INDEX_識別子 を用いてルーティングを完全分離
         let clickAction = "";
         if (group.isSingle) {
             clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(group.author)}/INDEX_${group.variants[0].originalIndex}'"`;
@@ -314,19 +323,19 @@ function renderGroupedBooks(groupedList) {
         const displayTitleName = group.isSingle ? group.displayTitle : group.series;
 
         card.innerHTML = `
-            <div class="card-content" ${clickAction}>
+            <div class="card-content" ${clickAction} style="cursor:pointer;">
                 <div class="fav-star-container" style="font-size:20px;">
                     ${group.variants.some(v => v.book.favorite) ? '⭐' : ''}
                 </div>
                 <div style="flex:1; display:flex; min-width:0;">
                     <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover">
                     <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
-                        <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:bold; font-size:16px;">
                             ${displayTitleName}${badgesHtml}
                         </div>
-                        <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${group.author}</div>
-                        <div class="progress-container" style="width: 100%;">
-                            <div class="progress-text">全メディア合計: ${totalOwned}/${totalMax}巻 (${percent}%)</div>
+                        <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#555; font-size:13px; margin-top:2px;">${group.author}</div>
+                        <div class="progress-container" style="width: 100%; margin-top:8px;">
+                            <div class="progress-text" style="font-size:12px; color:#666; margin-bottom:3px;">全メディア合計: ${totalOwned}/${totalMax}巻 (${percent}%)</div>
                             <div class="progress" style="width: 100%; background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;">
                                 <div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div>
                             </div>
@@ -422,13 +431,14 @@ function showDetail(book) {
     const rawSeries = book.series ? book.series.trim() : "";
     const cleanAuthor = (book.author || "").trim();
     
-    // ⚡ シリーズ名がないものは単独展開。あるものは同じ著者×同じ入力シリーズ名のみを抽出
     let variants = [];
     if (rawSeries === "") {
         variants = [book];
     } else {
+        const compareKey = rawSeries.replace(/\s+/g, "").toLowerCase();
         variants = books.filter(b => {
-            return (b.author || "").trim() === cleanAuthor && (b.series || "").trim() === rawSeries;
+            const bSeriesClean = (b.series || "").replace(/\s+/g, "").toLowerCase();
+            return (b.author || "").trim() === cleanAuthor && bSeriesClean === compareKey;
         });
     }
     
@@ -537,7 +547,6 @@ function saveInlineEdit(index) {
         });
     }
 
-    // ⚡ 直接入力したシリーズ変数を厳格にセット
     books[index].series = document.getElementById('edit-series').value.trim();
     books[index].title = title;
     books[index].author = document.getElementById('edit-author').value.trim();
@@ -580,7 +589,6 @@ function addNewBookLocal() {
     const title = document.getElementById('new-title').value.trim();
     if (!title) { alert('作品タイトルは必須です。'); return; }
     
-    // ⚡ 新規登録時用のフォーム（もしHTML側に new-series があれば取得するロジック）
     const seriesInput = document.getElementById('new-series') ? document.getElementById('new-series').value.trim() : '';
     const ownedInput = document.getElementById('new-owned').value.trim();
     let ownedArray = [1];
