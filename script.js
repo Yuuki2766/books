@@ -49,12 +49,7 @@ function checkRoute() {
 function showList() {
     document.getElementById('detail-view').style.display = 'none';
     document.getElementById('admin-view').style.display = 'none';
-    
-    // display = 'block' を強制すると上の隠す状態とバッティングするため、
-    // ここでは要素自体の存在を担保し、changeMainView に委ねます
-    const header = document.getElementById('main-header');
-    if (header) header.style.display = ''; 
-
+    document.getElementById('main-header').style.display = 'block';
     changeMainView(currentMainView);
 
     setTimeout(() => {
