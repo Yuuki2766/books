@@ -124,7 +124,7 @@ function applyFilters() {
     let filtered = indexedBooks.filter(item => {
         const book = item.book;
         const isR18 = book.genre && book.genre.includes('R18');
-        if (isSafeMode && isR18) return true;
+        if (isSafeMode && isR18) return false;
 
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
         if (hideDepressing && isDepress) return false;
