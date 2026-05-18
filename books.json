@@ -1,5 +1,5 @@
 [
-  {
+  { "series":"aaa",
     "title": "クラスで2番目に可愛い女の子と友達になった",
     "author": "たかた",
     "illustrator": "長部トム、日向あずり",
@@ -22,7 +22,7 @@
     "image": "images/kuranika.JPG",
     "favorite": true
   },
-  {
+  { "series":"aaa",
     "title": "クラスで2番目に可愛い女の子と友達になった",
     "author": "たかた",
     "illustrator": "",
