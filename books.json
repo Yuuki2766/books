@@ -1,12 +1,22 @@
 [
-
   {
     "title": "クラスで2番目に可愛い女の子と友達になった",
     "author": "たかた",
     "illustrator": "長部トム、日向あずり",
     "publisher": "角川スニーカー文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1,2,3,4,5,6,7,7.5,8,9],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      7.5,
+      8,
+      9
+    ],
     "total": 10,
     "summary": "目立たない男子高校生・前原真樹と、クラスのヒエラルキーの頂点に君臨する美少女・朝凪海。本来交わるはずのなかった二人が、放課後の真樹の部屋で密かに過ごす、誰にも言えない秘密の交流を描く。クラスでは見せない「素の姿」で過ごす時間は、やがて二人の関係をただの友達以上のものへと変えていく、甘くて等身大の青春ラブコメ。",
     "image": "images/kuranika.JPG",
@@ -18,7 +28,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "目立たない男子高校生・前原真樹と、クラスのヒエラルキーの頂点に君臨する美少女・朝凪海。本来交わるはずのなかった二人が、放課後の真樹の部屋で密かに過ごす、誰にも言えない秘密の交流を描く。クラスでは見せない「素の姿」で過ごす時間は、やがて二人の関係をただの友達以上のものへと変えていく、甘くて等身大の青春ラブコメ。",
     "image": "images/kuranika.JPG",
@@ -32,11 +44,28 @@
     "illustrator": "はねこと",
     "publisher": "GA文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1,2,3,4,5,5.5,6,7,8,8.5,9,10,11,11.5,12,"spesial book"],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      5.5,
+      6,
+      7,
+      8,
+      8.5,
+      9,
+      10,
+      11,
+      11.5,
+      12,
+      "spesial book"
+    ],
     "total": 16,
     "summary": "",
     "image": "images/otonarinotensisama.JPEG",
-    "favorite": true 
+    "favorite": true
   },
   {
     "title": "お隣の天使様にいつの間にか駄目人間にされていた件",
@@ -44,11 +73,18 @@
     "illustrator": "芝田わん",
     "publisher": "スクウェア・エニックス",
     "genre": "青春/漫画",
-    "owned": [1,2,3,4,5,6],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "total": 6,
     "summary": "",
     "image": "images/otonarinotensisamacomic.JPG",
-    "favorite": true 
+    "favorite": true
   },
   {
     "title": "お隣の天使様にいつの間にか駄目人間にされていた件 after the rain",
@@ -56,11 +92,14 @@
     "illustrator": "ぷよ",
     "publisher": "スクウェア・エニックス",
     "genre": "青春/漫画",
-    "owned": [1,2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": "",
     "image": "images/otonarinotensisamaaftercomic.JPG",
-    "favorite": true 
+    "favorite": true
   },
   {
     "title": "お隣の天使様にいつの間にか駄目人間にされていた件",
@@ -68,7 +107,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/otonarinotensisama.JPEG",
@@ -82,7 +123,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/siturenvtuber.jpg",
@@ -96,7 +139,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -110,7 +155,10 @@
     "illustrator": "うなさか",
     "publisher": "ファミ通文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1,2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": "",
     "image": "images/guunatu.JPG",
@@ -122,7 +170,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/guunatu.JPG",
@@ -136,7 +186,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -150,7 +202,21 @@
     "illustrator": "",
     "publisher": "小学館",
     "genre": "青春/漫画",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      13,
+      14
+    ],
     "total": 14,
     "summary": "とある理由でバイオリンを弾くのを辞めた元天才少年・青野一。中学3年の秋、一人の少女と高校のオーケストラ部を知ったことで、止まっていた彼の時間が再び動き出す。個性豊かな仲間たちと切磋琢磨し、音を重ねる喜びを再発見していく。情熱と葛藤、そして圧倒的な演奏描写で贈る、瑞々しいアンサンブル青春ドラマ。",
     "image": "images/aono.JPG",
@@ -162,7 +228,14 @@
     "illustrator": "ねこクラゲ",
     "publisher": "スクウェア・エニックス",
     "genre": "日常/漫画",
-    "owned": [9, 10, 11, 12, 13, 14],
+    "owned": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "total": 16,
     "summary": "後宮を舞台に、花街で薬師をしていた少女・猫猫（マオマオ）が、持ち前の知識と好奇心で宮中の難事件を次々と解決していく謎解きエンターテインメント。美貌の宦官・壬氏（ジンシ）に才覚を見出され、毒見役や薬師として翻弄されながらも、陰謀渦巻く後宮の闇を鮮やかに切り開く。知識と毒が織りなす、爽快な後宮ミステリー。",
     "image": "images/hitorigoto.JPG",
@@ -174,20 +247,23 @@
     "illustrator": "アベツカサ",
     "publisher": "小学館",
     "genre": "ファンタジー/漫画",
-    "owned": [8],
+    "owned": [
+      8
+    ],
     "total": 15,
     "summary": "魔王を倒した勇者一行の後日譚。長寿なエルフの魔法使いフリーレンは、かつての仲間たちの死に直面し、人間を知るための旅に出る。新たな仲間と共に「魂の眠る地」を目指す旅路の中で、かつての旅の思い出を辿りながら、人との繋がりや心の機微を静かに描き出す、後日譚（アフター）ファンタジー。",
     "image": "images/sousouno.JPG",
     "favorite": true
   },
-
   {
     "title": "隣に住んでる聖女様は俺がキャラデザを担当した大人気ＶＴｕｂｅｒでした",
     "author": "乃中カノン",
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -195,28 +271,30 @@
     "pdf_url": "pdfs/N5518HM.pdf",
     "info_url": "https://ncode.syosetu.com/n5518hm/"
   },
-
   {
     "title": "無口な俺が深夜に通話しているのは、クラスで1番美人な優等生でした",
     "author": "六畳のえる",
     "illustrator": "ファルまろ",
     "publisher": "MF文庫J",
     "genre": "青春/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 2,
     "summary": "",
     "image": "images/mukutinaorega.JPEG",
     "favorite": true,
     "pdf_url": ""
   },
-
   {
     "title": "無口な俺が深夜に通話しているのは、クラスで1番美人な優等生でした",
     "author": "六畳のえる",
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/mukutinaorega.JPEG",
@@ -230,7 +308,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -244,7 +324,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -258,7 +340,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -266,15 +350,28 @@
     "pdf_url": "pdfs/幼なじみの妹と、身体の関係になってしまった。 - スタジオ.Ｔ.pdf",
     "info_url": "https://kakuyomu.jp/works/1177354054935807696"
   },
-
- 
   {
     "title": "響け！ユーフォニアム",
     "author": "武田綾乃",
     "illustrator": "アサダニッキ",
     "publisher": "宝島社",
     "genre": "青春/小説",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "total": 14,
     "summary": "",
     "image": "images/hibike.JPG",
@@ -286,7 +383,11 @@
     "illustrator": "はみ",
     "publisher": "宝島社",
     "genre": "青春/漫画",
-    "owned": [1, 2, 3],
+    "owned": [
+      1,
+      2,
+      3
+    ],
     "total": 3,
     "summary": "かつての強豪校も、今や全国大会から遠ざかっている北宇治高校吹奏楽部。ユーフォニアム奏者の黄前久美子は、新しく赴任した顧問・滝昇の厳しい指導のもと、個性豊かな部員たちとぶつかり合いながらも、吹奏楽に青春を懸けていく。コンクールという冷徹な目標に向かい、才能と努力、そして葛藤が交錯する中で「本気」を目指す少女たちの熱い物語。",
     "image": "images/hibikecomic1.JPG"
@@ -297,7 +398,10 @@
     "illustrator": "はみ",
     "publisher": "宝島社",
     "genre": "青春/漫画",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": "ついに始まったコンクールへの挑戦。新顧問・滝昇の厳しい指導のもと、北宇治高校吹奏楽部はこれまでの甘えを捨て「全国大会出場」という高い壁に挑む。部長・小笠原晴香の苦悩や、ソロパートを巡る高坂麗奈と部員たちの衝突など、コンクールメンバー選抜が生む生々しい葛藤を経て、部員たちは一つにまとまっていく。京都府大会、そして関西大会へ。少女たちの情熱と涙が弾ける、最高に熱い「夏」を描いたシリーズ第2弾。",
     "image": "images/hibikecomic2.JPG"
@@ -308,7 +412,20 @@
     "illustrator": "フライ",
     "publisher": "ガガガ文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 6.5, 7, 8, 8.5, 9, 10],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      6.5,
+      7,
+      8,
+      8.5,
+      9,
+      10
+    ],
     "total": 13,
     "summary": "日本屈指のゲーマーでありながら、現実（リアル）を「クソゲー」と断じる高校生・友崎文也。そんな彼が、学園のパーフェクトヒロイン・日南葵に人生というゲームの攻略法を叩き込まれることになる。リア充になるための過酷な課題に挑む中で、友崎は自己肯定感や人間関係の本質に向き合っていく。ゲーマー的視点で「人生」を攻略していく、理詰めの自己変革青春ラブコメ。",
     "image": "images/tomozaki.JPEG",
@@ -320,7 +437,12 @@
     "illustrator": "千田衛人",
     "publisher": "スクウェア・エニックス",
     "genre": "青春/漫画",
-    "owned": [1, 2, 3, 4],
+    "owned": [
+      1,
+      2,
+      3,
+      4
+    ],
     "total": 6,
     "summary": "日本屈指のゲーマーでありながら、現実（リアル）を「クソゲー」と断じる高校生・友崎文也。そんな彼が、学園のパーフェクトヒロイン・日南葵に人生というゲームの攻略法を叩き込まれることになる。リア充になるための過酷な課題に挑む中で、友崎は自己肯定感や人間関係の本質に向き合っていく。ゲーマー的視点で「人生」を攻略していく、理詰めの自己変革青春ラブコメ。",
     "image": "images/tomozakicomic.JPG"
@@ -331,7 +453,9 @@
     "illustrator": "吉田ばな",
     "publisher": "小学館",
     "genre": "青春/漫画",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 3,
     "summary": "『弱キャラ友崎くん』屈指の人気キャラクター・七海みなみを主人公に据えた公式スピンオフ。本編の裏側で、ひたむきに、泥臭く、自分だけの「輝き」を求めてもがく彼女の日常を描く。持ち前の明るさの裏にある葛藤や、夢に向かって全力で走る姿、そして彼女の視点から語られる友人たちへの想い。本編では描ききれなかった「みみみ」の魅力と、その不器用で熱い青春を鮮明に切り取った外伝物語。",
     "image": "images/nanamicomic.JPG"
@@ -342,7 +466,17 @@
     "illustrator": "raemz",
     "publisher": "ガガガ文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 5.5, 6, 6.5, 7],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      5.5,
+      6,
+      6.5,
+      7
+    ],
     "total": 12,
     "summary": "学園の頂点に君臨するリア充・千歳朔。「リア充爆発しろ」という言葉を体現するような完璧な日々を送る彼だが、その裏では仲間の問題を解決するために奔走し、自分なりの信念を持って「最強」であり続けていた。ある日、引きこもりの同級生を更生させるという依頼を引き受けたことから、彼の「リア充」としての矜持と、隠された内面が剥き出しになっていく。圧倒的な熱量と美しい文体で描かれる、新時代のリア充側視点青春ラブコメ。",
     "image": "images/titose.JPG",
@@ -354,7 +488,11 @@
     "illustrator": "ボブキャ",
     "publisher": "スクウェア・エニックス",
     "genre": "青春/漫画",
-    "owned": [1, 2, 3],
+    "owned": [
+      1,
+      2,
+      3
+    ],
     "total": 8,
     "summary": "学園の頂点に君臨するリア充・千歳朔。「リア充爆発しろ」という言葉を体現するような完璧な日々を送る彼だが、その裏では仲間の問題を解決するために奔走し、自分なりの信念を持って「最強」であり続けていた。ある日、引きこもりの同級生を更生させるという依頼を引き受けたことから、彼の「リア充」としての矜持と、隠された内面が剥き出しになっていく。圧倒的な熱量と美しい文体で描かれる、新時代のリア充側視点青春ラブコメ。",
     "image": "images/titosecomic.JPG",
@@ -366,7 +504,13 @@
     "illustrator": "水島空彦",
     "publisher": "ホビージャパン",
     "genre": "青春/漫画",
-    "owned": [1,2,3,4,5],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
     "total": 5,
     "summary": "",
     "image": "images/saijonoosewacomic.JPG",
@@ -378,7 +522,13 @@
     "illustrator": "みわべさくら",
     "publisher": "HJ文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1,2,3,4,5],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
     "total": 11,
     "summary": "",
     "image": "images/saijonoosewa.JPG",
@@ -390,7 +540,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "本作は、完結済みの拙作『幼馴染に「あんたのせいで彼氏ができない」と言われたため、距離を取ったら次の日から学校に来なくなった』のヒロイン・篠原 夏希（しのはら なつき）視点のサイドストーリーとなります。まず本編より少し未来のお話から始まり、その後は夏希の視点で描かれる回想形式となっています。本編を先に読んでいただくと、より深く楽しんでいただける内容となっております！どちらもぜひ、ご一読ください！※以下、本編のURLです。https://kakuyomu.jp/works/16818622172684021557",
     "image": "",
@@ -404,7 +556,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "「澪がいるから、みんな諦めるんでしょ」そんな一言を聞いて、俺は思った。——自分が『幼馴染』というだけで当然のように隣にいるから、夏希は恋愛ができないのだと。だから俺は、これからは別々で行こうと提案した。夏希は引き留めてこなかった。ようやくお邪魔虫が離れてくれたと、安堵していることだろう。——けれど次の日、彼女は学校に来なかった。鈍感系主人公・白石 澪（しらいし れい）と、不器用な幼馴染・篠原 夏希（しのはら なつき）が織りなす、クスッと笑える甘々なすれ違い系ラブコメディ、ここに開幕！",
     "image": "",
@@ -418,7 +572,21 @@
     "illustrator": "しずまよしのり",
     "publisher": "電撃文庫",
     "genre": "ファンタジー/ライトノベル",
-    "owned": [1, 2, 3, 4, 4.5, 5, 6, 7, 8, 9, 10, 10.5, 11],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      4.5,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      10.5,
+      11
+    ],
     "total": 22,
     "summary": "二千年前、暴虐の限りを尽くした魔王アノス・ヴォルディゴードは、平和な世界を夢見て転生を果たす。しかし、魔法が退化した時代で彼を待っていたのは、かつての威光が歪められ、彼を「不適合者」の烙印で拒絶する魔王学院だった。どれほど不当な扱いを受けようとも、圧倒的な実力と理不尽をも打ち砕く魔王の知略で、血統に縛られた世界の常識を根底から覆していく。史上最強の始祖による、痛快な反逆の物語。",
     "image": "images/maou.JPG",
@@ -430,7 +598,12 @@
     "illustrator": "かやはるか",
     "publisher": "スクウェア・エニックス",
     "genre": "ファンタジー/漫画",
-    "owned": [1, 2, 3, 4],
+    "owned": [
+      1,
+      2,
+      3,
+      4
+    ],
     "total": 4,
     "summary": "二千年前、暴虐の限りを尽くした魔王アノス・ヴォルディゴードは、平和な世界を夢見て転生を果たす。しかし、魔法が退化した時代で彼を待っていたのは、かつての威光が歪められ、彼を「不適合者」の烙印で拒絶する魔王学院だった。どれほど不当な扱いを受けようとも、圧倒的な実力と理不尽をも打ち砕く魔王の知略で、血統に縛られた世界の常識を根底から覆していく。史上最強の始祖による、痛快な反逆の物語。",
     "image": "images/maoucomic.JPG"
@@ -441,7 +614,9 @@
     "illustrator": "",
     "publisher": "電撃コミックス",
     "genre": "ファンタジー/漫画",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/maouansorogy.WEBP"
@@ -452,7 +627,15 @@
     "illustrator": "たかやKi",
     "publisher": "スニーカー文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
     "total": 12,
     "summary": "",
     "image": "images/turekano.JPG",
@@ -464,13 +647,15 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/turekano.JPG",
     "favorite": true,
-    "pdf_url":"pdfs/継母の連れ子が元カノだった - 紙城境介.pdf",
-    "info_url":"https://kakuyomu.jp/works/1177354054883783581"
+    "pdf_url": "pdfs/継母の連れ子が元カノだった - 紙城境介.pdf",
+    "info_url": "https://kakuyomu.jp/works/1177354054883783581"
   },
   {
     "title": "三角の距離は限りないゼロ",
@@ -478,7 +663,15 @@
     "illustrator": "Hiten",
     "publisher": "電撃文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
     "total": 9,
     "summary": "",
     "image": "images/sankaku.JPG",
@@ -490,7 +683,9 @@
     "illustrator": "Hiten",
     "publisher": "電撃文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/hutarinokorekara.JPG",
@@ -502,7 +697,9 @@
     "illustrator": "和錆",
     "publisher": "スニーカー文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 4,
     "summary": " ",
     "image": "images/saekano.JPG"
@@ -513,7 +710,12 @@
     "illustrator": "ももずみ純",
     "publisher": "角川コミックス・エース",
     "genre": "青春/漫画",
-    "owned": [1, 2, 3, 4],
+    "owned": [
+      1,
+      2,
+      3,
+      4
+    ],
     "total": 4,
     "summary": " ",
     "image": "images/saekanocomic.JPG"
@@ -524,7 +726,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -538,7 +742,30 @@
     "illustrator": "",
     "publisher": "小学館",
     "genre": "推理/漫画",
-    "owned": [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104, 105, 107],
+    "owned": [
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      104,
+      105,
+      107
+    ],
     "total": 107,
     "summary": "ホームズに憧れる高校生探偵・工藤新一は、謎の組織の取引現場を目撃したことで毒薬を飲まされ、体が小さくなってしまう。彼は「江戸川コナン」と名乗り、組織の行方を追いながら数々の難事件を解決していく。",
     "image": "images/conan.JPG",
@@ -550,7 +777,14 @@
     "illustrator": "新井隆広",
     "publisher": "小学館",
     "genre": "推理/漫画",
-    "owned": [1, 2, 3, 4, 5, 6],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
     "total": 6,
     "summary": "「名探偵コナン」のスピンオフ作品。ある時は喫茶ポアロの探偵・安室透、ある時は公安警察の降谷零、またある時は黒ずくめの組織のバーボン。三つの顔を持つ男の、聖域（サンクチュアリ）のような誰も知らない日常を描く。",
     "image": "images/zero.JPG",
@@ -562,7 +796,10 @@
     "illustrator": "新井隆広",
     "publisher": "小学館",
     "genre": "推理/漫画",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": "降谷零（安室透）と、すでに殉職した4人の仲間たち——松田陣平、伊達航、諸伏景光、萩原研二。今や伝説となった「警察学校組」の、若き日の青き春を描く。なぜ彼らは警察官を目指し、いかにして絆を深めたのか。本編へと繋がる、情熱と涙の半年間の物語。",
     "image": "images/police.JPG",
@@ -574,7 +811,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -588,7 +827,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -602,7 +843,9 @@
     "illustrator": "シソ",
     "publisher": "角川スニーカー文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 9,
     "summary": "",
     "image": "images/tenkousakino.JPG",
@@ -615,7 +858,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/tenkousakino.JPG",
@@ -629,7 +874,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -643,7 +890,16 @@
     "illustrator": "魚デニム",
     "publisher": "角川スニーカー文庫",
     "genre": "ファンタジー/ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
     "total": 8,
     "summary": "",
     "image": "images/rakudai.JPG"
@@ -654,19 +910,37 @@
     "illustrator": "けんたろう",
     "publisher": "スクウェア・エニックス",
     "genre": "ファンタジー/漫画",
-    "owned": [1, 2, 3, 4, 5],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
     "total": 5,
     "summary": "",
     "image": "images/rakudaicomic.JPG"
   },
-  
   {
     "title": "今日のケルベロス",
     "author": "桜井亜都",
     "illustrator": "",
     "publisher": "スクウェア・エニックス",
     "genre": "青春/漫画",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
     "total": 12,
     "summary": "",
     "image": "images/keruberosu.JPG"
@@ -677,7 +951,19 @@
     "illustrator": "遠坂あさぎ",
     "publisher": "MF文庫J",
     "genre": "ファンタジー/ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
     "total": 16,
     "summary": "",
     "image": "images/seiken.JPEG"
@@ -688,7 +974,10 @@
     "illustrator": "フライ",
     "publisher": "スニーカー文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": "",
     "image": "images/kiminowasurekata.JPEG"
@@ -699,7 +988,10 @@
     "illustrator": "和遥キナ",
     "publisher": "ファミ通文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": "",
     "image": "images/tikasugiru.JPEG"
@@ -710,7 +1002,21 @@
     "illustrator": "かんざきひろ",
     "publisher": "電撃文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
     "total": 13,
     "summary": "",
     "image": "images/eromanga.JPG",
@@ -722,7 +1028,17 @@
     "illustrator": "magako",
     "publisher": "ファンタジア文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 8.5],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      8.5
+    ],
     "total": 11,
     "summary": "",
     "image": "images/kimizero.JPG"
@@ -733,7 +1049,20 @@
     "illustrator": "sune",
     "publisher": "MF文庫J",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
     "total": 14,
     "summary": "",
     "image": "images/hensuki.JPG"
@@ -744,7 +1073,21 @@
     "illustrator": "筒井大志",
     "publisher": "集英社",
     "genre": "青春/漫画",
-    "owned": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
     "total": 21,
     "summary": "",
     "image": "images/benkyougadekinai.JPG"
@@ -755,7 +1098,18 @@
     "illustrator": "カントク",
     "publisher": "ガガガ文庫",
     "genre": "日常/ライトノベル",
-    "owned": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "owned": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
     "total": 14,
     "summary": "",
     "image": "images/imoutosaeirebaii.JPG"
@@ -766,7 +1120,12 @@
     "illustrator": "煙楽",
     "publisher": "メディアワークス文庫",
     "genre": "推理/小説",
-    "owned": [1, 2, 3, 4],
+    "owned": [
+      1,
+      2,
+      3,
+      4
+    ],
     "total": 10,
     "summary": "",
     "image": "images/higurasi.JPG"
@@ -777,7 +1136,11 @@
     "illustrator": "Hiten",
     "publisher": "MF文庫J",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3],
+    "owned": [
+      1,
+      2,
+      3
+    ],
     "total": 10,
     "summary": "",
     "image": "images/imoutoseikatu.JPG"
@@ -788,7 +1151,12 @@
     "illustrator": "えーる",
     "publisher": "スニーカー文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3, 4],
+    "owned": [
+      1,
+      2,
+      3,
+      4
+    ],
     "total": 8,
     "summary": "",
     "image": "images/koakuma.JPG",
@@ -800,13 +1168,15 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/koakuma.JPG",
     "favorite": true,
-    "pdf_url":"pdfs/カノジョに浮気されていた俺が、小悪魔な後輩に懐かれています - 御宮ゆう.pdf",
-    "info_url":"https://kakuyomu.jp/works/1177354054888094667"
+    "pdf_url": "pdfs/カノジョに浮気されていた俺が、小悪魔な後輩に懐かれています - 御宮ゆう.pdf",
+    "info_url": "https://kakuyomu.jp/works/1177354054888094667"
   },
   {
     "title": "暗殺者である俺のステータスが勇者よりも明らかに強いのだが",
@@ -814,7 +1184,11 @@
     "illustrator": "合鴨ひろゆき",
     "publisher": "オーバーラップ",
     "genre": "ファンタジー/漫画",
-    "owned": [1, 2, 3],
+    "owned": [
+      1,
+      2,
+      3
+    ],
     "total": 6,
     "summary": "",
     "image": "images/ansatu.JPG"
@@ -825,7 +1199,11 @@
     "illustrator": "希望つばめ",
     "publisher": "GA文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2, 3],
+    "owned": [
+      1,
+      2,
+      3
+    ],
     "total": 3,
     "summary": "",
     "image": "images/tyoroin.JPG"
@@ -836,7 +1214,10 @@
     "illustrator": "loundraw",
     "publisher": "メディアワークス文庫",
     "genre": "恋愛/小説",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": "",
     "image": "images/kimihatukiyoni.JPG"
@@ -847,7 +1228,9 @@
     "illustrator": "loundraw",
     "publisher": "メディアワークス文庫",
     "genre": "恋愛/小説",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "images/konosekaini.JPG"
@@ -858,7 +1241,13 @@
     "illustrator": "ぶーた",
     "publisher": "スニーカー文庫",
     "genre": "日常/ライトノベル",
-    "owned": [1, 2, 3, 4, 5],
+    "owned": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
     "total": 5,
     "summary": "",
     "image": "images/higewosoru.JPG"
@@ -869,7 +1258,9 @@
     "illustrator": "ミユキルリア",
     "publisher": "電撃文庫",
     "genre": "ファンタジー/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 12,
     "summary": "",
     "image": "images/nanatunomaken.JPG"
@@ -880,7 +1271,12 @@
     "illustrator": "かなめもにか",
     "publisher": "スクウェア・エニックス",
     "genre": "ファンタジー/漫画",
-    "owned": [1, 2, 3, 4],
+    "owned": [
+      1,
+      2,
+      3,
+      4
+    ],
     "total": 10,
     "summary": "",
     "image": "images/sasensareta.JPG"
@@ -891,7 +1287,10 @@
     "illustrator": "フライ",
     "publisher": "ファミ通文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": "",
     "image": "images/houkagonotosyositu.WEBP"
@@ -902,7 +1301,9 @@
     "illustrator": "平つくね",
     "publisher": "ファンタジア文庫",
     "genre": "日常/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 4,
     "summary": "",
     "image": "images/sukisugirukara.JPG"
@@ -913,7 +1314,10 @@
     "illustrator": "和錆",
     "publisher": "ファンタジア文庫",
     "genre": "青春/ライトノベル",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 4,
     "summary": " ",
     "image": "images/tyoppiri.JPG"
@@ -924,7 +1328,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -938,7 +1344,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -952,7 +1360,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -966,7 +1376,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -980,7 +1392,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -994,7 +1408,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1008,7 +1424,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1022,7 +1440,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1036,7 +1456,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1050,7 +1472,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1064,7 +1488,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1078,7 +1504,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1091,7 +1519,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1104,7 +1534,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1117,7 +1549,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1131,7 +1565,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1144,7 +1580,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1157,7 +1595,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1170,7 +1610,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1183,7 +1625,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1196,13 +1640,15 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
     "favorite": false,
     "pdf_url": "pdfs/N9716KM.pdf",
-    "info_url":"https://novel18.syosetu.com/n9716km/"
+    "info_url": "https://novel18.syosetu.com/n9716km/"
   },
   {
     "title": "今はセフレでいいから　〜ギャルな幼馴染のギャル友の初体験を手伝ったら、激オモ感情を向けてくるようになった〜",
@@ -1210,13 +1656,15 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
     "favorite": false,
     "pdf_url": "pdfs/N4845KR.pdf",
-    "info_url":"https://novel18.syosetu.com/n4845kr/"
+    "info_url": "https://novel18.syosetu.com/n4845kr/"
   },
   {
     "title": "なりゆきで妹で童貞を捨てたら妹の友達もセックスに興味があるので抱いてほしいと言ってきた。どっちも可愛くて選べないからまとめてセフレにしてハーレムを築いたら隣の家のツンデレ幼馴染まで参戦してきたんだが",
@@ -1224,13 +1672,15 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
     "favorite": false,
     "pdf_url": "pdfs/N2122IO.pdf",
-    "info_url":"https://novel18.syosetu.com/n2122io/"
+    "info_url": "https://novel18.syosetu.com/n2122io/"
   },
   {
     "title": "ドМでちっこい先輩とお付き合いすることになりました。",
@@ -1238,13 +1688,15 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
     "favorite": true,
     "pdf_url": "pdfs/N0026FE.pdf",
-    "info_url":"https://novel18.syosetu.com/n0026fe/"
+    "info_url": "https://novel18.syosetu.com/n0026fe/"
   },
   {
     "title": "学年トップの俺を捨てた元カノが、追試で留年の危機らしい。俺は不登校だった美少女の家庭教師を頼まれて忙しいので、復縁は不可能です。",
@@ -1252,7 +1704,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1265,7 +1719,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1278,7 +1734,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1291,7 +1749,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1304,11 +1764,13 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
-    "favorite":false,
+    "favorite": false,
     "pdf_url": "pdfs/最近できたクールな義妹が可愛すぎて俺は今日も誘惑に負けそうです - 火野陽登《ヒノハル》.pdf"
   },
   {
@@ -1317,7 +1779,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1330,7 +1794,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1343,7 +1809,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1356,21 +1824,24 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
     "favorite": false,
     "pdf_url": "pdfs/カノジョに浮気されて絶望していた僕を癒やしてくれたのは、オフ会で偶然出会った学校で一番可愛い生徒会長でした。 - 新原.pdf"
   },
-  
   {
     "title": "妹はカノジョにできないのに",
     "author": "鏡遊",
     "illustrator": "三つ葉ちょこ",
     "publisher": "電撃文庫",
     "genre": "青春ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 3,
     "summary": " ",
     "image": "images/imoutohakanojoni.JPEG"
@@ -1381,7 +1852,10 @@
     "illustrator": "ぶーた",
     "publisher": "電撃文庫",
     "genre": "青春ライトノベル",
-    "owned": [1,2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": " ",
     "image": "images/hellohello.JPG"
@@ -1392,7 +1866,10 @@
     "illustrator": "扇ヶ谷かんな",
     "publisher": "MF文庫J",
     "genre": "青春ライトノベル",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 3,
     "summary": " ",
     "image": "images/nettokanojo.JPG"
@@ -1403,7 +1880,9 @@
     "illustrator": "おりょう",
     "publisher": "MF文庫J",
     "genre": "青春ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 9,
     "summary": " ",
     "image": "images/bokunokanojosensei.JPG"
@@ -1414,7 +1893,9 @@
     "illustrator": "和錆",
     "publisher": "MF文庫J",
     "genre": "青春ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 5,
     "summary": " ",
     "image": "images/nazekagakkouitinobisyoujo.JPG"
@@ -1425,7 +1906,9 @@
     "illustrator": " ",
     "publisher": "電撃文庫",
     "genre": "日常ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": " ",
     "image": "images/usamimisyoujo.JPG"
@@ -1436,7 +1919,9 @@
     "illustrator": " ",
     "publisher": "電撃文庫",
     "genre": "青春ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": " ",
     "image": "images/bokutosinigami.JPG"
@@ -1446,8 +1931,10 @@
     "author": "ミヤ",
     "illustrator": " ",
     "publisher": "スニーカー文庫",
-    "genre":"青春ライトノベル",
-    "owned": [1],
+    "genre": "青春ライトノベル",
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": " ",
     "image": "images/imoutogaburakon.JPEG"
@@ -1457,8 +1944,10 @@
     "author": "滝沢慧",
     "illustrator": "睦茸",
     "publisher": "ファンタジア文庫",
-    "genre":"青春ライトノベル",
-    "owned": [1],
+    "genre": "青春ライトノベル",
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": " ",
     "image": "images/hiotanokanojo.JPG"
@@ -1469,7 +1958,9 @@
     "illustrator": "ぎん太郎",
     "publisher": "ファンタジア文庫",
     "genre": "日常ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 10,
     "summary": " ",
     "image": "images/oregasukinanoha.JPG"
@@ -1480,7 +1971,10 @@
     "illustrator": "CUTEG",
     "publisher": "スニーカー文庫",
     "genre": "ファンタジーライトノベル",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": " ",
     "image": "images/madougpx.JPG"
@@ -1491,23 +1985,23 @@
     "illustrator": " ",
     "publisher": "ファミ通文庫",
     "genre": "ファンタジーライトノベル",
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "total": 2,
     "summary": " ",
     "image": "images/vrero.JPG"
   },
-
-
-
-
-
   {
     "title": "死を見る僕と、明日死ぬ君の事件録",
     "author": "古宮九時",
     "publisher": "メディアワークス文庫",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "images/siwomiruboku.JPG",
     "summary": "人の死が「予兆」として見えてしまう少年・音無。彼はある日、クラスの目立たない少女・明日葉が明日死ぬことを知ってしまう。死の運命を変えるべく奔走する中で明かされる、彼女の秘めた想いと凄絶な過去。生と死の境界で紡がれる、切なくも衝撃的なミステリー。"
   },
@@ -1517,7 +2011,9 @@
     "publisher": "メディアワークス文庫",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "images/hatukoirosutaimu.WEBP",
     "summary": "毎日一時間、世界が完全に静止する「ロスタイム」。その不思議な時間の中で、浪人生の孝司は自分以外に動ける少女・真希に出会う。静止した世界で距離を縮めていく二人だったが、ロスタイムには残酷な秘密が隠されていた。時間に翻弄される二人の、儚く美しい初恋の物語。"
   },
@@ -1527,7 +2023,9 @@
     "publisher": "メディアワークス文庫",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "images/sitigatuno.JPG",
     "summary": "遺伝子レベルで寿命が規定された近未来。死を間近に控えた若者たちが集う場所で、少年は一人の少女と出会う。限られた時間の中で「生きる意味」を問い直す彼らが、最後に見つけた希望とは。緻密な設定と叙情的な筆致で描かれる、命の輝きをめぐる青春群像劇。"
   },
@@ -1537,7 +2035,9 @@
     "publisher": "実業之日本社",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "images/sabaku.JPG",
     "summary": "大学という「砂漠」のような場所で出会った、麻雀とボウリングに明け暮れる5人の男女。超能力を信じる男、冷静沈着な男、正義感の強い女……。一見バラバラな彼らが、奇妙な事件や不条理な出来事に巻き込まれながらも、社会という荒野へ踏み出すまでを描いた瑞々しい傑作青春小説。"
   },
@@ -1547,7 +2047,9 @@
     "publisher": "メディアワークス文庫",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "images/houkagobijutusitu.JPG",
     "summary": "放課後の美術室。そこは、絵を描くことだけが救いだった少年と、自由奔放に振る舞う少女の逃避行の場所だった。筆の音だけが響く空間で、二人は言葉にできない感情をキャンバスにぶつけていく。芸術を通して魂が共鳴し合う、繊細で鮮やかな青春物語。"
   },
@@ -1557,7 +2059,9 @@
     "publisher": "メディアワークス文庫",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "images/houkagotosyositu.JPG",
     "summary": "図書室の片隅で、静かに本を読む彼と、その姿を遠くから見つめる彼女。交わされる言葉は少なくとも、貸出カードやしおりを通して二人の心は少しずつ繋がっていく。静寂の中で育まれる恋心と、本が繋ぐ優しい縁を描いた、図書室を舞台にしたノスタルジックな物語。"
   },
@@ -1567,7 +2071,9 @@
     "publisher": "メディアワークス文庫",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "自分の居場所を見失った少年と、誰よりも明るく振る舞いながら深い孤独を抱える少女。二人が出会った時、モノクロだった世界が彩りを取り戻し始める。「君が笑ってくれるなら、世界はそれだけでいい」。献身的な愛と再生を描いた、涙なしには読めない純愛ストーリー。"
   },
@@ -1577,7 +2083,9 @@
     "publisher": "メディアワークス文庫",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "届くはずのない手紙が届いた。それは、かつて別れた大切な人からの最後のメッセージだった。手紙に記された手がかりを追ううちに、過去の真実と、秘められていた想いが次々と明らかになっていく。別れから始まる、切なくも温かい「さよなら」のその先を描く物語。"
   },
@@ -1587,7 +2095,9 @@
     "publisher": "メディアワークス文庫",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "全ての物語は、あの静かな図書室から始まった。本を通じて出会った少年少女たちが、悩み、傷つきながらも一歩前へ踏み出していく姿を描く連作短編集。図書室の独特な空気感の中で紡がれる、誰の心にもある「はじまり」の瞬間を切り取った一冊。"
   },
@@ -1597,7 +2107,9 @@
     "publisher": "角川スニーカー文庫",
     "genre": "青春ライトノベル",
     "total": 9,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "隣の席の絶世の美少女・アーリャさんは、時々ロシア語で甘い言葉を漏らしている。彼女は気づいていないが、実は俺のロシア語リスニングはネイティブレベルなのだ。隠れてデレる彼女と、それを知って悶える俺の、ニヤニヤが止まらない青春ラブコメディ。"
   },
@@ -1607,7 +2119,9 @@
     "publisher": "電撃文庫",
     "genre": "青春ライトノベル",
     "total": 12,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "初恋の相手にフラれ、絶望する俺。そんな俺に、幼馴染の黒羽は「復讐しよう」と持ちかける。相手は学園のアイドル、ターゲットは彼女の恋心。かつての天才子役たちが繰り広げる、泥沼にして超爽快な「幼馴染勝利」を目指すヒロインレース、開幕！"
   },
@@ -1617,7 +2131,9 @@
     "publisher": "双葉社",
     "genre": "青春・小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "膵臓の病気で余命わずかな山内桜良と、彼女の秘密を知ってしまった「僕」。正反対の性格を持つ二人は、残された時間の中で「生きる」こと、そして「誰かと繋がる」ことの本当の意味を探していく。ラスト、タイトルの言葉に込められた真意に誰もが涙する、至高の青春小説。"
   },
@@ -1627,7 +2143,9 @@
     "publisher": "KADOKAWA",
     "genre": "青春小説",
     "total": 1,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "大学時代、秘密結社のようなサークル『モアイ』を作った楓と秋好。「世界を変える」という理想を掲げたはずの場所は、いつの間にか嘘と虚飾にまみれた就活サークルへと変貌していた。かつての理想を取り戻すため、楓が仕掛ける悪意に満ちた復讐劇。若さゆえの残酷さと痛みをえぐる問題作。"
   },
@@ -1637,7 +2155,9 @@
     "publisher": "ファンタジア文庫",
     "genre": "青春ライトノベル",
     "total": 5,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "諸事情により、隠れオタクの美少女と同棲することになった俺。理想のオタク彼女を作るべく、家でのオタ活を通して距離を縮めていくが、彼女の無防備な姿に振り回されっぱなしで！？ 一つ屋根の下で繰り広げられる、もどかしくも甘い同棲ラブコメディ。"
   },
@@ -1647,7 +2167,9 @@
     "publisher": "角川スニーカー文庫",
     "genre": "青春ライトノベル",
     "total": 3,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "オタクの集まりの中でチヤホヤされる「姫」。そんな彼女に恋なんてするはずがないと思っていたのに……。サークル内の人間関係や格差、そして「姫」が抱える意外な素顔に触れるうちに、偏見は少しずつ崩れていく。オタク文化のリアルと恋のジレンマを描く異色ラブコメ。"
   },
@@ -1657,7 +2179,9 @@
     "publisher": "角川スニーカー文庫",
     "genre": "ファンタジーライトノベル",
     "total": 15,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "異世界の魔導兵器を操る少女たちが集う学園。そんな彼女たちのエネルギーを「行為」によって回復させることができる少年・傷無。人類の存亡を賭けた戦いの中、彼は少女たちと破廉恥な契約を結び、最強の力を引き出していく。エロティシズムと熱いバトルが融合したハイブリッド・ファンタジー。"
   },
@@ -1667,7 +2191,9 @@
     "publisher": "ダッシュエックス文庫",
     "genre": "異世界ファンタジー",
     "total": 3,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "女神の甘い言葉に乗せられて異世界転生したはずが、手に入れた能力は一見ハズレ。しかし、その力を活用することで、次々と美少女たちを仲間に引き入れ、気づけば理想のハーレムを作り上げていた！？ 騙された悔しさをバネに、最強のハーレム王へと登り詰める、痛快逆転劇。"
   },
@@ -1677,7 +2203,9 @@
     "publisher": "電撃文庫",
     "genre": "青春ライトノベル",
     "total": 6,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "隣の家に住む双子の姉妹、琉実と那織。ボーイッシュな姉と、秀才でひねくれ者の妹。幼馴染として育った俺は、いつしか二人との三角関係に陥ってしまう。どちらを選んでも誰かが傷つく。数学のように割り切れない想いと、思春期特有の揺れ動く感情を描いた、焦れったすぎる三角関係ラブコメ。"
   },
@@ -1687,7 +2215,9 @@
     "publisher": "HJ文庫",
     "genre": "青春ライトノベル",
     "total": 3,
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "image": "",
     "summary": "平穏な日常を愛する俺の前に現れたのは、学園一の美少女。彼女の猛烈なアプローチをかわし、なんとか「距離を置こう」と奮闘するが、策を弄すれば弄するほど逆に距離が縮まっていく！？ 逃げたい俺と、追いかけたい彼女の、シュールで甘い攻防戦。"
   },
@@ -1697,7 +2227,9 @@
     "publisher": "オーバーラップ文庫",
     "genre": "異世界ファンタジー",
     "total": 5,
-    "owned": [4],
+    "owned": [
+      4
+    ],
     "image": "",
     "summary": "クラスメイトと共に異世界へ召喚された織田晶。彼の職業は「暗殺者」で、ステータスは「勇者」を遥かに凌駕していた。影に潜み、真の黒幕を暴くため、晶は一人独自の道を進む。圧倒的な実力で陰謀を粉砕する、異世界最強暗殺者の無双ファンタジー。"
   },
@@ -1707,21 +2239,22 @@
     "publisher": "GA文庫",
     "genre": "青春ライトノベル",
     "total": 2,
-    "owned": [1, 2],
+    "owned": [
+      1,
+      2
+    ],
     "image": "",
     "summary": "誰に対しても冷徹で、近づきがたい「氷の令嬢」こと、冬河さん。しかし、ふとしたきっかけで彼女の「本当の姿」を知ってしまった俺は、少しずつ彼女の心の氷を溶かしていくことに。冷たかった彼女が、俺にだけ見せる甘すぎるギャップに悶絶必至。一歩ずつ、けれど確実に縮まっていく二人の距離を描く純愛物語。"
-  }
-
-
-
-  ,
+  },
   {
     "title": "仲の良い美少女百合カップルをおちんぽに屈服させるだけの話",
     "author": "地球",
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1735,7 +2268,9 @@
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1749,7 +2284,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1763,7 +2300,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1772,30 +2311,14 @@
     "info_url": "https://novel18.syosetu.com/n0112ma/"
   },
   {
-    "title": "俺は超有名エロ配信者の共有竿役 〜配信者ランキング1位の女神と2位の小悪魔に、毎日精液を搾り取られる生活を送っています〜",
-    "author": "丸々丸々",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N3267LI.pdf",
-    "info_url": "https://novel18.syosetu.com/n3267li/"
-  }
-  
-  
-  
-  ,
-  {
     "title": "ずっと好きだった幼馴染と付き合い始めたら一途ビッチの性欲ジャンキーだったんだがどうすりゃいいですか？",
     "author": "月野 観空",
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1803,14 +2326,15 @@
     "pdf_url": "pdfs/ずっと好きだった幼馴染と付き合い始めたら一途ビッチの性欲ジャンキーだったんだがどうすりゃいいですか？ - 月野 観空.pdf",
     "info_url": "https://kakuyomu.jp/works/16817330658395392076"
   },
-
   {
     "title": "冴えない僕の家に可愛くイケてる女子たちがやって来て溜まり場にする。",
     "author": "三葉 空",
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1819,40 +2343,14 @@
     "info_url": "https://kakuyomu.jp/works/16816700426920412759"
   },
   {
-    "title": "学校一の美少女にシて欲しいと告られた陰キャエロゲーマーの俺が、なぜか彼氏（仮）になって彼女を救う件（半強制）",
-    "author": "猫屋敷むぎ",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/学校一の美少女にシて欲しいと告られた陰キャエロゲーマーの俺が、なぜか彼氏（仮）になって彼女を救う件（半強制） - 猫屋敷むぎ.pdf",
-    "info_url": "https://kakuyomu.jp/works/822139845796870465"
-  },
-  {
-    "title": "ガリ勉くんと裏アカさん　～散々お世話になっているエロ系裏垢女子の正体がクラスのアイドルだった件～",
-    "author": "鈴木えんぺら",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/【ＷＥＢ版】ガリ勉くんと裏アカさん ～散々お世話になっているエロ系裏垢女子の正体がクラスのアイドルだった件～ - 鈴木えんぺら＠『ガリ勉くんと裏アカさん』.pdf",
-    "info_url": "https://kakuyomu.jp/works/16816452220316242482"
-  },
-  {
     "title": "VTuberなんだが配信切り忘れたら伝説になってた",
     "author": "七斗七",
     "illustrator": "",
     "publisher": "カクヨム",
     "genre": "日常/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1866,7 +2364,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1875,75 +2375,14 @@
     "info_url": "https://novel18.syosetu.com/n7640gf/"
   },
   {
-    "title": "二人暮らしなら妹とするのも当たり前だよね。",
-    "author": "月見ハク",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N0701JW.pdf",
-    "info_url": "https://novel18.syosetu.com/n0701jw/"
-  },
-
-  {
-    "title": "もし学園のアイドルが俺のメイドになったら",
-    "author": "みずがめ",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/N9668FU.pdf",
-    "info_url": "https://novel18.syosetu.com/n9668fu/"
-  },
-
-
-
-
-
-
-  {
-    "title": "親切心で優しくしただけなのに―　そのギャルと仲間たちに徹底搾取される日々が始まってしまった件",
-    "author": "震撃縦散開",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N6877KE.pdf",
-    "info_url": "https://novel18.syosetu.com/n6877ke/"
-  },
-  {
-    "title": "金髪ギャルと銀髪ギャルを助けたオタク男子が二人に呼ばれてセックスをした結果、つよつよチンポで付き合ってしまう話",
-    "author": "あまえび太郎",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N4534KP.pdf",
-    "info_url": "https://novel18.syosetu.com/n4534kp/"
-  },
-  {
     "title": "とても都合のいいオナホ先輩",
     "author": "九龍城砦",
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1952,12 +2391,142 @@
     "info_url": "https://novel18.syosetu.com/n0130mc/"
   },
   {
+    "title": "冬コミで売り子をしてくれたメスガキ爆乳コスプレイヤーの後輩と年越し",
+    "author": "もみまん",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "ネット/R18/ライトノベル",
+    "owned": [
+      1
+    ],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": true,
+    "pdf_url": "pdfs/N0325LQ.pdf",
+    "info_url": "https://novel18.syosetu.com/n0325lq/"
+  },
+  {
+    "title": "もし学園のアイドルが俺のメイドになったら",
+    "author": "みずがめ",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "ネット/R18/ライトノベル",
+    "owned": [
+      1
+    ],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": true,
+    "pdf_url": "pdfs/N9668FU.pdf",
+    "info_url": "https://novel18.syosetu.com/n9668fu/"
+  },
+  {
+    "title": "俺は超有名エロ配信者の共有竿役 〜配信者ランキング1位の女神と2位の小悪魔に、毎日精液を搾り取られる生活を送っています〜",
+    "author": "丸々丸々",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "ネット/R18/ライトノベル",
+    "owned": [
+      1
+    ],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N3267LI.pdf",
+    "info_url": "https://novel18.syosetu.com/n3267li/"
+  },
+  {
+    "title": "学校一の美少女にシて欲しいと告られた陰キャエロゲーマーの俺が、なぜか彼氏（仮）になって彼女を救う件（半強制）",
+    "author": "猫屋敷むぎ",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "青春/ネット/R18/ライトノベル",
+    "owned": [
+      1
+    ],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/学校一の美少女にシて欲しいと告られた陰キャエロゲーマーの俺が、なぜか彼氏（仮）になって彼女を救う件（半強制） - 猫屋敷むぎ.pdf",
+    "info_url": "https://kakuyomu.jp/works/822139845796870465"
+  },
+  {
+    "title": "二人暮らしなら妹とするのも当たり前だよね。",
+    "author": "月見ハク",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "ネット/R18/ライトノベル",
+    "owned": [
+      1
+    ],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N0701JW.pdf",
+    "info_url": "https://novel18.syosetu.com/n0701jw/"
+  },
+  {
+    "title": "親切心で優しくしただけなのに―　そのギャルと仲間たちに徹底搾取される日々が始まってしまった件",
+    "author": "震撃縦散開",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "ネット/R18/ライトノベル",
+    "owned": [
+      1
+    ],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N6877KE.pdf",
+    "info_url": "https://novel18.syosetu.com/n6877ke/"
+  },
+  {
+    "title": "ガリ勉くんと裏アカさん　～散々お世話になっているエロ系裏垢女子の正体がクラスのアイドルだった件～",
+    "author": "鈴木えんぺら",
+    "illustrator": "",
+    "publisher": "カクヨム",
+    "genre": "青春/ネット/R18/ライトノベル",
+    "owned": [
+      1
+    ],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/【ＷＥＢ版】ガリ勉くんと裏アカさん ～散々お世話になっているエロ系裏垢女子の正体がクラスのアイドルだった件～ - 鈴木えんぺら＠『ガリ勉くんと裏アカさん』.pdf",
+    "info_url": "https://kakuyomu.jp/works/16816452220316242482"
+  },
+  {
+    "title": "金髪ギャルと銀髪ギャルを助けたオタク男子が二人に呼ばれてセックスをした結果、つよつよチンポで付き合ってしまう話",
+    "author": "あまえび太郎",
+    "illustrator": "",
+    "publisher": "小説家になろう",
+    "genre": "ネット/R18/ライトノベル",
+    "owned": [
+      1
+    ],
+    "total": 1,
+    "summary": "",
+    "image": "",
+    "favorite": false,
+    "pdf_url": "pdfs/N4534KP.pdf",
+    "info_url": "https://novel18.syosetu.com/n4534kp/"
+  },
+  {
     "title": "近所のクソガキロリ巨乳のおもちゃになりました",
     "author": "かしわもち",
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1971,7 +2540,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -1980,362 +2551,14 @@
     "info_url": "https://novel18.syosetu.com/n9440lz/"
   },
   {
-    "title": "冬コミで売り子をしてくれたメスガキ爆乳コスプレイヤーの後輩と年越し",
-    "author": "もみまん",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N0325LQ.pdf",
-    "info_url": "https://novel18.syosetu.com/n0325lq/"
-  },
-  {
-    "title": "清楚系ビッチの噂がある美少女に秘密を打ち明けたら、何故かモテだした件",
-    "author": "ダーゥイン",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N3506LR.pdf",
-    "info_url": "https://novel18.syosetu.com/n3506lr/"
-  },
-  {
-    "title": "終電を逃した後輩女子が泊まりにきた結果、2人まとめてセフレにしてしまった",
-    "author": "高橋　和洋",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N0464JZ.pdf",
-    "info_url": "https://novel18.syosetu.com/n0464jz/"
-  },
-  {
-    "title": "悪いのは早熟すぎるドスケベな彼女たちであって、間違っても俺は◯◯コンじゃない。",
-    "author": "ダザリアン",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N7357JT.pdf",
-    "info_url": "https://novel18.syosetu.com/n7357jt/"
-  },
-  {
-    "title": "ボッチの僕でも、クズのヤリチンになれるってホントですか？",
-    "author": "黄金の黒山羊",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N3047HO.pdf",
-    "info_url": "https://novel18.syosetu.com/n3047ho/"
-  },
-  {
-    "title": "巨乳で可愛いお嬢様な幼馴染が每日うちに入り浸ってるんだけどずっと手を出さなかったら暴走しちゃった件について",
-    "author": "クリス",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N6562KK.pdf",
-    "info_url": "https://novel18.syosetu.com/n6562kk/"
-  },
-  {
-    "title": "お隣に引っ越してきた銀髪碧眼美少女留学生に「日本の文化」と称してセックスを教えたらドハマリして親密になれた件 ～おやおや？俺のことを【冴えない童貞】と小馬鹿にしていた幼馴染♀の様子がおかしいんだが？～",
-    "author": "三越利範",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N0871ME.pdf",
-    "info_url": "https://novel18.syosetu.com/n0871me/"
-  },
-  {
-    "title": "推しのVtuberにセクハラコメしまくってたら隣に住む中の人の爆乳芋女とリア凸セックスした話",
-    "author": "ヨルテ",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N8786LP.pdf",
-    "info_url": "https://novel18.syosetu.com/n8786lp/"
-  },
-  {
-    "title": "センパイ、自宅警備員の雇用はいかがですか？",
-    "author": "二上圭",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/N2939GU.pdf",
-    "info_url": "https://ncode.syosetu.com/n2939gu/"
-  },
-  {
-    "title": "おっぱいを揉む代わりに好きなだけ中出しさせてくれる幼馴染",
-    "author": "笑うヤカン",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N1451HC.pdf",
-    "info_url": "https://novel18.syosetu.com/n1451hc/"
-  },
-  {
-    "title": "高校時代に傲慢だった女王様との同棲生活は意外と居心地が悪くない",
-    "author": "ミソネタ・ドザえもん",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N6480ID.pdf",
-    "info_url": "https://ncode.syosetu.com/n6480id/"
-  },
-  {
-    "title": "生意気な妹が清楚ビッチな友達を連れて来た",
-    "author": "八束頼",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N4766DC.pdf",
-    "info_url": "https://novel18.syosetu.com/n4766dc/"
-  },
-  {
-    "title": "全力純真ボクっ娘幼馴染！柏野結妃とあそぼう",
-    "author": "村上裕人",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N3787GS.pdf",
-    "info_url": "https://novel18.syosetu.com/n3787gs/"
-  },
-  {
-    "title": "俺の幼馴染が可愛すぎる件",
-    "author": "遠",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N0566HC.pdf",
-    "info_url": "https://novel18.syosetu.com/n0566hc/"
-  },
-  {
-    "title": "最近女性らしい身体付きになってきたボクっ娘幼馴染みを脅迫して性奴隷にして性欲処理に使ったが、なんやかんや両思いで丸く収まる話",
-    "author": "住吉側トンネル工事現場",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N6692GU.pdf",
-    "info_url": "https://novel18.syosetu.com/n6692gu/"
-  },
-  {
-    "title": "大好きな幼馴染に告白したら、性癖が壊れていた ～性奴隷？オナホ？ちょっと、待って。話し会おう～",
-    "author": "雪見猫X",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/N0554KH.pdf",
-    "info_url": "https://novel18.syosetu.com/n0554kh/"
-  },
-  {
-    "title": "ビッチな幼なじみとセフレな俺",
-    "author": "がう",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N9448BP.pdf",
-    "info_url": "https://novel18.syosetu.com/n9448bp/"
-  },
-  {
-    "title": "スマホゲームで知り合ったお姉さんの家に遊びにいったり泊まったりした話",
-    "author": "shinzou",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N3365LY.pdf",
-    "info_url": "https://novel18.syosetu.com/n3365ly/"
-  },
-  {
-    "title": "男だと思っていたネトゲの仲の良い友達が実は可愛い女子大生なうえ人気美少女VTuberだった件。",
-    "author": "雨甘ありす",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N9756JS.pdf",
-    "info_url": "https://novel18.syosetu.com/n9756js/"
-  },
-  {
-    "title": "マッチングアプリで出会った子がVTuberの中の人でいきなりホテルに誘われた話",
-    "author": "shinzou",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N6164LV.pdf",
-    "info_url": "https://novel18.syosetu.com/n6164lv/"
-  },
-  {
-    "title": "義理の姉と甘々すぎる日常",
-    "author": "騎士久作",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N3135CC.pdf",
-    "info_url": "https://novel18.syosetu.com/n3135cc/"
-  },
-  {
-    "title": "ネットで仲の良い友人と初めてのオフ会をしたら妹を名乗るＦカップ巨乳ドスケベＪＣが代わりにやってきたのでオフパコしちゃった話",
-    "author": "ブラックマンバ",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N0715FY.pdf",
-    "info_url": "https://novel18.syosetu.com/n0715fy/"
-  },
-  {
-    "title": "親の再婚で出来た同い年の義妹が俺のチンポに興味津々すぎるんだが",
-    "author": "三越利範",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N2677KV.pdf",
-    "info_url": "https://novel18.syosetu.com/n2677kv/"
-  },
-  {
-    "title": "誕生日に間違ってコンドームをプレゼントしてから幼馴染の様子がおかしいんだが",
-    "author": "三越利範",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N2126KX.pdf",
-    "info_url": "https://novel18.syosetu.com/n2126kx/"
-  },
-  {
-    "title": "俺のヒロインが可愛すぎる件について。",
-    "author": "すず",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N3176FN.pdf",
-    "info_url": "https://novel18.syosetu.com/n3176fn/"
-  },
-  {
     "title": "",
     "author": "",
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -2349,7 +2572,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -2363,7 +2588,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -2377,7 +2604,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -2391,203 +2620,9 @@
     "illustrator": "",
     "publisher": "小説家になろう",
     "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  },
-  {
-    "title": "",
-    "author": "",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "ネット/R18/ライトノベル",
-    "owned": [1],
+    "owned": [
+      1
+    ],
     "total": 1,
     "summary": "",
     "image": "",
@@ -2595,5 +2630,4 @@
     "pdf_url": "pdfs/",
     "info_url": ""
   }
-
 ]
