@@ -186,19 +186,43 @@ function applyFilters() {
         if (isEditMode) {
             renderBooks(filtered, isEditMode);
         } else {
-            // 通常モード時：シリーズ名（なければタイトル）かつ同一作者のアイテムをマージしてグループ化
+            // ⚡ シリーズ名の優先紐付けグループ化ロジック
             const grouped = [];
+            
             filtered.forEach(item => {
-                const cleanSeries = (item.book.series || item.book.title || "").trim();
-                const cleanAuthor = (item.book.author || "").trim();
+                const currentBook = item.book;
+                const bSeries = (currentBook.series || "").trim();
+                const bTitle = (currentBook.title || "").trim();
+                const bAuthor = (currentBook.author || "").trim();
                 
-                const existing = grouped.find(g => g.series === cleanSeries && g.author === cleanAuthor);
+                let existing = grouped.find(g => {
+                    if (g.author !== bAuthor) return false;
+                    
+                    // お互いにシリーズ名が設定されているならシリーズ名で厳密比較
+                    if (bSeries !== "" && g.series !== "" && !g.isFallbackSeries) {
+                        return g.series === bSeries;
+                    }
+                    // どちらかが未設定ならタイトルや暫定シリーズ名とクロスチェック
+                    return g.series === bTitle || g.rawTitles.includes(bTitle) || g.rawTitles.includes(bSeries) || (bSeries !== "" && g.series === bSeries);
+                });
+                
                 if (existing) {
                     existing.variants.push(item);
+                    if (!existing.rawTitles.includes(bTitle)) {
+                        existing.rawTitles.push(bTitle);
+                    }
+                    // 後から正式なシリーズ名を持ったデータが来たら、グループの一時シリーズ名を正式名に上書き昇格
+                    if (bSeries !== "" && (existing.isFallbackSeries || existing.series === bTitle)) {
+                        existing.series = bSeries;
+                        existing.isFallbackSeries = false;
+                    }
                 } else {
+                    const hasSeries = bSeries !== "";
                     grouped.push({
-                        series: cleanSeries,
-                        author: cleanAuthor,
+                        series: hasSeries ? bSeries : bTitle, 
+                        isFallbackSeries: !hasSeries,        
+                        author: bAuthor,
+                        rawTitles: [bTitle],
                         variants: [item]
                     });
                 }
@@ -299,14 +323,12 @@ function renderGroupedBooks(groupedList) {
     container.innerHTML = '';
 
     groupedList.forEach(group => {
-        // WEB以外のレーベルがあればそちらの表示（画像や個別タイトル等）を優先代表にする
         let primaryItem = group.variants.find(v => !v.book.publisher.includes('なろう') && !v.book.publisher.includes('カクヨム'));
         if (!primaryItem) {
             primaryItem = group.variants[0];
         }
         const book = primaryItem.book;
 
-        // 包含する全メディアのインラインバッジ文字列を作る
         const badgesHtml = group.variants.map(v => {
             const media = getMediaType(v.book);
             return `<span class="title-badge" style="background:${media.color}">${media.name}</span>`;
@@ -319,12 +341,10 @@ function renderGroupedBooks(groupedList) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        // 詳細へ飛ぶリンクの基準キーにシリーズ名（無ければタイトル）を採用
-        const matchKey = book.series || book.title;
+        // ⚡ 詳細画面ハッシュおよび画面表示名に、決定された正しいグループのシリーズ名(group.series)を固定適用
+        const matchKey = group.series;
         const clickAction = `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(matchKey)}'"`;
-
-        // 本棚トップの一覧用表示名：シリーズ名が設定されていればそれをメイン表示
-        const displayTitle = book.series || book.title;
+        const displayTitle = group.series;
 
         card.innerHTML = `
             <div class="card-content" ${clickAction}>
@@ -430,22 +450,20 @@ function showDetail(book) {
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
 
-    // 共通のシリーズ名、もしくはタイトルで全バリエーションを正確に抽出
     const targetSeries = (book.series || "").trim();
     const targetTitle = (book.title || "").trim();
     const cleanAuthor = (book.author || "").trim();
     
+    // ⚡ 詳細画面内でもシリーズ名最優先でバリエーションを集約
     const variants = books.filter(b => {
         const bSeries = (b.series || "").trim();
         const bTitle = (b.title || "").trim();
         const bAuthor = (b.author || "").trim();
         
         if (bAuthor !== cleanAuthor) return false;
-        // 両方にシリーズが定義されていれば最優先でシリーズ比較
         if (targetSeries !== "" && bSeries !== "") {
             return bSeries === targetSeries;
         }
-        // 片方または両方が未設定の場合は後方互換クロスチェック
         return bTitle === targetTitle || bSeries === targetTitle || bTitle === targetSeries;
     });
     
@@ -465,7 +483,6 @@ function showDetail(book) {
             ? `<button class="read-btn" onclick="openPdf('${currentBook.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
             : '';
 
-        // マスターデータ配列(books)における、現在選択中の個別レーベルの厳密なインデックスを取得
         const originalIndex = books.findIndex(b => 
             (b.title === currentBook.title && b.publisher === currentBook.publisher)
         );
@@ -481,7 +498,6 @@ function showDetail(book) {
             tabsHtml += `</div>`;
         }
 
-        // 詳細トップの大型ヘッダータイトル表示
         const displayDetailTitle = currentBook.series 
             ? `<span style="font-size:14px; color:#f43f5e; display:block; font-weight:bold; margin-bottom:4px;">[シリーズ: ${currentBook.series}]</span>${currentBook.title}` 
             : currentBook.title;
@@ -765,7 +781,6 @@ if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
 const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
 
-// ボタン操作による手動ヘッダー開閉コントロール
 function toggleHeaderPanel() {
     const header = document.getElementById('main-header');
     const triggerBtn = document.getElementById('btn-trigger-search');
