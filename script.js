@@ -1,10 +1,10 @@
 let books = [];
 let currentMainView = 'list'; 
-let currentContentMode = 'normal'; // 'normal' または 'r18'
+let currentContentMode = 'normal'; // 'normal', 'syosetu', 'manga', 'r18'
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
 
-// ⚡【変更】起動時は、現在のモード（normal）のデータを読み込む
+// ⚡ 起動時は、現在のモード（normal）のデータを読み込む
 loadBooksDataByMode();
 
 window.addEventListener('hashchange', checkRoute);
@@ -32,9 +32,16 @@ function checkRoute() {
     }
 }
 
-// ⚡【新設】モードに応じたJSONファイルを読み込む関数
+// ⚡ 現在のモードに対応するJSONのファイル名を取得する関数
+function getJsonFileNameByMode() {
+    if (currentContentMode === 'syosetu') return 'books-syosetu.json';
+    if (currentContentMode === 'manga') return 'books-manga.json'; // 既存の形式をそのまま生かせるよう分割
+    if (currentContentMode === 'r18') return 'books-r18.json';
+    return 'books-normal.json';
+}
+
+// ⚡ モードに応じたJSONファイルを読み込む関数
 function loadBooksDataByMode() {
-    // ローカルストレージ上のキー名もモードごとに分離して競合を防ぐ
     const storageKey = `local_books_data_${currentContentMode}`;
     const localSavedData = localStorage.getItem(storageKey);
 
@@ -43,8 +50,7 @@ function loadBooksDataByMode() {
         applyFilters(); 
         checkRoute();
     } else {
-        // モードに応じて読み込むJSONファイルを切り替える
-        const jsonFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
+        const jsonFileName = getJsonFileNameByMode();
         
         fetch(`${jsonFileName}?_=${new Date().getTime()}`)
             .then(res => {
@@ -64,27 +70,34 @@ function loadBooksDataByMode() {
     }
 }
 
-// ⚡【修正】タブを切り替えたら、裏のJSONデータごとロードし直す
+// ⚡ タブを切り替えたら、アクティブクラスを変更してJSONデータごとリロード
 function switchContentMode(mode) {
-    if (currentContentMode === mode) return; // 変更がなければ何もしない
+    if (currentContentMode === mode) return; 
     
     currentContentMode = mode;
     
-    const tabNormal = document.getElementById('tab-mode-normal');
-    const tabR18 = document.getElementById('tab-mode-r18');
+    const tabs = {
+        normal: document.getElementById('tab-mode-normal'),
+        syosetu: document.getElementById('tab-mode-syosetu'),
+        manga: document.getElementById('tab-mode-manga'),
+        r18: document.getElementById('tab-mode-r18')
+    };
     
-    if (mode === 'r18') {
-        if (tabNormal) tabNormal.classList.remove('active-normal');
-        if (tabR18) tabR18.classList.add('active-r18');
-    } else {
-        if (tabNormal) tabNormal.classList.add('active-normal');
-        if (tabR18) tabR18.classList.remove('active-r18');
+    // すべてのタブの着色クラスを一旦クリア
+    if(tabs.normal) tabs.normal.classList.remove('active-normal');
+    if(tabs.syosetu) tabs.syosetu.classList.remove('active-syosetu');
+    if(tabs.manga) tabs.manga.classList.remove('active-manga');
+    if(tabs.r18) tabs.r18.classList.remove('active-r18');
+    
+    // 選択されたタブに対応するアクティブクラスを付与
+    if (tabs[mode]) {
+        if (mode === 'normal') tabs.normal.classList.add('active-normal');
+        if (mode === 'syosetu') tabs.syosetu.classList.add('active-syosetu');
+        if (mode === 'manga') tabs.manga.classList.add('active-manga');
+        if (mode === 'r18') tabs.r18.classList.add('active-r18');
     }
     
-    // タブ切り替え時にスクロール位置をリセット
     savedScrollPosition = 0;
-    
-    // 切り替えたモード用のJSONを読み直す
     loadBooksDataByMode();
 }
 
@@ -111,10 +124,12 @@ function showAdmin() {
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('admin-view').style.display = 'block';
     
-    // 管理画面の見出しを現在のモードに応じて変化させる（わかりやすさのため）
     const adminTitle = document.querySelector('#admin-view h2');
     if (adminTitle) {
-        const modeName = currentContentMode === 'r18' ? '🔞 R18作品用' : '📗 通常作品用';
+        let modeName = '📗 通常(ラノベ)用';
+        if (currentContentMode === 'syosetu') modeName = '📘 小説用';
+        if (currentContentMode === 'manga') modeName = '📙 漫画用';
+        if (currentContentMode === 'r18') modeName = '🔞 R18作品用';
         adminTitle.textContent = `⚙️ ローカルデータ管理・エクスポート (${modeName})`;
     }
 }
@@ -169,7 +184,6 @@ function applyFilters() {
 
     let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
 
-    // ⚡ すでにロード時点でデータが分離されているため、ここではシンプルにキーワードや鬱フィルタのみ適用
     let filtered = indexedBooks.filter(item => {
         const book = item.book;
 
@@ -331,9 +345,11 @@ function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
     
-    const targetGenres = currentContentMode === 'r18' 
-        ? ["R18", "漫画", "小説", "ファンタジー", "恋愛", "日常", "鬱"]
-        : ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "ライトノベル", "漫画", "小説", "ネット", "鬱"];
+    // モード別の主要表示ジャンルの定義
+    let targetGenres = ["青春", "ファンタジー", "ミステリー", "日常", "ライトノベル", "ネット", "鬱"];
+    if (currentContentMode === 'syosetu') targetGenres = ["推理", "サスペンス", "青春", "歴史", "SF", "文学", "小説", "鬱"];
+    if (currentContentMode === 'manga') targetGenres = ["少年漫画", "青年漫画", "ファンタジー", "日常", "コメディ", "漫画", "鬱"];
+    if (currentContentMode === 'r18') targetGenres = ["R18", "漫画", "小説", "ファンタジー", "恋愛", "日常", "鬱"];
         
     const genreMap = {};
     
@@ -528,8 +544,7 @@ function saveInlineEdit(index) {
     saveToLocalStorage();
     applyFilters();
     
-    // 保存されたタイミングの現在のモード名を取得して案内する
-    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
+    const currentFileName = getJsonFileNameByMode();
     const jsonString = JSON.stringify(books, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
         alert(`✅ 変更を保存しました！\n\n最新のデータをクリップボードにコピーしました。\n「${currentFileName}」にそのままペーストして上書きしてください！`);
@@ -540,13 +555,13 @@ function saveInlineEdit(index) {
     showDetail(books[index]);
 }
 
-// ⚡【修正】ダウンロードされるファイル名が現在のモードに応じて自動で変わる
+// ⚡ ダウンロードされるファイル名が現在のモードに応じて自動で変わる
 function downloadJsonFile() {
     const jsonString = JSON.stringify(books, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
-    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
+    const currentFileName = getJsonFileNameByMode();
     
     const a = document.createElement('a');
     a.href = url;
@@ -632,8 +647,13 @@ function addNewBookLocal() {
     books.push(newBook);
     saveToLocalStorage();
     
-    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
-    alert(`「${title}」を ${currentContentMode === 'r18' ? 'R18' : '通常'} リストに追加しました！\n反映するには、管理画面から「${currentFileName}」を書き出して上書き保存してください。`);
+    const currentFileName = getJsonFileNameByMode();
+    let displayModeName = "通常(ラノベ)";
+    if(currentContentMode === 'syosetu') displayModeName = "小説";
+    if(currentContentMode === 'manga') displayModeName = "漫画";
+    if(currentContentMode === 'r18') displayModeName = "R18";
+    
+    alert(`「${title}」を 【${displayModeName}】 リストに追加しました！\n反映するには、管理画面から「${currentFileName}」を書き出して上書き保存してください。`);
     
     document.getElementById('add-book-form').reset();
     applyFilters();
@@ -642,7 +662,7 @@ function addNewBookLocal() {
 
 function copyJsonToClipboard() {
     const jsonString = JSON.stringify(books, null, 2);
-    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
+    const currentFileName = getJsonFileNameByMode();
     navigator.clipboard.writeText(jsonString).then(() => {
         alert(`最新のJSONデータをコピーしました！\n「${currentFileName}」にそのまま貼り付けて保存してください。`);
     }).catch(err => {
@@ -656,8 +676,8 @@ function saveToLocalStorage() {
 }
 
 function clearLocalChanges() {
-    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
-    if (confirm(`現在のモード (${currentContentMode === 'r18' ? 'R18' : '通常'}) のローカル変更をリセットし、サーバーの「${currentFileName}」を再読込しますか？`)) {
+    const currentFileName = getJsonFileNameByMode();
+    if (confirm(`現在のローカル変更をリセットし、サーバーの「${currentFileName}」を再読込しますか？`)) {
         const storageKey = `local_books_data_${currentContentMode}`;
         localStorage.removeItem(storageKey);
         location.reload();
