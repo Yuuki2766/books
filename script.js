@@ -1,16 +1,16 @@
 let books = [];
 let currentMainView = 'list'; 
+let currentContentMode = 'normal'; // ⚡【新設】'normal' または 'r18'
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
 
-// ⚡【修正箇所】データの読み込み（キャッシュ対策付きの fetch に変更）
+// ⚡ データの読み込み（キャッシュ対策）
 const localSavedData = localStorage.getItem('local_books_data');
 if (localSavedData) {
     books = JSON.parse(localSavedData);
     applyFilters(); 
     checkRoute();
 } else {
-    // 末尾にタイムスタンプを付与してブラウザの古いキャッシュを強制回避
     fetch('books.json?_=' + new Date().getTime())
         .then(res => res.json())
         .then(data => {
@@ -47,16 +47,31 @@ function checkRoute() {
     }
 }
 
+// ⚡【新設】通常/R18モードの切り替え関数
+function switchContentMode(mode) {
+    currentContentMode = mode;
+    
+    const tabNormal = document.getElementById('tab-mode-normal');
+    const tabR18 = document.getElementById('tab-mode-r18');
+    
+    if (mode === 'r18') {
+        tabNormal.classList.remove('active-normal');
+        tabR18.classList.add('active-r18');
+    } else {
+        tabNormal.classList.add('active-normal');
+        tabR18.classList.remove('active-r18');
+    }
+    
+    applyFilters();
+}
+
 function showList() {
     document.getElementById('detail-view').style.display = 'none';
     document.getElementById('admin-view').style.display = 'none';
     
-    // ⚡【修正】手動で隠すパネル(panel-hide)が付いていない場合のみ block に戻す
     const header = document.getElementById('main-header');
-    if (header && !header.classList.contains('panel-hide')) {
+    if (header) {
         header.style.display = 'block';
-    } else if (header) {
-        header.style.display = 'block'; // アニメーションのために要素自体は残す
     }
     
     changeMainView(currentMainView);
@@ -110,7 +125,6 @@ function applyFilters() {
     const pubFilter = document.getElementById('publisherFilter');
     const genFilter = document.getElementById('genreFilter');
     const sortFilter = document.getElementById('sortFilter');
-    const r18Toggle = document.getElementById('r18Toggle');
     const depressToggle = document.getElementById('depressToggle'); 
     const editModeToggle = document.getElementById('editModeToggle'); 
 
@@ -121,20 +135,17 @@ function applyFilters() {
     const genre = genFilter.value;
     const sort = sortFilter.value;
     const isEditMode = editModeToggle ? editModeToggle.checked : false;
-    
-    const isSafeMode = r18Toggle ? r18Toggle.checked : false;
-    const safeStatusLabel = document.getElementById('safe-status');
-    if (safeStatusLabel) safeStatusLabel.textContent = isSafeMode ? "ON" : "OFF";
-
     const hideDepressing = depressToggle ? depressToggle.checked : false;
 
     let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
 
     let filtered = indexedBooks.filter(item => {
         const book = item.book;
-        const isR18 = book.genre && book.genre.includes('R18');
+        const isR18 = book.genre && (book.genre.includes('R18') || book.genre.includes('r18'));
         
-        if (isSafeMode && isR18) return false;
+        // ⚡【修正】選択中のタブモードに応じてR18作品を完全に振り分け分断
+        if (currentContentMode === 'r18' && !isR18) return false;
+        if (currentContentMode === 'normal' && isR18) return false;
 
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
         if (hideDepressing && isDepress) return false;
@@ -293,7 +304,12 @@ function moveOrderInline(index, direction) {
 function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
-    const targetGenres = ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "ライトノベル", "漫画", "小説", "ネット", "R18", "鬱"];
+    
+    // ⚡ モードに応じてターゲットジャンルを調整
+    const targetGenres = currentContentMode === 'r18' 
+        ? ["R18", "漫画", "小説", "ファンタジー", "恋愛", "日常", "鬱"]
+        : ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "ライトノベル", "漫画", "小説", "ネット", "鬱"];
+        
     const genreMap = {};
     
     list.forEach(book => {
@@ -493,9 +509,9 @@ function saveInlineEdit(index) {
 function exportCurrentJson() {
     const jsonString = JSON.stringify(books, null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
-        alert('✅ 変更を保存しました！\n\n今までの「すべての追加・編集・並び替え」が含まれた最新の全部入りJSONデータをクリップボードにコピーしました。\nそのまま GitHub の books.json に上書き保存してください！');
+        alert('✅ 変更を保存しました！\n\n最新の全部入りJSONデータをクリップボードにコピーしました。\nGitHub の books.json に上書き保存してください！');
     }).catch(err => {
-        alert('変更は保存されましたが、クリップボードへの自動コピーに失敗しました。管理画面からコピーしてください。');
+        alert('変更は保存されましたが、コピーに失敗したため管理画面から取得してください。');
     });
 }
 
@@ -603,8 +619,6 @@ document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('publisherFilter').addEventListener('change', applyFilters);
 document.getElementById('genreFilter').addEventListener('change', applyFilters);
 document.getElementById('sortFilter').addEventListener('change', applyFilters);
-const r18Toggle = document.getElementById('r18Toggle');
-if (r18Toggle) r18Toggle.addEventListener('change', applyFilters);
 const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
 
@@ -619,8 +633,6 @@ function handleSmartHeader() {
     const header = document.getElementById('main-header');
     if (!header) return;
     if (header.style.display === 'none') return;
-    
-    // ⚡【修正】手動で非表示にされている(panel-hide)場合はスクロール追従をスキップ
     if (header.classList.contains('panel-hide')) return;
 
     const currentScrollY = window.scrollY;
@@ -635,17 +647,13 @@ function handleSmartHeader() {
     lastScrollY = currentScrollY;
 }
 
-
-// ⚡【新設】手動で検索パネルを隠す / 開くトグル関数
 function toggleHeaderPanel() {
     const header = document.getElementById('main-header');
     const triggerBtn = document.getElementById('btn-trigger-search');
     if (!header || !triggerBtn) return;
 
-    // panel-hide クラスを付け外しする
     const isHidden = header.classList.toggle('panel-hide');
 
-    // ヘッダーが隠れたら浮遊ボタンを表示、ヘッダーが出たら浮遊ボタンを非表示
     if (isHidden) {
         triggerBtn.style.display = 'flex';
     } else {
