@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>書籍マネージャー</title>
     
-    <link rel="stylesheet" href="style.css?v=1.0.3">
-    <script src="script.js?v=1.0.3" defer></script>
+    <link rel="stylesheet" href="style.css?v=1.0.6">
+    <script src="script.js?v=1.0.6" defer></script>
     
     <style>
-        /* ⚡ 手動開閉用のヘッダースタイル */
+        /* 手動開閉用のヘッダースタイル */
         #main-header {
             position: sticky;
             top: 0;
@@ -24,7 +24,7 @@
             pointer-events: none;
         }
 
-        /* ⚡ 検索を開くための浮遊ボタン */
+        /* 検索を開くための浮遊ボタン */
         #btn-trigger-search {
             position: fixed;
             bottom: 25px;
@@ -137,7 +137,7 @@
             margin-top: 5px;
         }
 
-        /* ⚡【微調整】メインモード切り替えタブのスタイル（小さくスマートに） */
+        /* メインモード切り替えタブのスタイル（4種類並ぶため最大幅を550pxに拡張） */
         .mode-tab-container {
             display: flex;
             background: #1e293b;
@@ -145,25 +145,35 @@
             border-radius: 6px;
             margin-bottom: 12px;
             border: 1px solid #334155;
-            max-width: 360px; /* 横幅が広がりすぎないよう制限 */
+            max-width: 550px;
             margin-left: auto;
             margin-right: auto;
+            gap: 2px;
         }
         .mode-tab-btn {
             flex: 1;
             background: transparent;
             color: #94a3b8;
             border: none;
-            padding: 6px 8px; /* パディングを縮小 */
+            padding: 8px 4px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 12.5px; /* 文字を少し小さく */
+            font-size: 12px;
             transition: all 0.2s;
             text-align: center;
+            white-space: nowrap;
         }
         .mode-tab-btn.active-normal {
             background: #4f46e5;
+            color: white;
+        }
+        .mode-tab-btn.active-syosetu {
+            background: #0284c7;
+            color: white;
+        }
+        .mode-tab-btn.active-manga {
+            background: #16a34a;
             color: white;
         }
         .mode-tab-btn.active-r18 {
@@ -171,15 +181,15 @@
             color: white;
         }
 
-        /* ⚡【新設】見出し（タイトル）サイズを少し抑える微調整 */
+        /* 見出し（タイトル）サイズを少し抑える微調整 */
         .book-title {
-            font-size: 15px !important; /* 元の16px〜18pxから少し控えめに */
+            font-size: 15px !important;
             font-weight: bold;
             color: #1e293b;
             margin-bottom: 2px;
         }
         .mini-title {
-            font-size: 11.5px !important; /* スライド表示側の見出しも小さく */
+            font-size: 11.5px !important;
         }
     </style>
 </head>
@@ -196,8 +206,10 @@
     </div>
     
     <div class="mode-tab-container">
-        <button id="tab-mode-normal" class="mode-tab-btn active-normal" onclick="switchContentMode('normal')">通常作品</button>
-        <button id="tab-mode-r18" class="mode-tab-btn" onclick="switchContentMode('r18')">R指定作品</button>
+        <button id="tab-mode-normal" class="mode-tab-btn active-normal" onclick="switchContentMode('normal')">通常(ラノベ)</button>
+        <button id="tab-mode-syosetu" class="mode-tab-btn" onclick="switchContentMode('syosetu')">📖 小説</button>
+        <button id="tab-mode-manga" class="mode-tab-btn" onclick="switchContentMode('manga')">🎨 漫画</button>
+        <button id="tab-mode-r18" class="mode-tab-btn" onclick="switchContentMode('r18')">🔞 R18作品</button>
     </div>
     
     <div class="filter-group">
@@ -239,6 +251,9 @@
                 <option value="電撃コミックス">電撃コミックス</option>
                 <option value="小説家になろう">小説家になろう</option>
                 <option value="カクヨム">カクヨム</option>
+                <option value="新潮社">新潮社</option>
+                <option value="文藝春秋">文藝春秋</option>
+                <option value="角川書店">角川書店</option>
             </select>
             <select id="genreFilter">
                 <option value="">全ジャンル</option>
@@ -294,16 +309,19 @@
         <h2 style="margin-top: 10px; font-size: 20px; border-bottom: 2px solid #4f46e5; padding-bottom: 8px;">⚙️ ローカルデータ管理・エクスポート</h2>
         
         <div style="background: #eef2ff; border: 1px solid #c7d2fe; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 14px;">
-            <h3 style="margin: 0 0 10px 0; font-size: 15px; color: #4f46e5;">📋 GitHub（books.json）への反映手順</h3>
+            <h3 style="margin: 0 0 10px 0; font-size: 15px; color: #4f46e5;">📋 GitHubへの反映手順</h3>
             <p style="margin: 0 0 12px 0; color: #374151; line-height: 1.4;">
                 ここで追加・並び替えた最新データをGitHubに保存します。<br>
-                下のボタンを押して最新のJSONデータをコピーし、GitHubの <code>books.json</code> に上書き保存してください。
+                下のボタンを押して、最新の JSON ファイルを直接ダウンロードするか、クリップボードにコピーしてください。
             </p>
-            <button type="button" onclick="copyJsonToClipboard()" style="padding: 10px 16px; background: #4f46e5; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
-                📋 最新のJSONデータを一発コピーする
+            <button type="button" onclick="downloadJsonFile()" style="padding: 10px 16px; background: #10b981; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                📥 最新の JSON をダウンロードする
+            </button>
+            <button type="button" onclick="copyJsonToClipboard()" style="padding: 10px 16px; background: #4f46e5; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-left: 10px;">
+                📋 テキストとして一発コピーする
             </button>
             <button type="button" onclick="clearLocalChanges()" style="padding: 10px 16px; background: #ef4444; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-left:10px;">
-                ⚠️ ローカルの変更をリセットして最初から読み直す
+                ⚠️ ローカルの変更をリセット
             </button>
         </div>
 
@@ -326,11 +344,11 @@
             <div style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
                     <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">レーベル・出版社</label>
-                    <input type="text" id="new-publisher" placeholder="例: カクヨム, ガガガ文庫" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                    <input type="text" id="new-publisher" placeholder="例: カクヨム, 新潮社, 集英社" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
                 </div>
                 <div style="flex: 1;">
                     <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">ジャンル (スラッシュ区切り)</label>
-                    <input type="text" id="new-genre" placeholder="例: 青春/ライトノベル" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                    <input type="text" id="new-genre" placeholder="例: 推理/小説" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
                 </div>
             </div>
             <div style="display: flex; gap: 10px;">
@@ -357,7 +375,7 @@
             </div>
             <div>
                 <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">作品の公式URL</label>
-                <input type="text" id="new-info" placeholder="例: https://kakuyomu.jp/..." style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
+                <input type="text" id="new-info" placeholder="例: https://..." style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
             </div>
             
             <div style="display: flex; gap: 20px; margin: 5px 0;">
