@@ -4,23 +4,8 @@ let currentContentMode = 'normal'; // 'normal' または 'r18'
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
 
-// ⚡ データの読み込み（キャッシュ対策）
-const localSavedData = localStorage.getItem('local_books_data');
-if (localSavedData) {
-    books = JSON.parse(localSavedData);
-    applyFilters(); 
-    checkRoute();
-} else {
-    fetch('books.json?_=' + new Date().getTime())
-        .then(res => res.json())
-        .then(data => {
-            books = data;
-            applyFilters(); 
-            checkRoute();
-        }).catch(err => {
-            alert("books.json のロードに失敗しました。");
-        });
-}
+// ⚡【変更】起動時は、現在のモード（normal）のデータを読み込む
+loadBooksDataByMode();
 
 window.addEventListener('hashchange', checkRoute);
 
@@ -47,21 +32,60 @@ function checkRoute() {
     }
 }
 
+// ⚡【新設】モードに応じたJSONファイルを読み込む関数
+function loadBooksDataByMode() {
+    // ローカルストレージ上のキー名もモードごとに分離して競合を防ぐ
+    const storageKey = `local_books_data_${currentContentMode}`;
+    const localSavedData = localStorage.getItem(storageKey);
+
+    if (localSavedData) {
+        books = JSON.parse(localSavedData);
+        applyFilters(); 
+        checkRoute();
+    } else {
+        // モードに応じて読み込むJSONファイルを切り替える
+        const jsonFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
+        
+        fetch(`${jsonFileName}?_=${new Date().getTime()}`)
+            .then(res => {
+                if (!res.ok) throw new Error();
+                return res.json();
+            })
+            .then(data => {
+                books = data;
+                applyFilters(); 
+                checkRoute();
+            }).catch(err => {
+                // ファイルがまだ存在しない場合の初期化用デフォルト
+                books = [];
+                applyFilters();
+                checkRoute();
+            });
+    }
+}
+
+// ⚡【修正】タブを切り替えたら、裏のJSONデータごとロードし直す
 function switchContentMode(mode) {
+    if (currentContentMode === mode) return; // 変更がなければ何もしない
+    
     currentContentMode = mode;
     
     const tabNormal = document.getElementById('tab-mode-normal');
     const tabR18 = document.getElementById('tab-mode-r18');
     
     if (mode === 'r18') {
-        tabNormal.classList.remove('active-normal');
-        tabR18.classList.add('active-r18');
+        if (tabNormal) tabNormal.classList.remove('active-normal');
+        if (tabR18) tabR18.classList.add('active-r18');
     } else {
-        tabNormal.classList.add('active-normal');
-        tabR18.classList.remove('active-r18');
+        if (tabNormal) tabNormal.classList.add('active-normal');
+        if (tabR18) tabR18.classList.remove('active-r18');
     }
     
-    applyFilters();
+    // タブ切り替え時にスクロール位置をリセット
+    savedScrollPosition = 0;
+    
+    // 切り替えたモード用のJSONを読み直す
+    loadBooksDataByMode();
 }
 
 function showList() {
@@ -86,6 +110,13 @@ function showAdmin() {
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('admin-view').style.display = 'block';
+    
+    // 管理画面の見出しを現在のモードに応じて変化させる（わかりやすさのため）
+    const adminTitle = document.querySelector('#admin-view h2');
+    if (adminTitle) {
+        const modeName = currentContentMode === 'r18' ? '🔞 R18作品用' : '📗 通常作品用';
+        adminTitle.textContent = `⚙️ ローカルデータ管理・エクスポート (${modeName})`;
+    }
 }
 
 function changeMainView(mode) {
@@ -138,12 +169,9 @@ function applyFilters() {
 
     let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
 
+    // ⚡ すでにロード時点でデータが分離されているため、ここではシンプルにキーワードや鬱フィルタのみ適用
     let filtered = indexedBooks.filter(item => {
         const book = item.book;
-        const isR18 = book.genre && (book.genre.includes('R18') || book.genre.includes('r18'));
-        
-        if (currentContentMode === 'r18' && !isR18) return false;
-        if (currentContentMode === 'normal' && isR18) return false;
 
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
         if (hideDepressing && isDepress) return false;
@@ -499,17 +527,34 @@ function saveInlineEdit(index) {
 
     saveToLocalStorage();
     applyFilters();
-    exportCurrentJson();
+    
+    // 保存されたタイミングの現在のモード名を取得して案内する
+    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
+    const jsonString = JSON.stringify(books, null, 2);
+    navigator.clipboard.writeText(jsonString).then(() => {
+        alert(`✅ 変更を保存しました！\n\n最新のデータをクリップボードにコピーしました。\n「${currentFileName}」にそのままペーストして上書きしてください！`);
+    }).catch(err => {
+        alert('変更はローカルに保存されました。');
+    });
+
     showDetail(books[index]);
 }
 
-function exportCurrentJson() {
+// ⚡【修正】ダウンロードされるファイル名が現在のモードに応じて自動で変わる
+function downloadJsonFile() {
     const jsonString = JSON.stringify(books, null, 2);
-    navigator.clipboard.writeText(jsonString).then(() => {
-        alert('✅ 変更を保存しました！\n\n最新の全部入りJSONデータをクリップボードにコピーしました。\nGitHub の books.json に上書き保存してください！');
-    }).catch(err => {
-        alert('変更は保存されましたが、コピーに失敗したため管理画面から取得してください。');
-    });
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = currentFileName; 
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
 function openPdf(url) {
@@ -587,7 +632,9 @@ function addNewBookLocal() {
     books.push(newBook);
     saveToLocalStorage();
     
-    alert(`「${title}」をマネージャーに追加しました！`);
+    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
+    alert(`「${title}」を ${currentContentMode === 'r18' ? 'R18' : '通常'} リストに追加しました！\n反映するには、管理画面から「${currentFileName}」を書き出して上書き保存してください。`);
+    
     document.getElementById('add-book-form').reset();
     applyFilters();
     window.location.hash = ''; 
@@ -595,19 +642,24 @@ function addNewBookLocal() {
 
 function copyJsonToClipboard() {
     const jsonString = JSON.stringify(books, null, 2);
+    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
     navigator.clipboard.writeText(jsonString).then(() => {
-        alert('最新のJSONデータをクリップボードにコピーしました！\nGitHubの books.json にそのまま貼り付けて保存してください。');
+        alert(`最新のJSONデータをコピーしました！\n「${currentFileName}」にそのまま貼り付けて保存してください。`);
     }).catch(err => {
         alert('コピーに失敗しました。');
     });
 }
 
 function saveToLocalStorage() {
-    localStorage.setItem('local_books_data', JSON.stringify(books));
+    const storageKey = `local_books_data_${currentContentMode}`;
+    localStorage.setItem(storageKey, JSON.stringify(books));
 }
+
 function clearLocalChanges() {
-    if (confirm('ローカルの変更をすべて削除し、元の books.json を再読込しますか？')) {
-        localStorage.removeItem('local_books_data');
+    const currentFileName = currentContentMode === 'r18' ? 'books-r18.json' : 'books-normal.json';
+    if (confirm(`現在のモード (${currentContentMode === 'r18' ? 'R18' : '通常'}) のローカル変更をリセットし、サーバーの「${currentFileName}」を再読込しますか？`)) {
+        const storageKey = `local_books_data_${currentContentMode}`;
+        localStorage.removeItem(storageKey);
         location.reload();
     }
 }
@@ -619,10 +671,8 @@ document.getElementById('sortFilter').addEventListener('change', applyFilters);
 const depressToggle = document.getElementById('depressToggle');
 if (depressToggle) depressToggle.addEventListener('change', applyFilters);
 
-
-// スマートヘッダーロジック（自動スクロール開閉）
+// スマートヘッダーロジック
 let lastScrollY = window.scrollY;
-
 window.removeEventListener('scroll', handleSmartHeader);
 window.addEventListener('scroll', handleSmartHeader);
 
@@ -630,7 +680,6 @@ function handleSmartHeader() {
     const header = document.getElementById('main-header');
     if (!header) return;
     if (header.style.display === 'none') return;
-    if (header.classList.contains('panel-hide')) return;
 
     const currentScrollY = window.scrollY;
 
@@ -650,10 +699,5 @@ function toggleHeaderPanel() {
     if (!header || !triggerBtn) return;
 
     const isHidden = header.classList.toggle('panel-hide');
-
-    if (isHidden) {
-        triggerBtn.style.display = 'flex';
-    } else {
-        triggerBtn.style.display = 'none';
-    }
+    triggerBtn.style.display = isHidden ? 'flex' : 'none';
 }
