@@ -33,9 +33,9 @@ function checkRoute() {
 }
 
 // ⚡ 現在のモードに対応するJSONのファイル名を取得する関数
+// ⚡ 現在のモードに対応するJSONのファイル名を取得する関数
 function getJsonFileNameByMode() {
-    if (currentContentMode === 'syosetu') return 'books-syosetu.json';
-    if (currentContentMode === 'manga') return 'books-manga.json'; // 既存の形式をそのまま生かせるよう分割
+    if (currentContentMode === 'syosetu') return 'books-syosetu.json'; // 小説と漫画をここに集約
     if (currentContentMode === 'r18') return 'books-r18.json';
     return 'books-normal.json';
 }
