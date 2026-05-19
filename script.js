@@ -1,6 +1,6 @@
 let books = [];
 let currentMainView = 'list'; 
-let currentContentMode = 'normal'; // ⚡【新設】'normal' または 'r18'
+let currentContentMode = 'normal'; // 'normal' または 'r18'
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
 
@@ -47,7 +47,6 @@ function checkRoute() {
     }
 }
 
-// ⚡【新設】通常/R18モードの切り替え関数
 function switchContentMode(mode) {
     currentContentMode = mode;
     
@@ -143,7 +142,6 @@ function applyFilters() {
         const book = item.book;
         const isR18 = book.genre && (book.genre.includes('R18') || book.genre.includes('r18'));
         
-        // ⚡【修正】選択中のタブモードに応じてR18作品を完全に振り分け分断
         if (currentContentMode === 'r18' && !isR18) return false;
         if (currentContentMode === 'normal' && isR18) return false;
 
@@ -305,7 +303,6 @@ function renderNetflixView(list) {
     const container = document.getElementById('genre-rows-container');
     container.innerHTML = '';
     
-    // ⚡ モードに応じてターゲットジャンルを調整
     const targetGenres = currentContentMode === 'r18' 
         ? ["R18", "漫画", "小説", "ファンタジー", "恋愛", "日常", "鬱"]
         : ["青春", "ファンタジー", "ミステリー", "ラブコメ", "日常", "ライトノベル", "漫画", "小説", "ネット", "鬱"];
