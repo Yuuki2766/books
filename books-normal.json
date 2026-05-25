@@ -10,17 +10,6 @@
     "total": 10,
     "summary": "目立たない男子高校生・前原真樹と、クラスのヒエラルキーの頂点に君臨する美少女・朝凪海。本来交わるはずのなかった二人が、放課後の真樹の部屋で密かに過ごす、誰にも言えない秘密の交流を描く。クラスでは見せない「素の姿」で過ごす時間は、やがて二人の関係をただの友達以上のものへと変えていく、甘くて等身大の青春ラブコメ。",
     "image": "images/kuranika.JPG",
-    "favorite": true
-  },{
-    "title": "クラスで2番目に可愛い女の子と友達になった",
-    "author": "たかた",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "目立たない男子高校生・前原真樹と、クラスのヒエラルキーの頂点に君臨する美少女・朝凪海。本来交わるはずのなかった二人が、放課後の真樹の部屋で密かに過ごす、誰にも言えない秘密の交流を描く。クラスでは見せない「素の姿」で過ごす時間は、やがて二人の関係をただの友達以上のものへと変えていく、甘くて等身大の青春ラブコメ。",
-    "image": "images/kuranika.JPG",
     "favorite": true,
     "pdf_url": "pdfs/クラスで２番目に可愛い女の子と友だちになった - たかた.pdf",
     "info_url": "https://kakuyomu.jp/works/1177354054971779256"
@@ -34,7 +23,9 @@
     "total": 16,
     "summary": "",
     "image": "images/otonarinotensisama.JPEG",
-    "favorite": true 
+    "favorite": true ,
+    "pdf_url": "pdfs/N8440FE.pdf",
+    "info_url": "https://ncode.syosetu.com/n8440fe/"
   },
   {
     "title": "お隣の天使様にいつの間にか駄目人間にされていた件",
@@ -59,20 +50,6 @@
     "summary": "",
     "image": "images/otonarinotensisamaaftercomic.JPG",
     "favorite": true 
-  },
-  {
-    "title": "お隣の天使様にいつの間にか駄目人間にされていた件",
-    "author": "佐伯さん",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/otonarinotensisama.JPEG",
-    "favorite": true,
-    "pdf_url": "pdfs/N8440FE.pdf",
-    "info_url": "https://ncode.syosetu.com/n8440fe/"
   },{
     "title": "偶然助けた美少女がなぜか俺に懐いてしまった件について",
     "author": "桜ノ宮天音",
@@ -83,22 +60,11 @@
     "total": 2,
     "summary": "",
     "image": "images/guunatu.JPG",
-    "favorite": true
-  },
-  {
-    "title": "偶然助けた美少女がなぜか俺に懐いてしまった件について",
-    "author": "桜ノ宮天音",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/guunatu.JPG",
     "favorite": true,
     "pdf_url": "pdfs/偶然助けた美少女がなぜか俺に懐いてしまった件について - 桜ノ宮天音.pdf",
     "info_url": "https://kakuyomu.jp/works/16817330664927884559"
-  },{
+  },
+  {
     "title": "家事代行のアルバイトを始めたら学園一の美少女の家族に気に入られちゃいました。",
     "author": "塩本",
     "illustrator": "秋乃",
@@ -108,27 +74,16 @@
     "total": 5,
     "summary": "",
     "image": "images/IMG_3639.JPG",
-    "favorite": true
-  },
-  {
-    "title": "家事代行のアルバイトを始めたら学園一の美少女の家族に気に入られちゃいました。",
-    "author": "塩本",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/IMG_3639.JPG",
     "favorite": true,
     "pdf_url": "pdfs/N8745IF.pdf",
     "info_url": "https://ncode.syosetu.com/n8745if/"
-  },{
+  },
+  {
     "title": "失恋したのでVtuberはじめたら年上のお姉さんにモテました",
     "author": "二兎凛",
     "illustrator": "",
     "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
+    "genre": "青春/漫画",
     "owned": [1],
     "total": 1,
     "summary": "",
@@ -140,32 +95,6 @@
   
   
   {
-    "title": "ネトゲの親友に性癖をぶちまけてたら、オフ会に来たのがクラスの美少女だった",
-    "author": "こうと",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/N3228LP.pdf",
-    "info_url": "https://kakuyomu.jp/works/1177354054971779256"
-  },{
-    "title": "隣に住んでる聖女様は俺がキャラデザを担当した大人気ＶＴｕｂｅｒでした",
-    "author": "乃中カノン",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/tonarinisunderu.jpg",
-    "favorite": true,
-    "pdf_url": "pdfs/N5518HM.pdf",
-    "info_url": "https://ncode.syosetu.com/n5518hm/"
-  },{
     "title": "弱キャラ友崎くん",
     "author": "屋久ユウキ",
     "illustrator": "フライ",
@@ -247,47 +176,6 @@
     "image": "images/saijonoosewa.JPG",
     "favorite": true
   },{
-    "title": "幼馴染に嫌われたと勘違いして不登校になりかけたけど、実は両想いだった件",
-    "author": "桜偉村",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "本作は、完結済みの拙作『幼馴染に「あんたのせいで彼氏ができない」と言われたため、距離を取ったら次の日から学校に来なくなった』のヒロイン・篠原 夏希（しのはら なつき）視点のサイドストーリーとなります。まず本編より少し未来のお話から始まり、その後は夏希の視点で描かれる回想形式となっています。本編を先に読んでいただくと、より深く楽しんでいただける内容となっております！どちらもぜひ、ご一読ください！※以下、本編のURLです。https://kakuyomu.jp/works/16818622172684021557",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/幼馴染に嫌われたと勘違いして不登校になりかけたけど、実は両想いだった件 - 桜 偉村.pdf",
-    "info_url": "https://kakuyomu.jp/works/16818622173863753371"
-  },
-  {
-    "title": "幼馴染に「あんたのせいで彼氏ができない」と言われたため、距離を取ったら次の日から学校に来なくなった",
-    "author": "桜偉村",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "「澪がいるから、みんな諦めるんでしょ」そんな一言を聞いて、俺は思った。——自分が『幼馴染』というだけで当然のように隣にいるから、夏希は恋愛ができないのだと。だから俺は、これからは別々で行こうと提案した。夏希は引き留めてこなかった。ようやくお邪魔虫が離れてくれたと、安堵していることだろう。——けれど次の日、彼女は学校に来なかった。鈍感系主人公・白石 澪（しらいし れい）と、不器用な幼馴染・篠原 夏希（しのはら なつき）が織りなす、クスッと笑える甘々なすれ違い系ラブコメディ、ここに開幕！",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/幼馴染に「あんたのせいで彼氏ができない」と言われたため、距離を取ったら次の日から学校に来なくなった - 桜 偉村.pdf",
-    "info_url": "https://kakuyomu.jp/works/16818622172684021557"
-  },
-   {
-    "title": "VTuberなんだが配信切り忘れたら伝説になってた",
-    "author": "七斗七",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "日常/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/buiden.jpg",
-    "favorite": true,
-    "pdf_url": "pdfs/VTuberなんだが配信切り忘れたら伝説になってた - 七斗七.pdf",
-    "info_url": "https://kakuyomu.jp/works/1177354054918075225"
-  },{
     "title": "カノジョに浮気されていた俺が、小悪魔な後輩に懐かれています",
     "author": "御宮ゆう",
     "illustrator": "えーる",
@@ -297,22 +185,11 @@
     "total": 8,
     "summary": "",
     "image": "images/koakuma.JPG",
-    "favorite": true
-  },
-  {
-    "title": "カノジョに浮気されていた俺が、小悪魔な後輩に懐かれています",
-    "author": "御宮ゆう",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/koakuma.JPG",
     "favorite": true,
     "pdf_url":"pdfs/カノジョに浮気されていた俺が、小悪魔な後輩に懐かれています - 御宮ゆう.pdf",
     "info_url":"https://kakuyomu.jp/works/1177354054888094667"
   },
+  
   {
     "title": "継母の連れ子が元カノだった",
     "author": "紙城境介",
@@ -323,22 +200,11 @@
     "total": 12,
     "summary": "",
     "image": "images/turekano.JPG",
-    "favorite": true
-  },
-  {
-    "title": "継母の連れ子が元カノだった",
-    "author": "紙城境介",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/turekano.JPG",
     "favorite": true,
     "pdf_url":"pdfs/継母の連れ子が元カノだった - 紙城境介.pdf",
     "info_url":"https://kakuyomu.jp/works/1177354054883783581"
   },
+  
   {
     "title": "三角の距離は限りないゼロ",
     "author": "岬鷺宮",
@@ -373,37 +239,11 @@
     "summary": "",
     "image": "images/mukutinaorega.JPEG",
     "favorite": true,
-    "pdf_url": ""
-  },
-
-  {
-    "title": "無口な俺が深夜に通話しているのは、クラスで1番美人な優等生でした",
-    "author": "六畳のえる",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/mukutinaorega.JPEG",
-    "favorite": true,
     "pdf_url": "",
     "info_url": "https://kakuyomu.jp/works/16818622176843546518"
   },
-  {
-    "title": "女友達は頼めば意外とヤらせてくれる",
-    "author": "かがみゆう",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/onnatomodatiha.jpg",
-    "favorite": true,
-    "pdf_url": "pdfs/女友達は頼めば意外とヤらせてくれる - かがみゆう.pdf",
-    "info_url": "https://kakuyomu.jp/works/16816452219482305274"
-  },
+
+  
   {
     "title": "幼なじみは誘えばいつでもデキる関係",
     "author": "かがみゆう",
@@ -418,34 +258,7 @@
     "pdf_url": "pdfs/幼なじみは誘えばいつでもデキる関係 - かがみゆう.pdf",
     "info_url": "https://kakuyomu.jp/works/822139840945088470"
   },
-  {
-    "title": "幼なじみは誘えばいつでもデキる関係",
-    "author": "かがみゆう",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/osananajimihasasoeba.JPEG",
-    "favorite": true,
-    "pdf_url": "pdfs/幼なじみは誘えばいつでもデキる関係 - かがみゆう.pdf",
-    "info_url": "https://kakuyomu.jp/works/822139840945088470"
-  },
-  {
-    "title": "陰キャぼっちですが、俺の彼女は可愛すぎる。",
-    "author": "スタジオ.Ｔ",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/陰キャぼっちですが、俺の彼女は可愛すぎる。 - スタジオ.Ｔ.pdf",
-    "info_url": "https://kakuyomu.jp/works/1177354054916166602"
-  },
+  
 
   {
     "title": "冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない",
@@ -457,7 +270,9 @@
     "total": 4,
     "summary": " ",
     "image": "images/saekano.JPG",
-    "favorite": true
+    "favorite": true,
+    "pdf_url": "pdfs/陰キャの僕にセフレがいる事をクラスの君達はまだ知らない【書籍版タイトル】冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない - ヤマモトタケシ.pdf",
+    "info_url": "https://kakuyomu.jp/works/1177354055568463313"
   },
   {
     "title": "冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない",
@@ -471,34 +286,7 @@
     "image": "images/saekanocomic.JPG",
     "favorite": true
   },
-  {
-    "title": "冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない",
-    "author": "ヤマモトタケシ",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/saekano.JPG",
-    "favorite": true,
-    "pdf_url": "pdfs/陰キャの僕にセフレがいる事をクラスの君達はまだ知らない【書籍版タイトル】冴えない僕が君の部屋でシている事をクラスメイトは誰も知らない - ヤマモトタケシ.pdf",
-    "info_url": "https://kakuyomu.jp/works/1177354055568463313"
-  },
-  {
-    "title": "センパイ、自宅警備員の雇用はいかがですか？",
-    "author": "二上圭",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/senpaijitaku.jpg",
-    "favorite": true,
-    "pdf_url": "pdfs/N2939GU.pdf",
-    "info_url": "https://ncode.syosetu.com/n2939gu/"
-  },
+  
   {
     "title": "エロマンガ先生",
     "author": "伏見つかさ",
@@ -699,22 +487,10 @@
     "summary": "",
     "image": "images/tenkousakino.JPG",
     "favorite": false,
-    "pdf_url": ""
-  },
-  {
-    "title": "転校先の清楚可憐な美少女が、昔男子と思って一緒に遊んだ幼馴染だった件",
-    "author": "雲雀湯",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/tenkousakino.JPG",
-    "favorite": false,
     "pdf_url": "pdfs/N5869GH.pdf",
     "info_url": "https://ncode.syosetu.com/n5869gh/"
   },
+  
   {
     "title": "暗殺者である俺のステータスが勇者よりも明らかに強いのだが",
     "author": "赤井まつり",
@@ -759,21 +535,10 @@
     "total": 2,
     "summary": "",
     "image": "images/IMG_3643.JPG",
-    "favorite": false
-    },{
-    "title": "黒猫を拾ったら俺んちが二大美少女の溜まり場になった。",
-    "author": "マナシロカナタ",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/IMG_3643.JPG",
     "favorite": false,
     "pdf_url": "pdfs/【書籍化】黒猫を拾ったら俺んちが二大美少女の溜まり場になった。【Web版】 - マナシロカナタ✨ネコタマ３巻6_22発売.pdf",
     "info_url": "https://kakuyomu.jp/works/16818093077692859163"
-  },
+    },
   {
     "title": "突然住む家を失ったら憧れの女子達との秘密の同棲生活が始まったんだが？",
     "author": "雨音恵",
@@ -1045,21 +810,11 @@
     "total": 8,
     "owned": [1,2],
     "image": "",
-    "summary": ""
-  },
-  {
-    "title": "お見合いしたくなかったので、無理難題な条件をつけたら同級生が来た件について",
-    "author": "桜木桜",
-    "illustrator":"",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "total": 1,
-    "owned": [1],
-    "image": "",
     "summary": "",
     "pdf_url":"pdfs/N5135GG.pdf",
     "info_url":"https://ncode.syosetu.com/n5135gg/"
   },
+  
   
   {
     "title": "同棲から始まるオタク彼女の作り方",
@@ -1131,203 +886,6 @@
     "owned": [1, 2],
     "image": "",
     "summary": "誰に対しても冷徹で、近づきがたい「氷の令嬢」こと、冬河さん。しかし、ふとしたきっかけで彼女の「本当の姿」を知ってしまった俺は、少しずつ彼女の心の氷を溶かしていくことに。冷たかった彼女が、俺にだけ見せる甘すぎるギャップに悶絶必至。一歩ずつ、けれど確実に縮まっていく二人の距離を描く純愛物語。"
-  },
-
-
-
-  {
-    "title": "学年トップの俺を捨てた元カノが、追試で留年の危機らしい。俺は不登校だった美少女の家庭教師を頼まれて忙しいので、復縁は不可能です。",
-    "author": "こうと",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N3007LN.pdf"
-  },
-  {
-    "title": "勘違いにもホドがある！",
-    "author": "由友ひろ",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/勘違いにもホドがある！ - 由友ひろ.pdf"
-  },
-  {
-    "title": "俺の家に何故か学園の女神さまが入り浸っている件",
-    "author": "紫ユウ",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/俺の家に何故か学園の女神さまが入り浸っている件 - 紫ユウ.pdf"
-  },
-  {
-    "title": "孤高なカノジョと、彼女の部屋でシてること",
-    "author": "雲雀湯",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/孤高なカノジョと、彼女の部屋でシてること - 雲雀湯＠てんびん２０２６年アニメ化決定.pdf",
-    "info_url": "https://kakuyomu.jp/works/16818622177217453108"
-  },
-  {
-    "title": "高校時代に傲慢だった女王様との同棲生活は意外と居心地が悪くない",
-    "author": "ミソネタ・ドザえもん",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N6480ID.pdf",
-    "info_url": "https://ncode.syosetu.com/n6480id/"
-  },
-  {
-    "title": "他校の氷姫を助けたら、お友達から始める事になりました",
-    "author": "皐月陽龍",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": "https://kakuyomu.jp/works/16817330649941556887"
-  },
-  {
-    "title": "クラスのクォーター美少女が義妹になった。知らないうちに口説いていた。",
-    "author": "浮葉まゆ",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/",
-    "info_url": "https://kakuyomu.jp/works/16817330667405194673"
-  },
-  {
-    "title": "生意気で神絵師の幼なじみが俺に逆らえなくなってきている",
-    "author": "二宮酒匂",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": "https://kakuyomu.jp/works/16817330647948735028"
-  },
-  {
-    "title": "女友達がとなりに住んでいればいつかはこうなる",
-    "author": "楓原 こうた",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": true,
-    "pdf_url": "pdfs/",
-    "info_url": "https://kakuyomu.jp/works/16818915110320339913"
-  },
-  {
-    "title": "なぜかS級美女達の話題に俺があがる件",
-    "author": "脇岡こなつ",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": "https://kakuyomu.jp/works/16817139555137910443"
-  },
-  {
-    "title": "クラスの訳あり女子の悩みを溶かしたら、甘々彼女になった。",
-    "author": "あすれい",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": "https://kakuyomu.jp/works/16817330664710282058"
-  },
-  {
-    "title": "数々の告白を振ってきた学校のマドンナに外堀を埋められました",
-    "author": "ネコクロ",
-    "illustrator": "",
-    "publisher": "カクヨム",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/",
-    "info_url": "https://kakuyomu.jp/works/16817330667208754209"
-  },
-  {
-    "title": "陽キャ男に逆らったらハブられたけど、なぜかツンデレ美少女と過ごすことになりました〜陽キャ男の幼馴染なのにいいのか〜",
-    "author": "桜偉村",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N9440JK.pdf",
-    "info_url": "https://ncode.syosetu.com/n9440jk/"
-  },
-  
-  {
-    "title": "浮気していた彼女を振った後、学園一の美少女にお持ち帰りされました",
-    "author": "マキダノリヤ",
-    "illustrator": "",
-    "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "",
-    "favorite": false,
-    "pdf_url": "pdfs/N4063HS.pdf",
-    "info_url": "https://ncode.syosetu.com/n4063hs/"
   }
+
 ]
-  
