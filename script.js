@@ -83,7 +83,6 @@ function switchContentMode(mode) {
     
     currentContentMode = mode;
     
-<<<<<<< HEAD
     // UIの表示切り替え（「全体」の時だけ隠す）
     const isAdminMode = (mode === 'all');
     const adminLink = document.getElementById('link-admin-view')?.parentElement; // 管理リンクの親
@@ -113,33 +112,6 @@ function switchContentMode(mode) {
     // 選択されたタブにクラスを付与
     if (tabs[mode]) {
         tabs[mode].classList.add('active-' + mode);
-=======
-    // 1. 全モードを配列で管理
-    const modes = ['normal', 'syosetu', 'web', 'r18', 'all'];
-    
-    // 2. すべてのタブのクラスを一旦クリア
-    modes.forEach(m => {
-        const tab = document.getElementById(`tab-mode-${m}`);
-        if (tab) tab.classList.remove(`active-${m}`);
-    });
-    
-    // 3. 選択されたタブにアクティブクラスを付与
-    const activeTab = document.getElementById(`tab-mode-${mode}`);
-    if (activeTab) {
-        activeTab.classList.add(`active-${mode}`);
-    }
-    
-    // 4. 【ガード処理】allモード時は編集モードを強制解除し、CSSクラスを制御
-    if (mode === 'all') {
-        document.body.classList.add('all-mode');
-        const editToggle = document.getElementById('editModeToggle');
-        if (editToggle && editToggle.checked) {
-            editToggle.checked = false;
-            toggleEditModeUi(); // UIの見た目を更新
-        }
-    } else {
-        document.body.classList.remove('all-mode');
->>>>>>> 7340aa735f904887a8a5e3e29075a3bab6163e70
     }
     
     savedScrollPosition = 0;
