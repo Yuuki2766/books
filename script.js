@@ -677,7 +677,7 @@ function addNewBookLocal() {
     
     const currentFileName = getJsonFileNameByMode();
     let displayModeName = "通常(ラノベ)";
-    if(currentContentMode === 'syosetu') displayModeName = "小説";
+    if(currentContentMode === 'syosetu') displayModeName = "小説・漫画";
     if(currentContentMode === 'web') displayModeName = "web";
     if(currentContentMode === 'r18') displayModeName = "R18";
     
