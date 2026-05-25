@@ -256,7 +256,8 @@ function renderBooks(list, isEditMode) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        if (isEditMode) {
+// 修正: 編集モードかつ、allモードではない時のみ有効化
+        if (isEditMode && currentContentMode !== 'all') {
             card.draggable = true;
             card.style.cursor = 'move';
             card.style.border = '2px dashed rgba(244, 63, 94, 0.4)'; 
@@ -420,6 +421,13 @@ function showDetail(book) {
         ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
         : '';
 
+    // 追加: allモードでなければ編集ボタンのHTMLを生成
+    const editButtonHtml = (currentContentMode !== 'all') 
+        ? `<button onclick="openInlineEditForm(${originalIndex})" style="background:#0f172a; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">
+            🛠️ この本の内容を直接編集する
+           </button>` 
+        : '';
+
     const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher);
 
     document.getElementById('detail-content').innerHTML = `
@@ -447,10 +455,7 @@ function showDetail(book) {
                     <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned ? book.owned.join(', ') : ''}</p>
                 </div>
                 ${pdfButtonHtml}
-                
-                <button onclick="openInlineEditForm(${originalIndex})" style="background:#0f172a; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">
-                    🛠️ この本の内容を直接編集する
-                </button>
+                ${editButtonHtml}
             </div>
         </div>
         <div id="inline-edit-form-zone"></div>`;
@@ -527,6 +532,10 @@ function openInlineEditForm(index) {
 }
 
 function saveInlineEdit(index) {
+    if (currentContentMode === 'all') {
+        alert("🌐 全件表示モードでは編集できません。");
+        return;
+    }
     const title = document.getElementById('edit-title').value.trim();
     if (!title) {
         alert('タイトルは空にできません。');
@@ -614,6 +623,10 @@ function toggleFavoriteInline(event, index, isDetail = false) {
 }
 
 function addNewBookLocal() {
+    if (currentContentMode === 'all') {
+        alert("🌐 全件表示モードでは新規追加できません。\n追加したいカテゴリモード（通常、小説、漫画、R18のいずれか）に切り替えてから追加してください。");
+        return;
+    }
     const title = document.getElementById('new-title').value.trim();
     const author = document.getElementById('new-author').value.trim();
     const illustrator = document.getElementById('new-illustrator').value.trim();
