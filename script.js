@@ -1,6 +1,6 @@
 let books = [];
 let currentMainView = 'list'; 
-let currentContentMode = 'normal'; // 'normal', 'syosetu', 'manga', 'r18'
+let currentContentMode = 'normal'; // 'normal', 'syosetu', 'web', 'r18'
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
 
@@ -84,7 +84,7 @@ function switchContentMode(mode) {
     currentContentMode = mode;
     
     // 全モードを配列で管理（モードが増えてもここだけ修正すればOK）
-    const modes = ['normal', 'syosetu', 'manga', 'r18', 'all'];
+    const modes = ['normal', 'syosetu', 'web', 'r18', 'all'];
     
     // すべてのタブのクラスを一旦クリア
     modes.forEach(m => {
@@ -131,7 +131,7 @@ function showAdmin() {
         const modeLabels = {
             normal: '📗 通常(ラノベ)用',
             syosetu: '📘 小説用',
-            manga: '📙 漫画用',
+            web: '📙 web用',
             r18: '🔞 R18作品用',
             all: '🌐 全件表示'
         };
@@ -363,8 +363,8 @@ function renderNetflixView(list) {
     
     // モード別の主要表示ジャンルの定義
     let targetGenres = ["青春", "ファンタジー", "ミステリー", "日常", "ライトノベル", "ネット", "鬱"];
-    if (currentContentMode === 'syosetu') targetGenres = ["推理", "サスペンス", "青春", "歴史", "SF", "文学", "小説", "鬱"];
-    if (currentContentMode === 'manga') targetGenres = ["少年漫画", "青年漫画", "ファンタジー", "日常", "コメディ", "漫画", "鬱"];
+    if (currentContentMode === 'syosetu') targetGenres = ["推理", "サスペンス", "青春", "歴史", "SF", "文学", "小説","少年漫画", "青年漫画", "ファンタジー", "日常", "コメディ", "漫画", "鬱"];
+    if (currentContentMode === 'web') targetGenres = ["青春", "ファンタジー", "ミステリー", "日常", "ライトノベル", "ネット", "鬱"];
     if (currentContentMode === 'r18') targetGenres = ["R18", "漫画", "小説", "ファンタジー", "恋愛", "日常", "鬱"];
         
     const genreMap = {};
@@ -678,7 +678,7 @@ function addNewBookLocal() {
     const currentFileName = getJsonFileNameByMode();
     let displayModeName = "通常(ラノベ)";
     if(currentContentMode === 'syosetu') displayModeName = "小説";
-    if(currentContentMode === 'manga') displayModeName = "漫画";
+    if(currentContentMode === 'web') displayModeName = "web";
     if(currentContentMode === 'r18') displayModeName = "R18";
     
     alert(`「${title}」を 【${displayModeName}】 リストに追加しました！\n反映するには、管理画面から「${currentFileName}」を書き出して上書き保存してください。`);
