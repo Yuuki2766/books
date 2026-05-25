@@ -450,6 +450,7 @@ function showDetail(book) {
         <div id="inline-edit-form-zone"></div>`;
 }
 
+
 function openInlineEditForm(index) {
     const book = books[index];
     const zone = document.getElementById('inline-edit-form-zone');
