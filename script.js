@@ -723,3 +723,8 @@ function toggleHeaderPanel() {
     const isHidden = header.classList.toggle('panel-hide');
     triggerBtn.style.display = isHidden ? 'flex' : 'none';
 }
+
+const shortStoryToggle = document.getElementById('shortStoryToggle');
+if (shortStoryToggle) {
+    shortStoryToggle.addEventListener('change', applyFilters);
+}
