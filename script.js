@@ -37,6 +37,7 @@ function checkRoute() {
 function getJsonFileNameByMode() {
     if (currentContentMode === 'syosetu') return 'books-syosetu.json'; // 小説と漫画をここに集約
     if (currentContentMode === 'r18') return 'books-r18.json';
+    if (currentContentMode === 'web') return 'books-web.json';
     return 'books-normal.json';
 }
 
@@ -55,7 +56,7 @@ async function loadBooksDataByMode() {
     try {
         if (currentContentMode === 'all') {
             // 全モードのファイルを並列で取得
-            const files = ['books-normal.json', 'books-syosetu.json', 'books-manga.json', 'books-r18.json'];
+            const files = ['books-normal.json', 'books-syosetu.json', 'books-web.json', 'books-r18.json'];
             const results = await Promise.all(
                 files.map(file => fetch(`${file}?_=${new Date().getTime()}`).then(res => res.ok ? res.json() : []))
             );
