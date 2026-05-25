@@ -41,7 +41,7 @@ function getJsonFileNameByMode() {
 }
 
 // ⚡ モードに応じたJSONファイルを読み込む関数
-function loadBooksDataByMode() {
+async function loadBooksDataByMode() {
     const storageKey = `local_books_data_${currentContentMode}`;
     const localSavedData = localStorage.getItem(storageKey);
 
@@ -49,25 +49,31 @@ function loadBooksDataByMode() {
         books = JSON.parse(localSavedData);
         applyFilters(); 
         checkRoute();
-    } else {
-        const jsonFileName = getJsonFileNameByMode();
-        
-        fetch(`${jsonFileName}?_=${new Date().getTime()}`)
-            .then(res => {
-                if (!res.ok) throw new Error();
-                return res.json();
-            })
-            .then(data => {
-                books = data;
-                applyFilters(); 
-                checkRoute();
-            }).catch(err => {
-                // ファイルがまだ存在しない場合の初期化用デフォルト
-                books = [];
-                applyFilters();
-                checkRoute();
-            });
+        return;
     }
+
+    try {
+        if (currentContentMode === 'all') {
+            // 全モードのファイルを並列で取得
+            const files = ['books-normal.json', 'books-syosetu.json', 'books-manga.json', 'books-r18.json'];
+            const results = await Promise.all(
+                files.map(file => fetch(`${file}?_=${new Date().getTime()}`).then(res => res.ok ? res.json() : []))
+            );
+            books = results.flat(); // 全配列を結合
+        } else {
+            // 既存の単一ファイル取得
+            const jsonFileName = getJsonFileNameByMode();
+            const res = await fetch(`${jsonFileName}?_=${new Date().getTime()}`);
+            if (!res.ok) throw new Error();
+            books = await res.json();
+        }
+    } catch (err) {
+        // エラー時は空配列で初期化
+        books = [];
+    }
+
+    applyFilters();
+    checkRoute();
 }
 
 // ⚡ タブを切り替えたら、アクティブクラスを変更してJSONデータごとリロード
@@ -76,25 +82,19 @@ function switchContentMode(mode) {
     
     currentContentMode = mode;
     
-    const tabs = {
-        normal: document.getElementById('tab-mode-normal'),
-        syosetu: document.getElementById('tab-mode-syosetu'),
-        manga: document.getElementById('tab-mode-manga'),
-        r18: document.getElementById('tab-mode-r18')
-    };
+    // 全モードを配列で管理（モードが増えてもここだけ修正すればOK）
+    const modes = ['normal', 'syosetu', 'manga', 'r18', 'all'];
     
-    // すべてのタブの着色クラスを一旦クリア
-    if(tabs.normal) tabs.normal.classList.remove('active-normal');
-    if(tabs.syosetu) tabs.syosetu.classList.remove('active-syosetu');
-    if(tabs.manga) tabs.manga.classList.remove('active-manga');
-    if(tabs.r18) tabs.r18.classList.remove('active-r18');
+    // すべてのタブのクラスを一旦クリア
+    modes.forEach(m => {
+        const tab = document.getElementById(`tab-mode-${m}`);
+        if (tab) tab.classList.remove(`active-${m}`);
+    });
     
-    // 選択されたタブに対応するアクティブクラスを付与
-    if (tabs[mode]) {
-        if (mode === 'normal') tabs.normal.classList.add('active-normal');
-        if (mode === 'syosetu') tabs.syosetu.classList.add('active-syosetu');
-        if (mode === 'manga') tabs.manga.classList.add('active-manga');
-        if (mode === 'r18') tabs.r18.classList.add('active-r18');
+    // 選択されたタブにアクティブクラスを付与
+    const activeTab = document.getElementById(`tab-mode-${mode}`);
+    if (activeTab) {
+        activeTab.classList.add(`active-${mode}`);
     }
     
     savedScrollPosition = 0;
@@ -126,10 +126,16 @@ function showAdmin() {
     
     const adminTitle = document.querySelector('#admin-view h2');
     if (adminTitle) {
-        let modeName = '📗 通常(ラノベ)用';
-        if (currentContentMode === 'syosetu') modeName = '📘 小説用';
-        if (currentContentMode === 'manga') modeName = '📙 漫画用';
-        if (currentContentMode === 'r18') modeName = '🔞 R18作品用';
+        // モード名を辞書形式で管理
+        const modeLabels = {
+            normal: '📗 通常(ラノベ)用',
+            syosetu: '📘 小説用',
+            manga: '📙 漫画用',
+            r18: '🔞 R18作品用',
+            all: '🌐 全件表示'
+        };
+        
+        const modeName = modeLabels[currentContentMode] || '未定義のモード';
         adminTitle.textContent = `⚙️ ローカルデータ管理・エクスポート (${modeName})`;
     }
 }
