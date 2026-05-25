@@ -172,6 +172,7 @@ function applyFilters() {
     const sortFilter = document.getElementById('sortFilter');
     const depressToggle = document.getElementById('depressToggle'); 
     const editModeToggle = document.getElementById('editModeToggle'); 
+    const shortStoryToggle = document.getElementById('shortStoryToggle');
 
     if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
 
@@ -181,7 +182,7 @@ function applyFilters() {
     const sort = sortFilter.value;
     const isEditMode = editModeToggle ? editModeToggle.checked : false;
     const hideDepressing = depressToggle ? depressToggle.checked : false;
-
+    const hideShortStories = shortStoryToggle ? shortStoryToggle.checked : false;
     let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
 
     let filtered = indexedBooks.filter(item => {
@@ -189,7 +190,8 @@ function applyFilters() {
 
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
         if (hideDepressing && isDepress) return false;
-
+        const isShortStory = (book.genre && (book.genre.includes('短編') || book.genre.includes('読切'))) || (book.total === 1);
+        if (hideShortStories && isShortStory) return false;
         const title = book.title || "";
         const author = book.author || "";
         const bGenre = book.genre || "";
