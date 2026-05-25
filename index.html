@@ -205,13 +205,20 @@
         <button class="header-toggle-btn" onclick="toggleHeaderPanel()">🔼 検索を隠す</button>
     </div>
     
-    <div class="mode-tab-container" style="max-width: 450px;"> 
-        <button id="tab-mode-normal" class="mode-tab-btn active-normal" onclick="switchContentMode('normal')">📗 ラノベ</button>
+    <div class="mode-tab-container" style="max-width: 600px;"> 
+        <button id="tab-mode-all" class="mode-tab-btn" onclick="switchContentMode('all')">🌐 全体</button>
+        <button id="tab-mode-normal" class="mode-tab-btn" onclick="switchContentMode('normal')">📗 ラノベ</button>
         <button id="tab-mode-syosetu" class="mode-tab-btn" onclick="switchContentMode('syosetu')">📖 小説・漫画</button>
-        <button id="tab-mode-r18" class="mode-tab-btn" onclick="switchContentMode('r18')">🔞 R18作品</button>
+        <button id="tab-mode-web" class="mode-tab-btn" onclick="switchContentMode('web')">🌐 ウェブ</button>
+        <button id="tab-mode-r18" class="mode-tab-btn" onclick="switchContentMode('r18')">🔞 R18</button>
+    </div>
+
+    <div id="ui-edit-zone">
+        <label id="edit-mode-label">...</label>
+        <div id="admin-link-row">...</div>
     </div>
     
-    
+
     <div class="filter-group">
         <input type="text" id="search" placeholder="タイトル・作者・ジャンルで検索">
         

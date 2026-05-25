@@ -37,6 +37,7 @@ function checkRoute() {
 function getJsonFileNameByMode() {
     if (currentContentMode === 'syosetu') return 'books-syosetu.json'; // 小説と漫画をここに集約
     if (currentContentMode === 'r18') return 'books-r18.json';
+    if (currentContentMode === 'web') return 'books-web.json';
     return 'books-normal.json';
 }
 
@@ -76,25 +77,31 @@ function switchContentMode(mode) {
     
     currentContentMode = mode;
     
+    // UIの表示切り替え（「全体」の時だけ隠す）
+    const isAdminMode = (mode === 'all');
+    const adminLink = document.getElementById('link-admin-view')?.parentElement; // 管理リンクの親
+    const editLabel = document.getElementById('edit-mode-label'); // 🛠️ 編集ラベル
+    
+    if (adminLink) adminLink.style.display = isAdminMode ? 'none' : 'block';
+    if (editLabel) editLabel.style.display = isAdminMode ? 'none' : 'inline-flex';
+    
+    // タブの管理（IDはHTMLに合わせて適宜調整してください）
     const tabs = {
+        all: document.getElementById('tab-mode-all'),
         normal: document.getElementById('tab-mode-normal'),
         syosetu: document.getElementById('tab-mode-syosetu'),
-        manga: document.getElementById('tab-mode-manga'),
+        web: document.getElementById('tab-mode-web'),
         r18: document.getElementById('tab-mode-r18')
     };
     
-    // すべてのタブの着色クラスを一旦クリア
-    if(tabs.normal) tabs.normal.classList.remove('active-normal');
-    if(tabs.syosetu) tabs.syosetu.classList.remove('active-syosetu');
-    if(tabs.manga) tabs.manga.classList.remove('active-manga');
-    if(tabs.r18) tabs.r18.classList.remove('active-r18');
+    // 全てのタブからactiveクラスを削除（クラス名は定義に合わせてください）
+    Object.values(tabs).forEach(tab => {
+        if(tab) tab.classList.remove('active-all', 'active-normal', 'active-syosetu', 'active-web', 'active-r18');
+    });
     
-    // 選択されたタブに対応するアクティブクラスを付与
+    // 選択されたタブにクラスを付与
     if (tabs[mode]) {
-        if (mode === 'normal') tabs.normal.classList.add('active-normal');
-        if (mode === 'syosetu') tabs.syosetu.classList.add('active-syosetu');
-        if (mode === 'manga') tabs.manga.classList.add('active-manga');
-        if (mode === 'r18') tabs.r18.classList.add('active-r18');
+        tabs[mode].classList.add('active-' + mode);
     }
     
     savedScrollPosition = 0;
@@ -415,6 +422,14 @@ function showDetail(book) {
         : '';
 
     const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher);
+
+    let editButtonHtml = '';
+    if (currentContentMode !== 'all') {
+        editButtonHtml = `
+            <button onclick="openInlineEditForm(${originalIndex})" style="background:#0f172a; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">
+                🛠️ この本の内容を直接編集する
+            </button>`;
+    }
 
     document.getElementById('detail-content').innerHTML = `
         <div class="detail-container" id="detail-view-main-card">
