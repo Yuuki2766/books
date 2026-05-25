@@ -1,6 +1,6 @@
 let books = [];
 let currentMainView = 'list'; 
-let currentContentMode = 'normal'; // 'normal', 'syosetu', 'web', 'r18'
+let currentContentMode = 'all'; // 'normal', 'syosetu', 'web', 'r18'
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
 
