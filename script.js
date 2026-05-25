@@ -1,6 +1,6 @@
 let books = [];
 let currentMainView = 'list'; 
-let currentContentMode = 'normal'; // 'normal', 'syosetu', 'manga', 'r18'
+let currentContentMode = 'normal'; // 'normal', 'syosetu', 'web', 'r18'
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
 
@@ -42,7 +42,7 @@ function getJsonFileNameByMode() {
 }
 
 // ⚡ モードに応じたJSONファイルを読み込む関数
-function loadBooksDataByMode() {
+async function loadBooksDataByMode() {
     const storageKey = `local_books_data_${currentContentMode}`;
     const localSavedData = localStorage.getItem(storageKey);
 
@@ -50,25 +50,31 @@ function loadBooksDataByMode() {
         books = JSON.parse(localSavedData);
         applyFilters(); 
         checkRoute();
-    } else {
-        const jsonFileName = getJsonFileNameByMode();
-        
-        fetch(`${jsonFileName}?_=${new Date().getTime()}`)
-            .then(res => {
-                if (!res.ok) throw new Error();
-                return res.json();
-            })
-            .then(data => {
-                books = data;
-                applyFilters(); 
-                checkRoute();
-            }).catch(err => {
-                // ファイルがまだ存在しない場合の初期化用デフォルト
-                books = [];
-                applyFilters();
-                checkRoute();
-            });
+        return;
     }
+
+    try {
+        if (currentContentMode === 'all') {
+            // 全モードのファイルを並列で取得
+            const files = ['books-normal.json', 'books-syosetu.json', 'books-web.json', 'books-r18.json'];
+            const results = await Promise.all(
+                files.map(file => fetch(`${file}?_=${new Date().getTime()}`).then(res => res.ok ? res.json() : []))
+            );
+            books = results.flat(); // 全配列を結合
+        } else {
+            // 既存の単一ファイル取得
+            const jsonFileName = getJsonFileNameByMode();
+            const res = await fetch(`${jsonFileName}?_=${new Date().getTime()}`);
+            if (!res.ok) throw new Error();
+            books = await res.json();
+        }
+    } catch (err) {
+        // エラー時は空配列で初期化
+        books = [];
+    }
+
+    applyFilters();
+    checkRoute();
 }
 
 // ⚡ タブを切り替えたら、アクティブクラスを変更してJSONデータごとリロード
@@ -77,6 +83,7 @@ function switchContentMode(mode) {
     
     currentContentMode = mode;
     
+<<<<<<< HEAD
     // UIの表示切り替え（「全体」の時だけ隠す）
     const isAdminMode = (mode === 'all');
     const adminLink = document.getElementById('link-admin-view')?.parentElement; // 管理リンクの親
@@ -106,6 +113,33 @@ function switchContentMode(mode) {
     // 選択されたタブにクラスを付与
     if (tabs[mode]) {
         tabs[mode].classList.add('active-' + mode);
+=======
+    // 1. 全モードを配列で管理
+    const modes = ['normal', 'syosetu', 'web', 'r18', 'all'];
+    
+    // 2. すべてのタブのクラスを一旦クリア
+    modes.forEach(m => {
+        const tab = document.getElementById(`tab-mode-${m}`);
+        if (tab) tab.classList.remove(`active-${m}`);
+    });
+    
+    // 3. 選択されたタブにアクティブクラスを付与
+    const activeTab = document.getElementById(`tab-mode-${mode}`);
+    if (activeTab) {
+        activeTab.classList.add(`active-${mode}`);
+    }
+    
+    // 4. 【ガード処理】allモード時は編集モードを強制解除し、CSSクラスを制御
+    if (mode === 'all') {
+        document.body.classList.add('all-mode');
+        const editToggle = document.getElementById('editModeToggle');
+        if (editToggle && editToggle.checked) {
+            editToggle.checked = false;
+            toggleEditModeUi(); // UIの見た目を更新
+        }
+    } else {
+        document.body.classList.remove('all-mode');
+>>>>>>> 7340aa735f904887a8a5e3e29075a3bab6163e70
     }
     
     savedScrollPosition = 0;
@@ -137,10 +171,16 @@ function showAdmin() {
     
     const adminTitle = document.querySelector('#admin-view h2');
     if (adminTitle) {
-        let modeName = '📗 通常(ラノベ)用';
-        if (currentContentMode === 'syosetu') modeName = '📘 小説用';
-        if (currentContentMode === 'manga') modeName = '📙 漫画用';
-        if (currentContentMode === 'r18') modeName = '🔞 R18作品用';
+        // モード名を辞書形式で管理
+        const modeLabels = {
+            normal: '📗 通常(ラノベ)用',
+            syosetu: '📘 小説用',
+            web: '📙 web用',
+            r18: '🔞 R18作品用',
+            all: '🌐 全件表示'
+        };
+        
+        const modeName = modeLabels[currentContentMode] || '未定義のモード';
         adminTitle.textContent = `⚙️ ローカルデータ管理・エクスポート (${modeName})`;
     }
 }
@@ -247,6 +287,7 @@ function applyFilters() {
 function renderBooks(list, isEditMode) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
+    const canEdit = (currentContentMode !== 'all') && isEditMode;
 
     list.forEach((item) => {
         const book = item.book;
@@ -261,7 +302,8 @@ function renderBooks(list, isEditMode) {
         const card = document.createElement('div');
         card.className = 'book-card';
         
-        if (isEditMode) {
+// 修正: 編集モードかつ、allモードではない時のみ有効化
+        if (isEditMode && currentContentMode !== 'all') {
             card.draggable = true;
             card.style.cursor = 'move';
             card.style.border = '2px dashed rgba(244, 63, 94, 0.4)'; 
@@ -292,11 +334,11 @@ function renderBooks(list, isEditMode) {
             : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
 
         const starHtml = `
-            <div class="fav-star-container" ${isEditMode ? `onclick="toggleFavoriteInline(event, ${originalIndex})"` : ''} style="cursor:${isEditMode ? 'pointer' : 'default'}; font-size:20px;">
-                ${book.favorite ? '⭐' : (isEditMode ? '☆' : '')}
+            <div class="fav-star-container" ${canEdit ? `onclick="toggleFavoriteInline(event, ${originalIndex})"` : ''} style="cursor:${canEdit ? 'pointer' : 'default'}; font-size:20px;">
+                ${book.favorite ? '⭐' : (canEdit ? '☆' : '')}
             </div>`;
 
-        const progressHtml = isEditMode 
+        const progressHtml = canEdit 
             ? `<div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
                 <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, -1)">-</button>
                 <span style="font-size:14px; font-weight:bold; color:#222;">所持: ${owned} / 総: ${total}巻</span>
@@ -309,7 +351,7 @@ function renderBooks(list, isEditMode) {
                 </div>
                </div>`;
 
-        const mobileOrderControls = isEditMode 
+        const mobileOrderControls = canEdit 
             ? `<div class="edit-controls-right" onclick="event.stopPropagation();">
                 <button class="order-btn" onclick="moveOrderInline(${originalIndex}, -1)">▲</button>
                 <button class="order-btn" onclick="moveOrderInline(${originalIndex}, 1)">▼</button>
@@ -366,8 +408,8 @@ function renderNetflixView(list) {
     
     // モード別の主要表示ジャンルの定義
     let targetGenres = ["青春", "ファンタジー", "ミステリー", "日常", "ライトノベル", "ネット", "鬱"];
-    if (currentContentMode === 'syosetu') targetGenres = ["推理", "サスペンス", "青春", "歴史", "SF", "文学", "小説", "鬱"];
-    if (currentContentMode === 'manga') targetGenres = ["少年漫画", "青年漫画", "ファンタジー", "日常", "コメディ", "漫画", "鬱"];
+    if (currentContentMode === 'syosetu') targetGenres = ["推理", "サスペンス", "青春", "歴史", "SF", "文学", "小説","少年漫画", "青年漫画", "ファンタジー", "日常", "コメディ", "漫画", "鬱"];
+    if (currentContentMode === 'web') targetGenres = ["青春", "ファンタジー", "ミステリー", "日常", "ライトノベル", "ネット", "鬱"];
     if (currentContentMode === 'r18') targetGenres = ["R18", "漫画", "小説", "ファンタジー", "恋愛", "日常", "鬱"];
         
     const genreMap = {};
@@ -425,6 +467,13 @@ function showDetail(book) {
         ? `<button class="read-btn" onclick="openPdf('${book.pdf_url}')" style="background:#4f46e5; color:white; border:none; padding:15px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%; font-size:16px;">📖 本を読む</button>` 
         : '';
 
+    // 追加: allモードでなければ編集ボタンのHTMLを生成
+    const editButtonHtml = (currentContentMode !== 'all') 
+        ? `<button onclick="openInlineEditForm(${originalIndex})" style="background:#0f172a; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">
+            🛠️ この本の内容を直接編集する
+           </button>` 
+        : '';
+
     const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher);
 
     let editButtonHtml = '';
@@ -460,10 +509,7 @@ function showDetail(book) {
                     <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned ? book.owned.join(', ') : ''}</p>
                 </div>
                 ${pdfButtonHtml}
-                
-                <button onclick="openInlineEditForm(${originalIndex})" style="background:#0f172a; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">
-                    🛠️ この本の内容を直接編集する
-                </button>
+                ${editButtonHtml}
             </div>
         </div>
         <div id="inline-edit-form-zone"></div>`;
@@ -541,6 +587,10 @@ function openInlineEditForm(index) {
 }
 
 function saveInlineEdit(index) {
+    if (currentContentMode === 'all') {
+        alert("🌐 全件表示モードでは編集できません。");
+        return;
+    }
     const title = document.getElementById('edit-title').value.trim();
     if (!title) {
         alert('タイトルは空にできません。');
@@ -628,6 +678,10 @@ function toggleFavoriteInline(event, index, isDetail = false) {
 }
 
 function addNewBookLocal() {
+    if (currentContentMode === 'all') {
+        alert("🌐 全件表示モードでは新規追加できません。\n追加したいカテゴリモード（通常、小説、漫画、R18のいずれか）に切り替えてから追加してください。");
+        return;
+    }
     const title = document.getElementById('new-title').value.trim();
     const author = document.getElementById('new-author').value.trim();
     const illustrator = document.getElementById('new-illustrator').value.trim();
@@ -677,8 +731,8 @@ function addNewBookLocal() {
     
     const currentFileName = getJsonFileNameByMode();
     let displayModeName = "通常(ラノベ)";
-    if(currentContentMode === 'syosetu') displayModeName = "小説";
-    if(currentContentMode === 'manga') displayModeName = "漫画";
+    if(currentContentMode === 'syosetu') displayModeName = "小説・漫画";
+    if(currentContentMode === 'web') displayModeName = "web";
     if(currentContentMode === 'r18') displayModeName = "R18";
     
     alert(`「${title}」を 【${displayModeName}】 リストに追加しました！\n反映するには、管理画面から「${currentFileName}」を書き出して上書き保存してください。`);

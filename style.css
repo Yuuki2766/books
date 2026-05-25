@@ -310,3 +310,18 @@ header h1 {
         flex: 0 0 90px;
     }
 }
+
+/* allモード時に編集系ボタンを無効化するスタイル */
+body.all-mode .edit-controls-right,
+body.all-mode .vol-btn {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 編集モードトグルボタンの無効化（allモード時） */
+body.all-mode #edit-mode-label {
+    opacity: 0.3;
+    pointer-events: none;
+    filter: grayscale(1);
+}
