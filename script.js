@@ -81,6 +81,10 @@ function switchContentMode(mode) {
     const isAdminMode = (mode === 'all');
     const adminLink = document.getElementById('link-admin-view')?.parentElement; // 管理リンクの親
     const editLabel = document.getElementById('edit-mode-label'); // 🛠️ 編集ラベル
+    if (editLabel) {
+        // 'all' なら隠し、それ以外なら表示する
+        editLabel.style.display = (mode === 'all') ? 'none' : 'inline-flex';
+    }
     
     if (adminLink) adminLink.style.display = isAdminMode ? 'none' : 'block';
     if (editLabel) editLabel.style.display = isAdminMode ? 'none' : 'inline-flex';
