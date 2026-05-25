@@ -180,6 +180,8 @@ function applyFilters() {
     const publisher = pubFilter.value;
     const genre = genFilter.value;
     const sort = sortFilter.value;
+    const searchKeywords = keyword.split(/\s+/).filter(k => k !== "");
+    const genreKeywords = genre.split(/\s+/).filter(k => k !== "");
     const isEditMode = editModeToggle ? editModeToggle.checked : false;
     const hideDepressing = depressToggle ? depressToggle.checked : false;
     const hideShortStories = shortStoryToggle ? shortStoryToggle.checked : false;
@@ -191,16 +193,17 @@ function applyFilters() {
 
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
         if (hideDepressing && isDepress) return false;
-        const isShortStory = (book.genre && (book.genre.includes('短編') || book.genre.includes('読切'))) || (book.total === 1);
+        const isShortStory = (book.genre && (book.genre.includes('短編') || book.genre.includes('読切')));
         if (hideShortStories && isShortStory) return false;
         const isUnfinished = (book.genre && book.genre.includes('未完結'));
         if (hideUnfinished && isUnfinished) return false;
         const title = book.title || "";
         const author = book.author || "";
-        const bGenre = book.genre || "";
-        const matchText = title.toLowerCase().includes(keyword) || author.toLowerCase().includes(keyword) || bGenre.toLowerCase().includes(keyword);
+        const bGenre = (book.genre || "").toLowerCase();
+        const textTarget = (book.title + " " + book.author + " " + book.genre).toLowerCase();
+        const matchText = searchKeywords.every(k => textTarget.includes(k));
         const matchPub = publisher === '' || book.publisher === publisher;
-        const matchGen = genre === '' || book.genre.includes(genre);
+        const matchGen = genreKeywords.every(k => bGenre.includes(k.toLowerCase()));
         return matchText && matchPub && matchGen;
     });
 
