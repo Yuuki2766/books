@@ -440,14 +440,9 @@ function showDetail(book) {
         : '';
 
     // 追加: allモードでなければ編集ボタンのHTMLを生成
-    const editButtonHtml = (currentContentMode !== 'all') 
-        ? `<button onclick="openInlineEditForm(${originalIndex})" style="background:#0f172a; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:bold; margin-top:15px; width:100%;">
-            🛠️ この本の内容を直接編集する
-           </button>` 
-        : '';
-
     const originalIndex = books.findIndex(b => b.title === book.title && b.publisher === book.publisher);
 
+    // 2. allモードでなければボタンHTMLを生成
     let editButtonHtml = '';
     if (currentContentMode !== 'all') {
         editButtonHtml = `
