@@ -183,6 +183,7 @@ function applyFilters() {
     const isEditMode = editModeToggle ? editModeToggle.checked : false;
     const hideDepressing = depressToggle ? depressToggle.checked : false;
     const hideShortStories = shortStoryToggle ? shortStoryToggle.checked : false;
+    const hideUnfinished = document.getElementById('unfinishedToggle') ? document.getElementById('unfinishedToggle').checked : false; // 追加
     let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
 
     let filtered = indexedBooks.filter(item => {
@@ -192,6 +193,8 @@ function applyFilters() {
         if (hideDepressing && isDepress) return false;
         const isShortStory = (book.genre && (book.genre.includes('短編') || book.genre.includes('読切'))) || (book.total === 1);
         if (hideShortStories && isShortStory) return false;
+        const isUnfinished = (book.genre && book.genre.includes('未完結'));
+        if (hideUnfinished && isUnfinished) return false;
         const title = book.title || "";
         const author = book.author || "";
         const bGenre = book.genre || "";
@@ -727,4 +730,9 @@ function toggleHeaderPanel() {
 const shortStoryToggle = document.getElementById('shortStoryToggle');
 if (shortStoryToggle) {
     shortStoryToggle.addEventListener('change', applyFilters);
+}
+
+const unfinishedToggle = document.getElementById('unfinishedToggle');
+if (unfinishedToggle) {
+    unfinishedToggle.addEventListener('change', applyFilters);
 }
