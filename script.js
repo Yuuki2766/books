@@ -83,19 +83,31 @@ function switchContentMode(mode) {
     
     currentContentMode = mode;
     
-    // 全モードを配列で管理（モードが増えてもここだけ修正すればOK）
+    // 1. 全モードを配列で管理
     const modes = ['normal', 'syosetu', 'web', 'r18', 'all'];
     
-    // すべてのタブのクラスを一旦クリア
+    // 2. すべてのタブのクラスを一旦クリア
     modes.forEach(m => {
         const tab = document.getElementById(`tab-mode-${m}`);
         if (tab) tab.classList.remove(`active-${m}`);
     });
     
-    // 選択されたタブにアクティブクラスを付与
+    // 3. 選択されたタブにアクティブクラスを付与
     const activeTab = document.getElementById(`tab-mode-${mode}`);
     if (activeTab) {
         activeTab.classList.add(`active-${mode}`);
+    }
+    
+    // 4. 【ガード処理】allモード時は編集モードを強制解除し、CSSクラスを制御
+    if (mode === 'all') {
+        document.body.classList.add('all-mode');
+        const editToggle = document.getElementById('editModeToggle');
+        if (editToggle && editToggle.checked) {
+            editToggle.checked = false;
+            toggleEditModeUi(); // UIの見た目を更新
+        }
+    } else {
+        document.body.classList.remove('all-mode');
     }
     
     savedScrollPosition = 0;
@@ -243,6 +255,7 @@ function applyFilters() {
 function renderBooks(list, isEditMode) {
     const container = document.getElementById('book-list');
     container.innerHTML = '';
+    const canEdit = (currentContentMode !== 'all') && isEditMode;
 
     list.forEach((item) => {
         const book = item.book;
@@ -289,11 +302,11 @@ function renderBooks(list, isEditMode) {
             : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
 
         const starHtml = `
-            <div class="fav-star-container" ${isEditMode ? `onclick="toggleFavoriteInline(event, ${originalIndex})"` : ''} style="cursor:${isEditMode ? 'pointer' : 'default'}; font-size:20px;">
-                ${book.favorite ? '⭐' : (isEditMode ? '☆' : '')}
+            <div class="fav-star-container" ${canEdit ? `onclick="toggleFavoriteInline(event, ${originalIndex})"` : ''} style="cursor:${canEdit ? 'pointer' : 'default'}; font-size:20px;">
+                ${book.favorite ? '⭐' : (canEdit ? '☆' : '')}
             </div>`;
 
-        const progressHtml = isEditMode 
+        const progressHtml = canEdit 
             ? `<div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
                 <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, -1)">-</button>
                 <span style="font-size:14px; font-weight:bold; color:#222;">所持: ${owned} / 総: ${total}巻</span>
@@ -306,7 +319,7 @@ function renderBooks(list, isEditMode) {
                 </div>
                </div>`;
 
-        const mobileOrderControls = isEditMode 
+        const mobileOrderControls = canEdit 
             ? `<div class="edit-controls-right" onclick="event.stopPropagation();">
                 <button class="order-btn" onclick="moveOrderInline(${originalIndex}, -1)">▲</button>
                 <button class="order-btn" onclick="moveOrderInline(${originalIndex}, 1)">▼</button>
