@@ -803,38 +803,43 @@ document.getElementById('search').addEventListener('keypress', function(e) {
 // ログイン(解放)した時の関数
 function unlockR18() {
     const r18Tab = document.getElementById('tab-mode-r18');
-    const logoutBtn = document.getElementById('logout-btn'); // 追加
+    const logoutBtn = document.getElementById('logout-btn');
     
     if (r18Tab) r18Tab.style.display = 'block';
-    if (logoutBtn) logoutBtn.style.display = 'inline-block'; // 表示する
+    if (logoutBtn) logoutBtn.style.display = 'inline-block';
     
     localStorage.setItem('r18_unlocked', 'true');
     alert('🔞 R18モードを解放しました');
+    
+    // ★追加：データが現在allモードなら、R18データを含めて再読み込みして即時反映させる
+    if (currentContentMode === 'all') {
+        loadBooksDataByMode();
+    }
 }
 
 // ログアウトした時の関数
 function logoutR18() {
     const r18Tab = document.getElementById('tab-mode-r18');
-    const logoutBtn = document.getElementById('logout-btn'); // 追加
+    const logoutBtn = document.getElementById('logout-btn');
     
     if (r18Tab) r18Tab.style.display = 'none';
-    if (logoutBtn) logoutBtn.style.display = 'none'; // 非表示にする
+    if (logoutBtn) logoutBtn.style.display = 'none';
     
     localStorage.removeItem('r18_unlocked');
     
-    if (currentContentMode === 'r18') {
-        switchContentMode('all'); 
-    }
+    // ★追加：ログアウト時は強制リロードすることで、メモリ上のR18データを完全に消去する
+    location.reload(); 
+    
     alert('ログアウトしました');
 }
 
-// ページ読み込み時に状態を復元（追記）
+// ページ読み込み時に状態を復元
 window.addEventListener('DOMContentLoaded', () => {
     const r18Tab = document.getElementById('tab-mode-r18');
     const logoutBtn = document.getElementById('logout-btn');
     
-    if (localStorage.getItem('r18_unlocked') === 'true') {
-        if (r18Tab) r18Tab.style.display = 'block';
-        if (logoutBtn) logoutBtn.style.display = 'inline-block';
-    }
+    // ロード時にログイン状態をチェックし、非表示処理も確実に行う
+    const isUnlocked = localStorage.getItem('r18_unlocked') === 'true';
+    if (r18Tab) r18Tab.style.display = isUnlocked ? 'block' : 'none';
+    if (logoutBtn) logoutBtn.style.display = isUnlocked ? 'inline-block' : 'none';
 });
