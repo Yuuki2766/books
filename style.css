@@ -140,6 +140,12 @@ header h1 {
     display: block;      /* 隙間対策 */
 }
 
+.book-info {
+    flex: 1;             /* 残りのスペースを埋める */
+    min-width: 0;        /* ✨ これが重要：親の幅を超えて中身が勝手に広がらないようにする */
+    padding-left: 10px;
+}
+
 .book-title { 
     font-size: 18px; 
     font-weight: bold; 
