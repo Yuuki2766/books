@@ -782,3 +782,47 @@ if (unfinishedToggle) {
 }
 
 
+
+// ... (他の関数はそのまま)
+
+// 検索窓でのパスワード入力チェック (Enterキーイベントを追加)
+document.getElementById('search').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        const password = "admin"; // ← ここにパスワードを設定
+        if (this.value === password) {
+            this.value = ""; 
+            unlockR18();
+        }
+    }
+});
+
+function unlockR18() {
+    const r18Tab = document.getElementById('tab-mode-r18');
+    if (r18Tab) r18Tab.style.display = 'block';
+    
+    localStorage.setItem('r18_unlocked', 'true');
+    alert('🔞 R18モードを解放しました');
+}
+
+function logoutR18() {
+    const r18Tab = document.getElementById('tab-mode-r18');
+    
+    if (r18Tab) r18Tab.style.display = 'none';
+    localStorage.removeItem('r18_unlocked');
+    
+    // 現在R18モードなら通常に戻す
+    if (currentContentMode === 'r18') {
+        switchContentMode('all'); 
+    }
+    alert('ログアウトしました');
+}
+
+// ページ読み込み時に状態を復元
+window.addEventListener('DOMContentLoaded', () => {
+    const r18Tab = document.getElementById('tab-mode-r18');
+    if (localStorage.getItem('r18_unlocked') === 'true') {
+        if (r18Tab) r18Tab.style.display = 'block';
+    } else {
+        if (r18Tab) r18Tab.style.display = 'none';
+    }
+});
