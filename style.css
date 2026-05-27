@@ -130,12 +130,13 @@ header h1 {
 }
 
 .book-cover { 
-    width: 80px; 
-    height: 110px; 
-    object-fit: contain; 
+    width: 80px;         /* 幅を固定 */
+    height: 110px;       /* 高さを固定 */
+    object-fit: cover;   /* 画像が歪まないようにトリミング */
     border-radius: 4px; 
     background: #eee; 
-    flex-shrink: 0; 
+    flex-shrink: 0;      /* ✨ これが重要：絶対に縮まないようにする */
+    display: block;      /* 隙間対策 */
 }
 
 .book-title { 
