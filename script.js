@@ -796,33 +796,41 @@ document.getElementById('search').addEventListener('keypress', function(e) {
     }
 });
 
+// ログイン(解放)した時の関数
 function unlockR18() {
     const r18Tab = document.getElementById('tab-mode-r18');
+    const logoutBtn = document.getElementById('logout-btn'); // 追加
+    
     if (r18Tab) r18Tab.style.display = 'block';
+    if (logoutBtn) logoutBtn.style.display = 'inline-block'; // 表示する
     
     localStorage.setItem('r18_unlocked', 'true');
     alert('🔞 R18モードを解放しました');
 }
 
+// ログアウトした時の関数
 function logoutR18() {
     const r18Tab = document.getElementById('tab-mode-r18');
+    const logoutBtn = document.getElementById('logout-btn'); // 追加
     
     if (r18Tab) r18Tab.style.display = 'none';
+    if (logoutBtn) logoutBtn.style.display = 'none'; // 非表示にする
+    
     localStorage.removeItem('r18_unlocked');
     
-    // 現在R18モードなら通常に戻す
     if (currentContentMode === 'r18') {
         switchContentMode('all'); 
     }
     alert('ログアウトしました');
 }
 
-// ページ読み込み時に状態を復元
+// ページ読み込み時に状態を復元（追記）
 window.addEventListener('DOMContentLoaded', () => {
     const r18Tab = document.getElementById('tab-mode-r18');
+    const logoutBtn = document.getElementById('logout-btn');
+    
     if (localStorage.getItem('r18_unlocked') === 'true') {
         if (r18Tab) r18Tab.style.display = 'block';
-    } else {
-        if (r18Tab) r18Tab.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'inline-block';
     }
 });
