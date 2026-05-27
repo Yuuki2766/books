@@ -55,6 +55,7 @@ async function loadBooksDataByMode() {
 
     try {
         if (currentContentMode === 'all') {
+            const isR18Unlocked = localStorage.getItem('r18_unlocked') === 'true';
             // 全モードのファイルを並列で取得
             const files = ['books-normal.json', 'books-syosetu.json', 'books-web.json', 'books-r18.json'];
             const results = await Promise.all(
