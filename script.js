@@ -334,7 +334,7 @@ function renderBooks(list, isEditMode) {
             <div class="card-content" ${clickAction}>
                 ${starHtml}
                 <div style="flex:1; display:flex; min-width:0;">
-                    <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover"loading="lazy" decoding="async">
+                    <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover" loading="lazy" decoding="async">
                     <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
                         <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.title}${webLinkHtml}</div>
                         <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.publisher} / ${book.author}${illustText}</div>
