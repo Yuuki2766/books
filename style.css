@@ -333,7 +333,10 @@ body.all-mode #edit-mode-label {
 
 .header-controls {
     display: flex;
-    justify-content: center; /* または flex-end */
+    justify-content: flex-end; /* 右寄せにしたい場合 */
     align-items: center;
-    gap: 5px; /* ボタン同士の隙間 */
+    gap: 10px; /* ボタン同士の隙間 */
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
