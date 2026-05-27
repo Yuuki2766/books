@@ -780,3 +780,52 @@ const unfinishedToggle = document.getElementById('unfinishedToggle');
 if (unfinishedToggle) {
     unfinishedToggle.addEventListener('change', applyFilters);
 }
+
+
+// パスワード入力によるR18解放のメイン関数
+function checkSecretCommand() {
+    const searchInput = document.getElementById('search');
+    const password = "admin"; // ← ここにパスワードを設定してください
+
+    if (searchInput.value === password) {
+        searchInput.value = ""; // 検索窓を空にする
+        unlockR18();
+    }
+}
+
+function unlockR18() {
+    const r18Tab = document.getElementById('tab-mode-r18');
+    const logoutArea = document.getElementById('logout-area');
+    
+    if (r18Tab) r18Tab.style.display = 'block';
+    if (logoutArea) logoutArea.style.display = 'block';
+    
+    localStorage.setItem('r18_unlocked', 'true');
+    alert('🔞 R18モードを解放しました');
+}
+
+function logoutR18() {
+    const r18Tab = document.getElementById('tab-mode-r18');
+    const logoutArea = document.getElementById('logout-area');
+    
+    if (r18Tab) r18Tab.style.display = 'none';
+    if (logoutArea) logoutArea.style.display = 'none';
+    
+    localStorage.removeItem('r18_unlocked');
+    
+    // 現在R18モードなら通常に戻す
+    if (currentContentMode === 'r18') {
+        switchContentMode('all'); 
+    }
+    alert('ログアウトしました');
+}
+
+// ページ読み込み時に状態を復元
+window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('r18_unlocked') === 'true') {
+        const r18Tab = document.getElementById('tab-mode-r18');
+        const logoutArea = document.getElementById('logout-area');
+        if (r18Tab) r18Tab.style.display = 'block';
+        if (logoutArea) logoutArea.style.display = 'block';
+    }
+});
