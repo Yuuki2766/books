@@ -847,7 +847,7 @@ function unlockR18() {
     if (r18Tab) r18Tab.style.display = 'block';
     if (logoutArea) logoutArea.style.display = 'block';
     
-    localStorage.setItem('r18_unlocked', 'true');
+    sessionStorage.setItem('r18_unlocked', 'true');
     alert('🔞 R18モードを解放しました');
 }
 
