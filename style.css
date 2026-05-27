@@ -330,3 +330,10 @@ body.all-mode #edit-mode-label {
 #tab-mode-r18 {
     display: none;
 }
+
+.header-controls {
+    display: flex;
+    justify-content: center; /* または flex-end */
+    align-items: center;
+    gap: 5px; /* ボタン同士の隙間 */
+}
