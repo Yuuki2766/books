@@ -130,6 +130,11 @@ header h1 {
     width: 100%;
 }
 
+.vol-text {
+    font-size: 10px !important; /* ここでサイズを小さく調整してください */
+    color: #666 !important;
+}
+
 .book-cover { 
     width: 80px;         /* 幅を固定 */
     height: 110px;       /* 高さを固定 */
@@ -162,7 +167,7 @@ header h1 {
 }
 
 .progress-container { 
-    margin-top: 5px; 
+    margin-top: 10px; 
 }
 
 .progress {
