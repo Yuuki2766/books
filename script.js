@@ -494,7 +494,7 @@ function showDetail(book) {
 function openInlineEditForm(index) {
     const book = books[index];
     const zone = document.getElementById('inline-edit-form-zone');
-    
+    const isFinished = (book.genre && book.genre.includes('読了'));
     if (zone.innerHTML !== "") {
         zone.innerHTML = "";
         return;
