@@ -463,7 +463,7 @@ function showDetail(book) {
         <div class="detail-container" id="detail-view-main-card">
             <img src="${book.image || 'https://via.placeholder.com/240x340?text=No+Image'}" class="detail-cover">
             <div class="detail-info">
-                <h2 style="display:flex; align-items:center; gap:10px;">
+                <h2 class="detail-title" style="display:flex; align-items:center; gap:10px;">
                     <span id="detail-fav-star" style="cursor:pointer;" onclick="toggleFavoriteInline(event, ${originalIndex}, true)">${book.favorite ? '⭐' : '☆'}</span>
                     ${book.title}
                 </h2>
