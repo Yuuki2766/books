@@ -282,6 +282,9 @@
                 <label style="margin-left: 15px;">
                     <input type="checkbox" id="completedOnlyToggle"> 未完結を除外
                 </label>
+                <label style="margin-left: 15px;">
+                    <input type="checkbox" id="finishedToggle" onchange="applyFilters()"> 読了済みを隠す
+                </label>
             </div>
             <div class="view-mode-btns">
                 <button onclick="changeMainView('list')" id="btn-list-view" class="active">一覧</button>
