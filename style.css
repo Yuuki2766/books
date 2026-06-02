@@ -264,10 +264,12 @@ header h1 {
 .detail-cover { 
     width: 100%; 
     max-width: 240px; 
-    height: auto; /* 高さを自動にして引き伸ばしを防止 */
-    object-fit: contain;
+    /* 240:340 の比率をあらかじめ確保する */
+    aspect-ratio: 240 / 340; 
+    object-fit: cover; /* または contain */
     border-radius: 8px; 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    background-color: #f3f4f6; /* 読み込み中にグレーを表示 */
 }
 
 .summary-section {
