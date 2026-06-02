@@ -221,7 +221,7 @@ function applyFilters() {
     let filtered = indexedBooks.filter(item => {
         const book = item.book;
         const isFinished = (book.genre && book.genre.includes('読了'));
-        if (!hideFinished && isFinished) return false;
+        if (hideFinished && isFinished) return false;
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
         if (hideDepressing && isDepress) return false;
         const isShortStory = (book.genre && (bGenre.includes('短編') || bGenre.includes('読切')));
