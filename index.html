@@ -253,6 +253,14 @@
             <button class="header-toggle-btn" onclick="toggleHeaderPanel()">🔼 検索を隠す</button>
         </div>
     </div>
+
+    <div class="mode-tab-container" id="mode-tabs">
+        <button class="mode-tab-btn active-all" id="tab-mode-all" onclick="switchContentMode('all')">🌐 全件</button>
+        <button class="mode-tab-btn" id="tab-mode-normal" onclick="switchContentMode('normal')">📗 通常</button>
+        <button class="mode-tab-btn" id="tab-mode-syosetu" onclick="switchContentMode('syosetu')">📘 小説</button>
+        <button class="mode-tab-btn" id="tab-mode-web" onclick="switchContentMode('web')">📙 web</button>
+        <button class="mode-tab-btn" id="tab-mode-r18" onclick="switchContentMode('r18')" style="display:none;">🔞 R18</button>
+    </div>
     
     
     <div class="safe-mode-area">
