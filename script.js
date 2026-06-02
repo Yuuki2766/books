@@ -212,16 +212,16 @@ function applyFilters() {
     const isEditMode = editModeToggle ? editModeToggle.checked : false;
     const hideDepressing = depressToggle ? depressToggle.checked : false;
     const hideShortStories = shortStoryToggle ? shortStoryToggle.checked : false;
-    const hideUnfinished = document.getElementById('unfinishedToggle') ? document.getElementById('unfinishedToggle').checked : false; // 追加
-    const hideFinished = document.getElementById('finishedToggle') ? document.getElementById('finishedToggle').checked : false;
-    
+    const hideFinished = document.getElementById('finishedToggle')?.checked || false;
+    const hideUnfinished = document.getElementById('unfinishedToggle')?.checked || false;
+
+
     let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
 
     let filtered = indexedBooks.filter(item => {
         const book = item.book;
-
-
-        if (hideFinished && book.isFinished === true) return false;
+        const isFinished = (book.genre && book.genre.includes('読了'));
+        if (hideFinished && isFinished) return false;
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
         if (hideDepressing && isDepress) return false;
         const isShortStory = (book.genre && (book.genre.includes('短編') || book.genre.includes('読切')));
