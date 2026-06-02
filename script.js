@@ -227,7 +227,7 @@ function applyFilters() {
         const isShortStory = (book.genre && (book.genre.includes('短編') || book.genre.includes('読切')));
         if (!hideShortStories && isShortStory) return false;
         const isUnfinished = (book.genre && book.genre.includes('未完結'));
-        if (hideUnfinished && isUnfinished) return false;
+        if (!hideUnfinished && isUnfinished) return false;
         const title = book.title || "";
         const author = book.author || "";
         const bGenre = (book.genre || "").toLowerCase();
