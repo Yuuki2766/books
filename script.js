@@ -321,15 +321,15 @@ function renderBooks(list, isEditMode) {
         const progressHtml = canEdit 
             ? `<div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
                 <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, -1)">-</button>
-                <span style="font-size:14px; font-weight:bold; color:#222;">所持: ${owned} / 総: ${total}巻</span>
+                <span class="vol-text" style="font-size:12px; font-weight:bold; color:#222;">所持: ${owned} / 総: ${total}巻</span>
                 <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, 1)">+</button>
-               </div>`
+            </div>`
             : `<div class="progress-container" style="width: 100%;">
-                <div class="progress-text">${owned}/${total}巻 (${percent}%)</div>
+                <div class="progress-text vol-text">${owned}/${total}巻 (${percent}%)</div>
                 <div class="progress" style="width: 100%; background:#e5e7eb; height:8px; border-radius:4px; overflow:hidden;">
                     <div class="bar" style="width:${percent}%; background:#4f46e5; height:100%;"></div>
                 </div>
-               </div>`;
+            </div>`;
 
         const mobileOrderControls = canEdit 
             ? `<div class="edit-controls-right" onclick="event.stopPropagation();">
