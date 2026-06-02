@@ -224,9 +224,9 @@ function applyFilters() {
         if (hideFinished && isFinished) return false;
         const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
         if (hideDepressing && isDepress) return false;
-        const isShortStory = (book.genre && (bGenre.includes('短編') || bGenre.includes('読切')));
+        const isShortStory = (book.genre && (book.genre.includes('短編') || book.genre.includes('読切')));
         if (hideShortStories && isShortStory) return false;
-        const isUnfinished = (book.genre && bGenre.includes('未完結'));
+        const isUnfinished = (book.genre && book.genre.includes('未完結'));
         if (hideUnfinished && isUnfinished) return false;
         const title = book.title || "";
         const author = book.author || "";
