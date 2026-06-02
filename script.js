@@ -550,6 +550,7 @@ function openInlineEditForm(index) {
             </div>
             <div style="display:flex; gap:15px; margin: 5px 0;">
                 <label><input type="checkbox" id="edit-depress" ${book.isDepressing ? 'checked' : ''}> 鬱展開属性を付与</label>
+                <label><input type="checkbox" id="edit-finished" ${isFinished ? 'checked' : ''}> 読了済み</label>
             </div>
 
             <div class="edit-form-btns">
