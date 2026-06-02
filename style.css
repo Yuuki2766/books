@@ -146,14 +146,8 @@ header h1 {
     padding-left: 10px;
 }
 
-.book-title { 
-    font-size: 18px; 
-    font-weight: bold; 
-    margin: 0 0 4px 0; 
-}
-
 .meta { 
-    font-size: 13px; 
+    font-size: 10px; 
     color: #666; 
 }
 
