@@ -349,3 +349,10 @@ body.all-mode #edit-mode-label {
     padding: 0 10px;
     box-sizing: border-box;
 }
+
+.detail-title {
+    font-size: 18px !important;
+}
+.summary-text {
+    font-size: 13px !important;
+}
