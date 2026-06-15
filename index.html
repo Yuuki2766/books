@@ -10,14 +10,11 @@
     
     <style>
         /* 詳細画面が表示されているときは、検索ボタンを隠す */
-        #detail-view:not([style*="display: none"]) ~ #btn-trigger-search {
+        /* 詳細画面が表示されている時はボタンを隠す */
+        #detail-view[style*="display: block"] ~ #btn-trigger-search {
             display: none !important;
         }
 
-        /* もしくは、bodyにクラスを付けて制御する方が確実です */
-        body.show-detail #btn-trigger-search {
-            display: none !important;
-        }
         /* 手動開閉用のヘッダースタイル */
         #main-header {
             position: sticky;
