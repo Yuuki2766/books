@@ -130,6 +130,13 @@ function showList() {
     if (header) {
         header.style.display = 'block';
     }
+
+    // 【修正箇所】一覧に戻った時、ヘッダーが開いていればボタンを隠し、閉じていればボタンを出す
+    const triggerBtn = document.getElementById('btn-trigger-search');
+    if (triggerBtn) {
+        // ヘッダーがpanel-hideクラスを持っている（＝閉じている）ならボタンを表示
+        triggerBtn.style.display = header.classList.contains('panel-hide') ? 'flex' : 'none';
+    }
     
     changeMainView(currentMainView);
 
@@ -439,7 +446,7 @@ function showDetail(book) {
     if (triggerBtn) {
         triggerBtn.style.display = 'none';
     }
-        
+
     const ownedCount = book.owned ? book.owned.length : 0;
     const totalCount = book.total || 1;
     const percent = Math.round((ownedCount / totalCount) * 100);
