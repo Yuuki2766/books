@@ -9,6 +9,15 @@
     <script src="script.js?v=1.0.10" defer></script>
     
     <style>
+        /* 詳細画面が表示されているときは、検索ボタンを隠す */
+        #detail-view:not([style*="display: none"]) ~ #btn-trigger-search {
+            display: none !important;
+        }
+
+        /* もしくは、bodyにクラスを付けて制御する方が確実です */
+        body.show-detail #btn-trigger-search {
+            display: none !important;
+        }
         /* 手動開閉用のヘッダースタイル */
         #main-header {
             position: sticky;
@@ -453,3 +462,5 @@
 
 </body>
 </html>
+
+
