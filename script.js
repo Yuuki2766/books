@@ -435,7 +435,11 @@ function showDetail(book) {
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
-
+    const triggerBtn = document.getElementById('btn-trigger-search');
+    if (triggerBtn) {
+        triggerBtn.style.display = 'none';
+    }
+        
     const ownedCount = book.owned ? book.owned.length : 0;
     const totalCount = book.total || 1;
     const percent = Math.round((ownedCount / totalCount) * 100);
