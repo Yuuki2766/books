@@ -342,21 +342,12 @@ body.all-mode #edit-mode-label {
 
 .header-controls {
     display: flex;
-    justify-content: space-between; /* 左右に分ける */
+    justify-content: flex-end; /* 右寄せにしたい場合 */
     align-items: center;
+    gap: 10px; /* ボタン同士の隙間 */
     width: 100%;
-    margin: 10px 0;
-}
-
-.compact-filters {
-    display: flex;
-    gap: 6px;
-    margin: 0;
-}
-
-.view-mode-btns {
-    display: flex;
-    gap: 5px;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .detail-title {
