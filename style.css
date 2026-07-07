@@ -360,6 +360,7 @@ body.all-mode #edit-mode-label {
 .view-mode-btns {
     display: flex;
     gap: 5px;
+    margin-left: 20px;
 }
 
 .detail-title {
