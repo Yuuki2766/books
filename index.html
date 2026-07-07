@@ -269,14 +269,6 @@
     </div>
     
     
-    <div class="safe-mode-area">
-        <div class="compact-filters">
-            <label class="filter-btn"><input type="checkbox" id="depressToggle" checked> 鬱</label>
-            <label class="filter-btn"><input type="checkbox" id="shortStoryToggle" checked> 短編</label>
-            <label class="filter-btn"><input type="checkbox" id="unfinishedToggle" checked> 未完</label>
-            <label class="filter-btn"><input type="checkbox" id="finishedToggle" checked onchange="applyFilters()"> 読了</label>
-        </div>
-    </div>
 
 
 
@@ -284,11 +276,25 @@
         <input type="text" id="search" placeholder="タイトル・作者・ジャンルで検索">
         
         <div class="header-controls">
-            
-            <div class="view-mode-btns">
-                <button onclick="changeMainView('list')" id="btn-list-view" class="active">一覧</button>
-                <button onclick="changeMainView('slide')" id="btn-slide-view">スライド</button>
+
+            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+
+                <!-- フィルター -->
+                <div class="compact-filters" style="margin:0;">
+                    <label class="filter-btn"><input type="checkbox" id="depressToggle" checked> 鬱</label>
+                    <label class="filter-btn"><input type="checkbox" id="shortStoryToggle" checked> 短編</label>
+                    <label class="filter-btn"><input type="checkbox" id="unfinishedToggle" checked> 未完</label>
+                    <label class="filter-btn"><input type="checkbox" id="finishedToggle" checked onchange="applyFilters()"> 読了</label>
+                </div>
+
+                <!-- 一覧・スライド切替 -->
+                <div class="view-mode-btns">
+                    <button onclick="changeMainView('list')" id="btn-list-view" class="active">一覧</button>
+                    <button onclick="changeMainView('slide')" id="btn-slide-view">スライド</button>
+                </div>
+
             </div>
+
         </div>
 
         <div class="select-row">
