@@ -345,10 +345,11 @@ body.all-mode #edit-mode-label {
 
 .header-controls {
     display: flex;
-    justify-content: center; /* 左右に分ける */
+    justify-content: center;
     align-items: center;
-    width: 100%;
-    margin: 10px 0;
+    gap: 40px; /* この値で2つの間隔を調整 */
+    margin: 10px auto;
+    width: fit-content; /* ←これが重要 */
 }
 
 .compact-filters {
@@ -360,7 +361,7 @@ body.all-mode #edit-mode-label {
 .view-mode-btns {
     display: flex;
     gap: 5px;
-    margin-left: 20px;
+    margin-left: 0;
 }
 
 .detail-title {
