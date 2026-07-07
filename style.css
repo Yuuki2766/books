@@ -345,7 +345,7 @@ body.all-mode #edit-mode-label {
 
 .header-controls {
     display: flex;
-    justify-content: flex-end; /* 左右に分ける */
+    justify-content: center; /* 左右に分ける */
     align-items: center;
     width: 100%;
     margin: 10px 0;
