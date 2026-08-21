@@ -1092,16 +1092,49 @@
   }
 
 
+,{
+    "title": "わたしで童貞捨てたくせに",
+    "author": "雲雀湯",
+    "illustrator": "U35",
+    "publisher": "電撃文庫",
+    "genre": "青春/ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "images/",
+    "favorite": true,
+    "pdf_url": "pdfs/",
+    "info_url": ""
+  }
 
-
-
-
-
-
-
-
-
-
+,{
+    "title": "双子まとめて『カノジョ』にしない？",
+    "author": "白井ムク",
+    "illustrator": "千種みのり",
+    "publisher": "ファンタジア文庫",
+    "genre": "青春/ライトノベル",
+    "owned": [1],
+    "total": 7,
+    "summary": "",
+    "image": "images/",
+    "favorite": false,
+    "pdf_url": "pdfs/双子まとめて『カノジョ』にしない？ - @Tanaka032.pdf",
+    "info_url": "https://kakuyomu.jp/works/16817330665032905779"
+  }
+,{
+    "title": "人生逆転～浮気され、えん罪を着せられた俺が、学園一の美少女に懐かれる～",
+    "author": "D",
+    "illustrator": "ひげ猫",
+    "publisher": "角川スニーカー文庫",
+    "genre": "青春/ライトノベル",
+    "owned": [1],
+    "total": 4,
+    "summary": "",
+    "image": "images/",
+    "favorite": false,
+    "pdf_url": "pdfs/【５月２９日、４巻発売‼】人生逆転～浮気され、えん罪を着せられた俺が、学園一の美少女に懐かれる～ - Ｄ＠５月２７日『追放公爵』、２９日『人生.pdf",
+    "info_url": "https://kakuyomu.jp/works/16817330663150132657"
+  }
 
 
 
@@ -1134,52 +1167,6 @@
 
 
   
-
-
-
-,{
-    "title": "わたしで童貞捨てたくせに",
-    "author": "雲雀湯",
-    "illustrator": "U35",
-    "publisher": "電撃文庫",
-    "genre": "青春/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/",
-    "favorite": true,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  }
-
-,{
-    "title": "双子まとめて『カノジョ』にしない？",
-    "author": "白井ムク",
-    "illustrator": "千種みのり",
-    "publisher": "ファンタジア文庫",
-    "genre": "青春/ライトノベル",
-    "owned": [1],
-    "total": 7,
-    "summary": "",
-    "image": "images/",
-    "favorite": true,
-    "pdf_url": "pdfs/双子まとめて『カノジョ』にしない？ - @Tanaka032.pdf",
-    "info_url": "https://kakuyomu.jp/works/16817330665032905779"
-  }
-,{
-    "title": "人生逆転～浮気され、えん罪を着せられた俺が、学園一の美少女に懐かれる～",
-    "author": "D",
-    "illustrator": "ひげ猫",
-    "publisher": "角川スニーカー文庫",
-    "genre": "青春/ライトノベル",
-    "owned": [1],
-    "total": 4,
-    "summary": "",
-    "image": "images/",
-    "favorite": false,
-    "pdf_url": "pdfs/【５月２９日、４巻発売‼】人生逆転～浮気され、えん罪を着せられた俺が、学園一の美少女に懐かれる～ - Ｄ＠５月２７日『追放公爵』、２９日『人生.pdf",
-    "info_url": "https://kakuyomu.jp/works/16817330663150132657"
-  }
 ,{
     "title": "優等生のウラのカオ ～実は裏アカ女子だった隣の席の美少女と放課後二人きり～",
     "author": "海月くらげ",
