@@ -362,6 +362,19 @@
     "favorite": true,
     "pdf_url": "pdfs/幼なじみは誘えばいつでもデキる関係 - かがみゆう.pdf",
     "info_url": "https://kakuyomu.jp/works/822139840945088470"
+  },{
+    "title": "孤高の華と呼ばれる英国美少女、義妹になったら不器用に甘えてきた",
+    "author": "ネコクロ",
+    "illustrator": "Parum",
+    "publisher": "オーバーラップ文庫",
+    "genre": "青春/ライトノベル",
+    "owned": [1],
+    "total": 5,
+    "summary": "",
+    "image": "images/",
+    "favorite": true,
+    "pdf_url": "pdfs/",
+    "info_url": ""
   },
   
 
@@ -1163,7 +1176,7 @@
     "total": 4,
     "summary": "",
     "image": "images/",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/【５月２９日、４巻発売‼】人生逆転～浮気され、えん罪を着せられた俺が、学園一の美少女に懐かれる～ - Ｄ＠５月２７日『追放公爵』、２９日『人生.pdf",
     "info_url": "https://kakuyomu.jp/works/16817330663150132657"
   }
@@ -1181,20 +1194,7 @@
     "pdf_url": "pdfs/N4180HJ.pdf",
     "info_url": "https://ncode.syosetu.com/n4180hj/"
   }
-,{
-    "title": "孤高の華と呼ばれる英国美少女、義妹になったら不器用に甘えてきた",
-    "author": "ネコクロ",
-    "illustrator": "Parum",
-    "publisher": "オーバーラップ文庫",
-    "genre": "青春/ライトノベル",
-    "owned": [1],
-    "total": 5,
-    "summary": "",
-    "image": "images/",
-    "favorite": true,
-    "pdf_url": "pdfs/",
-    "info_url": ""
-  }
+
 ,{
     "title": "学年で一番かわいい星ヶ崎さんと友だちになったら毎日密着が止まらない",
     "author": "五十嵐雄策",
