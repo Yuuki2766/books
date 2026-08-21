@@ -1134,7 +1134,7 @@
     "total": 1,
     "summary": "",
     "image": "images/",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/N4180HJ.pdf",
     "info_url": "https://ncode.syosetu.com/n4180hj/"
   }
@@ -1175,7 +1175,7 @@
     "total": 1,
     "summary": "",
     "image": "images/",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/",
     "info_url": ""
   }
@@ -1189,7 +1189,7 @@
     "total": 8,
     "summary": "",
     "image": "images/",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/",
     "info_url": "https://kakuyomu.jp/works/1177354054889860557"
   }
@@ -1203,7 +1203,7 @@
     "total": 2,
     "summary": "",
     "image": "images/",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/",
     "info_url": "https://kakuyomu.jp/users/shirai_muku/news/2912051600264781369"
   }
@@ -1217,7 +1217,7 @@
     "total": 2,
     "summary": "",
     "image": "images/",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/",
     "info_url": ""
   }
@@ -1231,7 +1231,7 @@
     "total": 3,
     "summary": "",
     "image": "images/",
-    "favorite": true,
+    "favorite": false,
     "pdf_url": "pdfs/",
     "info_url": "https://kakuyomu.jp/works/16818622174063917940"
   }
