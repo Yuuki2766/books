@@ -63,7 +63,21 @@
     "favorite": true,
     "pdf_url": "pdfs/偶然助けた美少女がなぜか俺に懐いてしまった件について - 桜ノ宮天音.pdf",
     "info_url": "https://kakuyomu.jp/works/16817330664927884559"
-  },
+  },{
+    "title": "クラスのクール美少女の家事代行をしたら、毎日晩御飯の献立を聞いてくるようになった",
+    "author": "桜ノ宮天音",
+    "illustrator": "千道センリ",
+    "publisher": "ファミ通文庫",
+    "genre": "青春/ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "images/",
+    "favorite": true,
+    "pdf_url": "pdfs/クラスのクール美少女の家事代行をしたら、毎日晩御飯の献立を聞いてくるようになった - 桜ノ宮天音.pdf",
+    "info_url": "https://kakuyomu.jp/works/16818093082950648263"
+  }
+,
   {
     "title": "家事代行のアルバイトを始めたら学園一の美少女の家族に気に入られちゃいました。",
     "author": "塩本",
@@ -306,6 +320,19 @@
     "favorite": true,
     "pdf_url": "pdfs/ネットの『推し』とリアルの『推し』が隣に引っ越してきた～夢のような生活が始まると思っていたけど、何か思ってたのと違う～ - 遥透子.pdf",
     "info_url": "https://kakuyomu.jp/works/16816927863117941564"
+  },{
+    "title": "コミュ障の俺に罰ゲームで告白してきた美少女が、付き合ってからどんどん重くなっていく",
+    "author": "破滅",
+    "illustrator": "にわ田",
+    "publisher": "ファミ通文庫",
+    "genre": "青春/ライトノベル",
+    "owned": [1],
+    "total": 1,
+    "summary": "",
+    "image": "images/",
+    "favorite": true,
+    "pdf_url": "pdfs/【２月２８日一巻発売開始】コミュ障の俺に罰ゲームで告白してきた美少女が、付き合ってからどんどん重くなっていく - 破滅.pdf",
+    "info_url": "https://kakuyomu.jp/works/16818093084746066703"
   },
 
   
@@ -998,34 +1025,7 @@
 
 
 
-  ,{
-    "title": "クラスのクール美少女の家事代行をしたら、毎日晩御飯の献立を聞いてくるようになった",
-    "author": "桜ノ宮天音",
-    "illustrator": "千道センリ",
-    "publisher": "ファミ通文庫",
-    "genre": "青春/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/",
-    "favorite": true,
-    "pdf_url": "pdfs/クラスのクール美少女の家事代行をしたら、毎日晩御飯の献立を聞いてくるようになった - 桜ノ宮天音.pdf",
-    "info_url": "https://kakuyomu.jp/works/16818093082950648263"
-  }
-,{
-    "title": "コミュ障の俺に罰ゲームで告白してきた美少女が、付き合ってからどんどん重くなっていく",
-    "author": "破滅",
-    "illustrator": "にわ田",
-    "publisher": "ファミ通文庫",
-    "genre": "青春/ライトノベル",
-    "owned": [1],
-    "total": 1,
-    "summary": "",
-    "image": "images/",
-    "favorite": true,
-    "pdf_url": "pdfs/【２月２８日一巻発売開始】コミュ障の俺に罰ゲームで告白してきた美少女が、付き合ってからどんどん重くなっていく - 破滅.pdf",
-    "info_url": "https://kakuyomu.jp/works/16818093084746066703"
-  }
+  
 ,{
     "title": "なぜかS級美女達の話題に俺があがる件",
     "author": "脇岡こなつ",
