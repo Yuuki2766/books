@@ -168,6 +168,7 @@ function showAdmin() {
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('admin-view').style.display = 'block';
+    window.scrollTo(0, 0);
     
     const adminTitle = document.querySelector('#admin-view h2');
     if (adminTitle) {
@@ -462,6 +463,7 @@ function showDetail(book) {
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
+    window.scrollTo(0, 0);
     const triggerBtn = document.getElementById('btn-trigger-search');
     if (triggerBtn) {
         triggerBtn.style.display = 'none';
