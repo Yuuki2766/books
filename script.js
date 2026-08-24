@@ -238,11 +238,23 @@ function openBookDetail(book) {
 function openEncodedBookDetail(mode, publisher, title) {
     window.location.hash = `detail/${mode}/${publisher}/${title}`;
 }
-function getReadingStatus(book) { return readingStates[bookKey(book)] || ((book.genre || '').includes('読了') ? 'finished' : 'unread'); }
+function getReadingStatus(book) {
+    const status = readingStates[bookKey(book)] || book.reading_status;
+    if (['unread', 'reading', 'finished'].includes(status)) return status;
+    return (book.genre || '').includes('読了') ? 'finished' : 'unread';
+}
 function setReadingStatus(status, book) {
+    book.reading_status = status;
     readingStates[bookKey(book)] = status;
     localStorage.setItem('book_reading_states', JSON.stringify(readingStates));
     showDetail(book);
+}
+
+function getExportBooks() {
+    return books.map(book => ({
+        ...book,
+        reading_status: getReadingStatus(book)
+    }));
 }
 function splitGenres(value) { return (value || '').split(/[\/／・,、]+/).map(v => v.trim()).filter(Boolean); }
 function escapeHtml(value) { return String(value ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
@@ -588,7 +600,7 @@ async function openRelatedEdition(mode, publisher, title) {
 function openInlineEditForm(index) {
     const book = books[index];
     const zone = document.getElementById('inline-edit-form-zone');
-    const isFinished = (book.genre && book.genre.includes('読了'));
+    const currentReadingStatus = getReadingStatus(book);
     if (zone.innerHTML !== "") {
         zone.innerHTML = "";
         return;
@@ -644,7 +656,13 @@ function openInlineEditForm(index) {
             </div>
             <div style="display:flex; gap:15px; margin: 5px 0;">
                 <label><input type="checkbox" id="edit-depress" ${book.isDepressing ? 'checked' : ''}> 鬱展開属性を付与</label>
-                <label><input type="checkbox" id="edit-finished" ${isFinished ? 'checked' : ''}> 読了済み</label>
+                <label>読書状態
+                    <select id="edit-reading-status">
+                        <option value="unread" ${currentReadingStatus === 'unread' ? 'selected' : ''}>未読</option>
+                        <option value="reading" ${currentReadingStatus === 'reading' ? 'selected' : ''}>読書中</option>
+                        <option value="finished" ${currentReadingStatus === 'finished' ? 'selected' : ''}>読了</option>
+                    </select>
+                </label>
             </div>
 
             <div class="edit-form-btns">
@@ -688,12 +706,16 @@ function saveInlineEdit(index) {
     books[index].pdf_url = document.getElementById('edit-pdf').value.trim();
     books[index].info_url = document.getElementById('edit-info').value.trim();
     books[index].isDepressing = document.getElementById('edit-depress').checked;
+    const readingStatus = document.getElementById('edit-reading-status').value;
+    books[index].reading_status = readingStatus;
+    readingStates[bookKey(books[index])] = readingStatus;
+    localStorage.setItem('book_reading_states', JSON.stringify(readingStates));
 
     saveToLocalStorage();
     applyFilters();
     
     const currentFileName = getJsonFileNameByMode();
-    const jsonString = JSON.stringify(books, null, 2);
+    const jsonString = JSON.stringify(getExportBooks(), null, 2);
     navigator.clipboard.writeText(jsonString).then(() => {
         alert(`✅ 変更を保存しました！\n\n最新のデータをクリップボードにコピーしました。\n「${currentFileName}」にそのままペーストして上書きしてください！`);
     }).catch(err => {
@@ -705,7 +727,7 @@ function saveInlineEdit(index) {
 
 // ⚡ ダウンロードされるファイル名が現在のモードに応じて自動で変わる
 function downloadJsonFile() {
-    const jsonString = JSON.stringify(books, null, 2);
+    const jsonString = JSON.stringify(getExportBooks(), null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
@@ -813,7 +835,7 @@ function addNewBookLocal() {
 }
 
 function copyJsonToClipboard() {
-    const jsonString = JSON.stringify(books, null, 2);
+    const jsonString = JSON.stringify(getExportBooks(), null, 2);
     const currentFileName = getJsonFileNameByMode();
     navigator.clipboard.writeText(jsonString).then(() => {
         alert(`最新のJSONデータをコピーしました！\n「${currentFileName}」にそのまま貼り付けて保存してください。`);
