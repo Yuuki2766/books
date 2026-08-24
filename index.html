@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>書籍マネージャー</title>
     
-    <link rel="stylesheet" href="style.css?v=1.1.1">
-    <script src="script.js?v=1.1.1" defer></script>
+    <link rel="stylesheet" href="style.css?v=2.0.0">
+    <script src="script.js?v=2.0.0" defer></script>
     
     <style>
         /* 詳細画面が表示されているときは、検索ボタンを隠す */
@@ -252,105 +252,97 @@
 </button>
 
 <header id="main-header">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h1 style="margin: 0; font-size: 18px;">📚 書籍マネージャー</h1>
-        <div style="display: flex; align-items: center;"></div>
-            <button id="logout-btn" onclick="logoutR18()" style="padding: 5px; font-size: 10px; margin-right: 5px; display: none;">ログアウト</button>
-            <button class="header-toggle-btn" onclick="toggleHeaderPanel()">🔼 検索を隠す</button>
+    <div class="header-topline">
+        <h1>📚 書籍マネージャー</h1>
+        <div class="header-actions">
+            <button id="logout-btn" onclick="logoutR18()" style="display:none;">ログアウト</button>
+            <button class="header-toggle-btn" onclick="toggleHeaderPanel()" aria-label="検索欄を隠す">▲</button>
         </div>
     </div>
 
-    <div class="mode-tab-container" id="mode-tabs">
+    <div class="mode-tab-container" id="mode-tabs" aria-label="本の種類">
         <button class="mode-tab-btn active-all" id="tab-mode-all" onclick="switchContentMode('all')">🌐 全件</button>
         <button class="mode-tab-btn" id="tab-mode-normal" onclick="switchContentMode('normal')">📗 通常</button>
         <button class="mode-tab-btn" id="tab-mode-syosetu" onclick="switchContentMode('syosetu')">📘 小説</button>
-        <button class="mode-tab-btn" id="tab-mode-web" onclick="switchContentMode('web')">📙 web</button>
+        <button class="mode-tab-btn" id="tab-mode-web" onclick="switchContentMode('web')">📙 Web</button>
         <button class="mode-tab-btn" id="tab-mode-r18" onclick="switchContentMode('r18')" style="display:none;">🔞 R18</button>
     </div>
-    
-    
 
+    <div class="search-toolbar">
+        <div class="search-box-wrap">
+            <span aria-hidden="true">🔎</span>
+            <input type="search" id="search" placeholder="タイトル・作者・出版社・ジャンルで検索" autocomplete="off">
+            <button id="clear-search" type="button" onclick="clearSearchKeyword()" aria-label="検索語を消す">×</button>
+        </div>
+        <button id="advanced-toggle" class="advanced-toggle" type="button" onclick="toggleAdvancedFilters()" aria-expanded="false" aria-controls="advanced-filters">詳細検索 <span>⌄</span></button>
+    </div>
 
+    <div id="active-filter-chips" class="active-filter-chips" aria-live="polite"></div>
 
-    <div class="filter-group">
-        <input type="text" id="search" placeholder="タイトル・作者・ジャンルで検索">
-        
-        <div class="header-controls">
-
-            <!-- 左側：フィルター -->
-            <div class="compact-filters" style="margin:0;">
-                <label class="filter-btn"><input type="checkbox" id="depressToggle" checked> 鬱</label>
-                <label class="filter-btn"><input type="checkbox" id="shortStoryToggle" checked> 短編</label>
-                <label class="filter-btn"><input type="checkbox" id="unfinishedToggle" checked> 未完</label>
-                <label class="filter-btn"><input type="checkbox" id="finishedToggle" checked onchange="applyFilters()"> 読了</label>
-            </div>
-
-            <!-- 右側：表示切替 -->
+    <section id="advanced-filters" class="advanced-filters" hidden>
+        <div class="filter-grid">
+            <fieldset>
+                <legend>出版社 <span class="legend-note">複数選択可</span></legend>
+                <div id="publisher-options" class="checkbox-options"></div>
+            </fieldset>
+            <fieldset>
+                <legend>ジャンル <span class="legend-note">複数選択可</span></legend>
+                <div class="logic-switch" role="group" aria-label="ジャンル条件">
+                    <button type="button" class="active" data-genre-logic="or">いずれか</button>
+                    <button type="button" data-genre-logic="and">すべて</button>
+                </div>
+                <div id="genre-options" class="checkbox-options"></div>
+            </fieldset>
+            <fieldset>
+                <legend>除外する作品</legend>
+                <div class="checkbox-options compact">
+                    <label><input type="checkbox" id="exclude-depress">鬱</label>
+                    <label><input type="checkbox" id="exclude-short">短編・読切</label>
+                    <label><input type="checkbox" id="exclude-unfinished">未完・未完結</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>読書状態</legend>
+                <div class="segmented" id="read-status-filter" role="group" aria-label="読書状態">
+                    <button type="button" class="active" data-status="all">すべて</button>
+                    <button type="button" data-status="unread">未読</button>
+                    <button type="button" data-status="reading">読書中</button>
+                    <button type="button" data-status="finished">読了</button>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>その他</legend>
+                <div class="checkbox-options compact">
+                    <label><input type="checkbox" id="favorite-only">お気に入りのみ</label>
+                    <label><input type="checkbox" id="pdf-only">本文あり</label>
+                    <label><input type="checkbox" id="info-only">作品URLあり</label>
+                    <label><input type="checkbox" id="complete-only">全巻所持</label>
+                    <label><input type="checkbox" id="search-summary">あらすじも検索</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>並び替え</legend>
+                <select id="sortFilter">
+                    <option value="default">標準</option>
+                    <option value="title">作品名順</option>
+                    <option value="author">作者順</option>
+                    <option value="favorite">お気に入り順</option>
+                    <option value="progress">収集率が高い順</option>
+                    <option value="progress-asc">収集率が低い順</option>
+                    <option value="volumes">巻数が多い順</option>
+                </select>
+            </fieldset>
+        </div>
+        <div class="advanced-footer">
+            <button type="button" class="reset-filter-btn" onclick="resetAdvancedFilters()">条件をリセット</button>
             <div class="view-mode-btns">
                 <button onclick="changeMainView('list')" id="btn-list-view" class="active">一覧</button>
                 <button onclick="changeMainView('slide')" id="btn-slide-view">スライド</button>
             </div>
-
+            <label id="edit-mode-label"><input type="checkbox" id="editModeToggle" onchange="toggleEditModeUi()"> 🛠️ 編集</label>
         </div>
-
-        <div class="select-row">
-            <select id="publisherFilter">
-                <option value="">全出版社</option>
-                <option value="小説家になろう">小説家になろう</option>
-                <option value="カクヨム">カクヨム</option>
-                <option value="小学館">小学館</option>
-                <option value="集英社">集英社</option>
-                <option value="講談社">講談社</option>
-                <option value="スクウェア・エニックス">スクウェア・エニックス</option>
-                <option value="宝島社">宝島社</option>
-                <option value="オーバーラップ">オーバーラップ</option>
-                <option value="ホビージャパン">ホビージャパン</option>
-                <option value="KADOKAWA">KADOKAWA</option>
-                <option value="電撃文庫">電撃文庫</option>
-                <option value="ガガガ文庫">ガガガ文庫</option>
-                <option value="ファンタジア文庫">ファンタジア文庫</option>
-                <option value="スニーカー文庫">スニーカー文庫</option>
-                <option value="MF文庫J">MF文庫J</option>
-                <option value="ファミ通文庫">ファミ通文庫</option>
-                <option value="GA文庫">GA文庫</option>
-                <option value="メディアワークス文庫">メディアワークス文庫</option>
-                <option value="HJ文庫">HJ文庫</option>
-                <option value="電撃コミックス">電撃コミックス</option>
-                <option value="GCN文庫">GCN文庫</option>
-                
-            </select>
-            <select id="genreFilter">
-                <option value="">全ジャンル</option>
-                <option value="ライトノベル">ライトノベル</option>
-                <option value="小説">小説</option>
-                <option value="ネット">ネット</option>
-                <option value="漫画">漫画</option>
-                <option value="推理">推理</option>
-                <option value="青春">青春</option>
-                <option value="日常">日常</option>
-                <option value="ファンタジー">ファンタジー</option>
-                <option value="恋愛">恋愛</option>
-                <option value="読了">読了</option>
-                <option value="短編">短編</option>
-            </select>
-            <select id="sortFilter">
-                <option value="default">標準</option>
-                <option value="title">作品名順</option>
-                <option value="author">作者順</option>
-                <option value="favorite">お気に入り順</option>
-                <option value="progress">収集率順</option>
-            </select>
-            
-            <label id="edit-mode-label" style="display: inline-flex; align-items: center; justify-content: center; background: #333; color: #aaa; padding: 0 12px; border-radius: 8px; font-size: 14px; cursor: pointer; border: 1px solid #444; height: 42px; box-sizing: border-box; user-select: none;">
-                <input type="checkbox" id="editModeToggle" onchange="toggleEditModeUi()" style="margin-right: 6px; cursor: pointer;"> 
-                <span>🛠️ 編集</span>
-            </label>
-        </div>
-
-        <div class="admin-link-row" style="text-align: right; margin-top: 12px; font-size: 14px;">
-            <a href="#admin" id="link-admin-view" style="color: #a5b4fc; text-decoration: none; font-weight: bold;">⚙️ 新規書籍の追加・エクスポート画面</a>
-        </div>
-    </div>
+        <div class="admin-link-row"><a href="#admin" id="link-admin-view">⚙️ 新規書籍の追加・エクスポート</a></div>
+    </section>
 </header>
 
 <main>
@@ -461,5 +453,4 @@
 
 </body>
 </html>
-
 
