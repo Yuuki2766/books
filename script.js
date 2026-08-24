@@ -10,6 +10,19 @@ let readStatusFilter = 'all';
 let filterOptionsSignature = '';
 const readingStates = JSON.parse(localStorage.getItem('book_reading_states') || '{}');
 
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+function forceScrollTop() {
+    const reset = () => {
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo(0, 0);
+    };
+    reset();
+    requestAnimationFrame(() => requestAnimationFrame(reset));
+    setTimeout(reset, 120);
+}
+
 // ⚡ 起動時は、現在のモード（normal）のデータを読み込む
 loadBooksDataByMode();
 
@@ -168,7 +181,7 @@ function showAdmin() {
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('admin-view').style.display = 'block';
-    window.scrollTo(0, 0);
+    forceScrollTop();
     
     const adminTitle = document.querySelector('#admin-view h2');
     if (adminTitle) {
@@ -463,7 +476,6 @@ function showDetail(book) {
     document.getElementById('slide-view').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
-    window.scrollTo(0, 0);
     const triggerBtn = document.getElementById('btn-trigger-search');
     if (triggerBtn) {
         triggerBtn.style.display = 'none';
@@ -533,6 +545,7 @@ function showDetail(book) {
         <section id="related-editions" class="related-editions" aria-live="polite"></section>
         <div id="inline-edit-form-zone"></div>`;
     renderRelatedEditions(book);
+    forceScrollTop();
 }
 
 function normalizeWorkTitle(value) {
