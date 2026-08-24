@@ -3,6 +3,12 @@ let currentMainView = 'list';
 let currentContentMode = 'all'; // 'normal', 'syosetu', 'web', 'r18'
 let savedScrollPosition = 0;   
 let draggedItemIndex = null;   
+let selectedPublishers = new Set();
+let selectedGenres = new Set();
+let genreLogic = 'or';
+let readStatusFilter = 'all';
+let filterOptionsSignature = '';
+const readingStates = JSON.parse(localStorage.getItem('book_reading_states') || '{}');
 
 // ⚡ 起動時は、現在のモード（normal）のデータを読み込む
 loadBooksDataByMode();
@@ -199,76 +205,74 @@ function toggleEditModeUi() {
     applyFilters();
 }
 
+function bookKey(book) { return [book.title || '', book.author || '', book.publisher || ''].join('::'); }
+function getReadingStatus(book) { return readingStates[bookKey(book)] || ((book.genre || '').includes('読了') ? 'finished' : 'unread'); }
+function setReadingStatus(status, book) {
+    readingStates[bookKey(book)] = status;
+    localStorage.setItem('book_reading_states', JSON.stringify(readingStates));
+    showDetail(book);
+}
+function splitGenres(value) { return (value || '').split(/[\/／・,、]+/).map(v => v.trim()).filter(Boolean); }
+function escapeHtml(value) { return String(value ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function buildDynamicFilterOptions() {
+    const signature = books.map(b => `${b.publisher}|${b.genre}`).join('¦');
+    if (signature === filterOptionsSignature) return;
+    filterOptionsSignature = signature;
+    const publishers = [...new Set(books.map(b => b.publisher).filter(Boolean))].sort((a,b) => a.localeCompare(b, 'ja'));
+    const genres = [...new Set(books.flatMap(b => splitGenres(b.genre)))].sort((a,b) => a.localeCompare(b, 'ja'));
+    renderCheckboxOptions('publisher-options', publishers, selectedPublishers, 'publisher-option');
+    renderCheckboxOptions('genre-options', genres, selectedGenres, 'genre-option');
+}
+
+function renderCheckboxOptions(id, values, selected, className) {
+    const container = document.getElementById(id);
+    if (!container) return;
+    container.innerHTML = values.map(value => `<label><input class="${className}" type="checkbox" value="${escapeHtml(value)}" ${selected.has(value) ? 'checked' : ''}>${escapeHtml(value)}</label>`).join('');
+    container.querySelectorAll('input').forEach(input => input.addEventListener('change', event => {
+        event.target.checked ? selected.add(event.target.value) : selected.delete(event.target.value);
+        applyFilters();
+    }));
+}
+
 function applyFilters() {
     const searchInput = document.getElementById('search');
-    const pubFilter = document.getElementById('publisherFilter');
-    const genFilter = document.getElementById('genreFilter');
     const sortFilter = document.getElementById('sortFilter');
-    const depressToggle = document.getElementById('depressToggle'); 
-    const editModeToggle = document.getElementById('editModeToggle'); 
-    const shortStoryToggle = document.getElementById('shortStoryToggle');
-
-    if (!searchInput || !pubFilter || !genFilter || !sortFilter) return;
-
-    const keyword = searchInput.value.toLowerCase();
-    const publisher = pubFilter.value;
-    const genre = genFilter.value;
-    const sort = sortFilter.value;
-    const searchKeywords = keyword.split(/\s+/).filter(k => k !== "");
-    const genreKeywords = genre.split(/\s+/).filter(k => k !== "");
-    const isEditMode = editModeToggle ? editModeToggle.checked : false;
-    const hideDepressing = depressToggle ? depressToggle.checked : false;
-    const hideShortStories = shortStoryToggle ? shortStoryToggle.checked : false;
-    const hideFinished = document.getElementById('finishedToggle')?.checked || false;
-    const hideUnfinished = document.getElementById('unfinishedToggle')?.checked || false;
-
-
-    let indexedBooks = books.map((book, originalIndex) => ({ book, originalIndex }));
-
-    let filtered = indexedBooks.filter(item => {
-        const book = item.book;
-        const isFinished = (book.genre && book.genre.includes('読了'));
-        if (!hideFinished && isFinished) return false;
-        const isDepress = book.isDepressing || (book.genre && book.genre.includes('鬱'));
-        if (hideDepressing && isDepress) return false;
-        const isShortStory = (book.genre && (book.genre.includes('短編') || book.genre.includes('読切')));
-        if (!hideShortStories && isShortStory) return false;
-        const isUnfinished = (book.genre && book.genre.includes('未完結'));
-        if (!hideUnfinished && isUnfinished) return false;
-        const title = book.title || "";
-        const author = book.author || "";
-        const bGenre = (book.genre || "").toLowerCase();
-        const textTarget = (book.title + " " + book.author + " " + book.genre).toLowerCase();
-        const matchText = searchKeywords.every(k => textTarget.includes(k));
-        const matchPub = publisher === '' || book.publisher === publisher;
-        const matchGen = genreKeywords.every(k => bGenre.includes(k.toLowerCase()));
-        return matchText && matchPub && matchGen;
-    });
-
-    if (isEditMode) {
-        filtered.sort((a, b) => a.originalIndex - b.originalIndex);
-    } else {
-        if (sort === 'favorite') {
-            filtered.sort((a, b) => (a.book.favorite === b.book.favorite) ? 0 : (a.book.favorite ? -1 : 1));
-        } else if (sort === 'title') {
-            filtered.sort((a, b) => {
-                const isNonJP1 = /^[^ぁ-んァ-ヶー一-龠々]/.test(a.book.title);
-                const isNonJP2 = /^[^ぁ-んァ-ヶー一-龠々]/.test(b.book.title);
-                if (isNonJP1 !== isNonJP2) return isNonJP1 ? 1 : -1;
-                return a.book.title.localeCompare(b.book.title, 'ja');
-            });
-        } else if (sort === 'author') {
-            filtered.sort((a, b) => a.book.author.localeCompare(b.book.author, 'ja'));
-        } else if (sort === 'progress') {
-            filtered.sort((a, b) => (b.book.owned.length / b.book.total) - (a.book.owned.length / a.book.total));
+    if (!searchInput || !sortFilter) return;
+    buildDynamicFilterOptions();
+    const keywords = searchInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const isEditMode = document.getElementById('editModeToggle')?.checked || false;
+    const checked = id => document.getElementById(id)?.checked || false;
+    let filtered = books.map((book, originalIndex) => ({book, originalIndex})).filter(({book}) => {
+        const genre = book.genre || '';
+        const target = [book.title, book.author, book.illustrator, book.publisher, genre, checked('search-summary') ? book.summary : ''].join(' ').toLowerCase();
+        if (!keywords.every(k => target.includes(k))) return false;
+        if (selectedPublishers.size && !selectedPublishers.has(book.publisher)) return false;
+        if (selectedGenres.size) {
+            const matches = [...selectedGenres].map(value => genre.includes(value));
+            if (genreLogic === 'and' ? !matches.every(Boolean) : !matches.some(Boolean)) return false;
         }
-    }
-
-    if (currentMainView === 'list') {
-        renderBooks(filtered, isEditMode);
-    } else {
-        renderNetflixView(filtered.map(item => item.book));
-    }
+        if (checked('exclude-depress') && (book.isDepressing || genre.includes('鬱'))) return false;
+        if (checked('exclude-short') && (genre.includes('短編') || genre.includes('読切'))) return false;
+        if (checked('exclude-unfinished') && genre.includes('未完')) return false;
+        if (readStatusFilter !== 'all' && getReadingStatus(book) !== readStatusFilter) return false;
+        if (checked('favorite-only') && !book.favorite) return false;
+        if (checked('pdf-only') && !book.pdf_url) return false;
+        if (checked('info-only') && !book.info_url) return false;
+        if (checked('complete-only') && (!book.total || (book.owned || []).length < book.total)) return false;
+        return true;
+    });
+    const progress = b => (b.owned || []).length / (b.total || 1);
+    const sort = sortFilter.value;
+    if (!isEditMode && sort === 'favorite') filtered.sort((a,b) => Number(b.book.favorite) - Number(a.book.favorite));
+    if (!isEditMode && sort === 'title') filtered.sort((a,b) => (a.book.title || '').localeCompare(b.book.title || '', 'ja'));
+    if (!isEditMode && sort === 'author') filtered.sort((a,b) => (a.book.author || '').localeCompare(b.book.author || '', 'ja'));
+    if (!isEditMode && sort === 'progress') filtered.sort((a,b) => progress(b.book) - progress(a.book));
+    if (!isEditMode && sort === 'progress-asc') filtered.sort((a,b) => progress(a.book) - progress(b.book));
+    if (!isEditMode && sort === 'volumes') filtered.sort((a,b) => (b.book.total || 0) - (a.book.total || 0));
+    updateActiveFilterChips();
+    if (currentMainView === 'list') renderBooks(filtered, isEditMode);
+    else renderNetflixView(filtered.map(item => item.book));
 }
 
 function renderBooks(list, isEditMode) {
