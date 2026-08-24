@@ -805,11 +805,68 @@ function clearLocalChanges() {
 }
 
 document.getElementById('search').addEventListener('input', applyFilters);
-document.getElementById('publisherFilter').addEventListener('change', applyFilters);
-document.getElementById('genreFilter').addEventListener('change', applyFilters);
 document.getElementById('sortFilter').addEventListener('change', applyFilters);
-const depressToggle = document.getElementById('depressToggle');
-if (depressToggle) depressToggle.addEventListener('change', applyFilters);
+['exclude-depress','exclude-short','exclude-unfinished','favorite-only','pdf-only','info-only','complete-only','search-summary']
+    .forEach(id => document.getElementById(id)?.addEventListener('change', applyFilters));
+
+document.querySelectorAll('[data-genre-logic]').forEach(button => button.addEventListener('click', () => {
+    genreLogic = button.dataset.genreLogic;
+    document.querySelectorAll('[data-genre-logic]').forEach(item => item.classList.toggle('active', item === button));
+    applyFilters();
+}));
+
+document.querySelectorAll('#read-status-filter [data-status]').forEach(button => button.addEventListener('click', () => {
+    readStatusFilter = button.dataset.status;
+    document.querySelectorAll('#read-status-filter [data-status]').forEach(item => item.classList.toggle('active', item === button));
+    applyFilters();
+}));
+
+function toggleAdvancedFilters() {
+    const panel = document.getElementById('advanced-filters');
+    const button = document.getElementById('advanced-toggle');
+    panel.hidden = !panel.hidden;
+    button.setAttribute('aria-expanded', String(!panel.hidden));
+    button.classList.toggle('open', !panel.hidden);
+}
+
+function clearSearchKeyword() {
+    document.getElementById('search').value = '';
+    document.getElementById('search').focus();
+    applyFilters();
+}
+
+function resetAdvancedFilters() {
+    selectedPublishers.clear();
+    selectedGenres.clear();
+    document.querySelectorAll('#advanced-filters input[type="checkbox"]').forEach(input => input.checked = false);
+    document.getElementById('sortFilter').value = 'default';
+    genreLogic = 'or';
+    readStatusFilter = 'all';
+    document.querySelectorAll('[data-genre-logic]').forEach(button => button.classList.toggle('active', button.dataset.genreLogic === 'or'));
+    document.querySelectorAll('#read-status-filter [data-status]').forEach(button => button.classList.toggle('active', button.dataset.status === 'all'));
+    applyFilters();
+}
+
+function updateActiveFilterChips() {
+    const zone = document.getElementById('active-filter-chips');
+    if (!zone) return;
+    const chips = [];
+    selectedPublishers.forEach(value => chips.push(`<button onclick="removeFilterChip('publisher','${encodeURIComponent(value)}')">出版社: ${escapeHtml(value)} ×</button>`));
+    selectedGenres.forEach(value => chips.push(`<button onclick="removeFilterChip('genre','${encodeURIComponent(value)}')">${escapeHtml(value)} ×</button>`));
+    const labels = {'exclude-depress':'鬱を除外','exclude-short':'短編を除外','exclude-unfinished':'未完を除外','favorite-only':'お気に入り','pdf-only':'本文あり','info-only':'作品URLあり','complete-only':'全巻所持'};
+    Object.entries(labels).forEach(([id,label]) => { if (document.getElementById(id)?.checked) chips.push(`<button onclick="removeFilterChip('checkbox','${id}')">${label} ×</button>`); });
+    if (readStatusFilter !== 'all') chips.push(`<button onclick="removeFilterChip('status','all')">${{unread:'未読',reading:'読書中',finished:'読了'}[readStatusFilter]} ×</button>`);
+    zone.innerHTML = chips.join('');
+}
+
+function removeFilterChip(type, value) {
+    if (type === 'publisher') selectedPublishers.delete(decodeURIComponent(value));
+    if (type === 'genre') selectedGenres.delete(decodeURIComponent(value));
+    if (type === 'checkbox') document.getElementById(value).checked = false;
+    if (type === 'status') readStatusFilter = 'all';
+    filterOptionsSignature = '';
+    applyFilters();
+}
 
 // スマートヘッダーロジック
 let lastScrollY = window.scrollY;
@@ -841,20 +898,6 @@ function toggleHeaderPanel() {
     const isHidden = header.classList.toggle('panel-hide');
     triggerBtn.style.display = isHidden ? 'flex' : 'none';
 }
-
-const shortStoryToggle = document.getElementById('shortStoryToggle');
-if (shortStoryToggle) {
-    shortStoryToggle.addEventListener('change', applyFilters);
-}
-
-const unfinishedToggle = document.getElementById('unfinishedToggle');
-if (unfinishedToggle) {
-    unfinishedToggle.addEventListener('change', applyFilters);
-}
-
-
-
-// ... (他の関数はそのまま)
 
 // 検索窓でのパスワード入力チェック (Enterキーイベントを追加)
 document.getElementById('search').addEventListener('keypress', function(e) {
