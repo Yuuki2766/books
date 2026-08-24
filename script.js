@@ -454,6 +454,7 @@ function showDetail(book) {
     const ownedCount = book.owned ? book.owned.length : 0;
     const totalCount = book.total || 1;
     const percent = Math.round((ownedCount / totalCount) * 100);
+    const readingStatus = getReadingStatus(book);
 
     const infoLinkHtml = book.info_url 
         ? `<p class="meta"><strong>作品URL:</strong> <a href="${book.info_url}" target="_blank" style="color: #4f46e5; text-decoration: underline;">作品ページを開く</a></p>` 
@@ -498,11 +499,57 @@ function showDetail(book) {
                     <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
                     <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned ? book.owned.join(', ') : ''}</p>
                 </div>
+                <div class="reading-status-card">
+                    <strong>読書状態</strong>
+                    <div class="segmented" role="group" aria-label="この本の読書状態">
+                        <button type="button" class="${readingStatus === 'unread' ? 'active' : ''}" onclick="setReadingStatus('unread', books[${originalIndex}])">未読</button>
+                        <button type="button" class="${readingStatus === 'reading' ? 'active' : ''}" onclick="setReadingStatus('reading', books[${originalIndex}])">読書中</button>
+                        <button type="button" class="${readingStatus === 'finished' ? 'active' : ''}" onclick="setReadingStatus('finished', books[${originalIndex}])">読了</button>
+                    </div>
+                    <small>この端末だけに保存され、JSONは変更しません。</small>
+                </div>
                 ${pdfButtonHtml}
                 ${editButtonHtml}
             </div>
         </div>
+        <section id="related-editions" class="related-editions" aria-live="polite"></section>
         <div id="inline-edit-form-zone"></div>`;
+    renderRelatedEditions(book);
+}
+
+function normalizeWorkTitle(value) {
+    return (value || '').normalize('NFKC')
+        .replace(/【[^】]*(?:発売|書籍|WEB|Web|web)[^】]*】/g, '')
+        .replace(/[「」『』\s　・･,、。！？!?～〜~―—‐-]/g, '')
+        .toLowerCase();
+}
+
+async function renderRelatedEditions(currentBook) {
+    const zone = document.getElementById('related-editions');
+    if (!zone) return;
+    try {
+        const files = ['books-normal.json', 'books-syosetu.json', 'books-web.json'];
+        if (localStorage.getItem('r18_unlocked') === 'true') files.push('books-r18.json');
+        const groups = await Promise.all(files.map(file => fetch(file).then(r => r.ok ? r.json() : [])));
+        const normalizedTitle = normalizeWorkTitle(currentBook.title);
+        const related = groups.flat().filter(book =>
+            bookKey(book) !== bookKey(currentBook) &&
+            (book.author || '') === (currentBook.author || '') &&
+            normalizeWorkTitle(book.title) === normalizedTitle
+        );
+        if (!related.length || !document.body.contains(zone)) return;
+        zone.innerHTML = `<h3>同じ作品の別バージョン</h3><p>Web版・書籍版などを切り替えられます。</p><div class="related-edition-list">${related.map(book => `<button type="button" onclick="openRelatedEdition('${encodeURIComponent(book.publisher)}','${encodeURIComponent(book.title)}')"><strong>${escapeHtml(book.publisher || '版違い')}</strong><span>${escapeHtml(book.title)}</span></button>`).join('')}</div>`;
+    } catch (error) {
+        zone.innerHTML = '';
+    }
+}
+
+async function openRelatedEdition(publisher, title) {
+    if (!books.some(book => book.publisher === decodeURIComponent(publisher) && book.title === decodeURIComponent(title))) {
+        currentContentMode = 'all';
+        await loadBooksDataByMode();
+    }
+    window.location.hash = `detail/${publisher}/${title}`;
 }
 
 
