@@ -23,9 +23,11 @@ function checkRoute() {
             savedScrollPosition = window.scrollY;
         }
         const params = decodeURIComponent(hash.replace('#detail/', '')).split('/');
-        const publisher = params[0];
-        const title = params[1];
-        const book = books.find(b => b.title === title && b.publisher === publisher);
+        const hasSource = params.length >= 3;
+        const sourceMode = hasSource ? params[0] : '';
+        const publisher = params[hasSource ? 1 : 0];
+        const title = params[hasSource ? 2 : 1];
+        const book = books.find(b => b.title === title && b.publisher === publisher && (!sourceMode || b._sourceMode === sourceMode));
         if (book) showDetail(book); else showList();
     } else if (hash === '#admin') {
         if (document.getElementById('detail-view').style.display === 'none' && 
@@ -47,13 +49,22 @@ function getJsonFileNameByMode() {
     return 'books-normal.json';
 }
 
+function modeFromFile(file) {
+    return ({'books-normal.json':'normal','books-syosetu.json':'syosetu','books-web.json':'web','books-r18.json':'r18'})[file] || currentContentMode;
+}
+
+function tagBookSource(book, mode) {
+    Object.defineProperty(book, '_sourceMode', {value: mode, writable: true, configurable: true, enumerable: false});
+    return book;
+}
+
 // ⚡ モードに応じたJSONファイルを読み込む関数
 async function loadBooksDataByMode() {
     const storageKey = `local_books_data_${currentContentMode}`;
     const localSavedData = localStorage.getItem(storageKey);
 
     if (localSavedData) {
-        books = JSON.parse(localSavedData);
+        books = JSON.parse(localSavedData).map(book => tagBookSource(book, currentContentMode));
         applyFilters(); 
         checkRoute();
         return;
@@ -70,13 +81,13 @@ async function loadBooksDataByMode() {
             const results = await Promise.all(
                 files.map(file => fetch(`${file}?_=${new Date().getTime()}`).then(res => res.ok ? res.json() : []))
             );
-            books = results.flat(); // 全配列を結合
+            books = results.flatMap((list, index) => list.map(book => tagBookSource(book, modeFromFile(files[index]))));
         } else {
             // 既存の単一ファイル取得
             const jsonFileName = getJsonFileNameByMode();
             const res = await fetch(`${jsonFileName}?_=${new Date().getTime()}`);
             if (!res.ok) throw new Error();
-            books = await res.json();
+            books = (await res.json()).map(book => tagBookSource(book, currentContentMode));
         }
     } catch (err) {
         // エラー時は空配列で初期化
@@ -206,6 +217,13 @@ function toggleEditModeUi() {
 }
 
 function bookKey(book) { return [book.title || '', book.author || '', book.publisher || ''].join('::'); }
+function openBookDetail(book) {
+    const mode = book._sourceMode || currentContentMode;
+    window.location.hash = `detail/${encodeURIComponent(mode)}/${encodeURIComponent(book.publisher || '')}/${encodeURIComponent(book.title || '')}`;
+}
+function openEncodedBookDetail(mode, publisher, title) {
+    window.location.hash = `detail/${mode}/${publisher}/${title}`;
+}
 function getReadingStatus(book) { return readingStates[bookKey(book)] || ((book.genre || '').includes('読了') ? 'finished' : 'unread'); }
 function setReadingStatus(status, book) {
     readingStates[bookKey(book)] = status;
@@ -320,9 +338,7 @@ function renderBooks(list, isEditMode) {
             });
         }
 
-        const clickAction = isEditMode 
-            ? "" 
-            : `onclick="window.location.hash = 'detail/${encodeURIComponent(book.publisher)}/${encodeURIComponent(book.title)}'"`;
+        const clickAction = isEditMode ? "" : `onclick="openBookDetail(books[${originalIndex}])"`;
 
         const starHtml = `
             <div class="fav-star-container" ${canEdit ? `onclick="toggleFavoriteInline(event, ${originalIndex})"` : ''} style="cursor:${canEdit ? 'pointer' : 'default'}; font-size:20px;">
@@ -431,7 +447,7 @@ function renderNetflixView(list) {
             <div class="genre-header"><h3>${gName}</h3></div>
             <div class="horizontal-scroll">
                 ${genreMap[gName].map(b => `
-                    <div class="mini-card" onclick="window.location.hash='detail/${encodeURIComponent(b.publisher)}/${encodeURIComponent(b.title)}'">
+                    <div class="mini-card" onclick="openEncodedBookDetail('${b._sourceMode || currentContentMode}','${encodeURIComponent(b.publisher || '')}','${encodeURIComponent(b.title || '')}')">
                         <img src="${b.image || 'https://via.placeholder.com/100x140?text=No+Image'}" loading="lazy">
                         <div class="mini-title">${b.title}</div>
                     </div>
@@ -532,24 +548,25 @@ async function renderRelatedEditions(currentBook) {
         if (localStorage.getItem('r18_unlocked') === 'true') files.push('books-r18.json');
         const groups = await Promise.all(files.map(file => fetch(file).then(r => r.ok ? r.json() : [])));
         const normalizedTitle = normalizeWorkTitle(currentBook.title);
-        const related = groups.flat().filter(book =>
-            bookKey(book) !== bookKey(currentBook) &&
+        const catalog = groups.flatMap((list, index) => list.map(book => tagBookSource(book, modeFromFile(files[index]))));
+        const related = catalog.filter(book =>
+            book._sourceMode !== currentBook._sourceMode &&
             (book.author || '') === (currentBook.author || '') &&
             normalizeWorkTitle(book.title) === normalizedTitle
         );
         if (!related.length || !document.body.contains(zone)) return;
-        zone.innerHTML = `<h3>同じ作品の別バージョン</h3><p>Web版・書籍版などを切り替えられます。</p><div class="related-edition-list">${related.map(book => `<button type="button" onclick="openRelatedEdition('${encodeURIComponent(book.publisher)}','${encodeURIComponent(book.title)}')"><strong>${escapeHtml(book.publisher || '版違い')}</strong><span>${escapeHtml(book.title)}</span></button>`).join('')}</div>`;
+        zone.innerHTML = `<h3>同じ作品の別バージョン</h3><p>Web版・書籍版などを切り替えられます。</p><div class="related-edition-list">${related.map(book => `<button type="button" onclick="openRelatedEdition('${book._sourceMode}','${encodeURIComponent(book.publisher)}','${encodeURIComponent(book.title)}')"><strong>${escapeHtml(book.publisher || '版違い')}（${{normal:'通常',syosetu:'小説',web:'Web',r18:'R18'}[book._sourceMode] || '別版'}）</strong><span>${escapeHtml(book.title)}</span></button>`).join('')}</div>`;
     } catch (error) {
         zone.innerHTML = '';
     }
 }
 
-async function openRelatedEdition(publisher, title) {
-    if (!books.some(book => book.publisher === decodeURIComponent(publisher) && book.title === decodeURIComponent(title))) {
-        currentContentMode = 'all';
+async function openRelatedEdition(mode, publisher, title) {
+    if (currentContentMode !== mode) {
+        currentContentMode = mode;
         await loadBooksDataByMode();
     }
-    window.location.hash = `detail/${publisher}/${title}`;
+    window.location.hash = `detail/${mode}/${publisher}/${title}`;
 }
 
 

@@ -455,6 +455,7 @@ body.all-mode #edit-mode-label {
     .mode-tab-btn { padding:7px 2px; font-size:10px; }
     .search-toolbar { grid-template-columns:minmax(0,1fr) auto; }
     .advanced-toggle { padding:0 10px; font-size:12px; }
+    .advanced-filters { max-height:calc(100dvh - 205px); overflow-y:auto; overscroll-behavior:contain; }
     .filter-grid { grid-template-columns:1fr; }
     .checkbox-options { max-height:104px; }
     .advanced-footer { flex-wrap:wrap; }
