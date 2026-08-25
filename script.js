@@ -956,7 +956,7 @@ function toggleHeaderPanel() {
 // 検索窓でのパスワード入力チェック (Enterキーイベントを追加)
 document.getElementById('search').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
-        const password = "admin"; // ← ここにパスワードを設定
+        const password = "yuuki0721"; // ← ここにパスワードを設定
         if (this.value === password) {
             this.value = ""; 
             unlockR18();
