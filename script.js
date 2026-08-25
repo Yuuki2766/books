@@ -9,6 +9,8 @@ let genreLogic = 'or';
 let readStatusFilter = 'all';
 let filterOptionsSignature = '';
 const readingStates = JSON.parse(localStorage.getItem('book_reading_states') || '{}');
+const recentBooksKey = 'recent_books_v1';
+let lastCollectionRoute = '#library';
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
@@ -48,9 +50,36 @@ function checkRoute() {
             savedScrollPosition = window.scrollY;
         }
         showAdmin();
-    } else {
+    } else if (hash === '#reading') {
+        showReadingPage();
+    } else if (hash === '#library') {
         showList();
+    } else {
+        showHome();
     }
+}
+
+async function navigateApp(page) {
+    const target = `#${page}`;
+    if ((page === 'home' || page === 'reading') && currentContentMode !== 'all') {
+        currentContentMode = 'all';
+        await loadBooksDataByMode();
+    }
+    if (window.location.hash === target) checkRoute();
+    else window.location.hash = target;
+}
+
+function setActiveAppPage(page) {
+    const nav = document.getElementById('app-nav');
+    if (nav) nav.style.display = 'flex';
+    document.querySelectorAll('#app-nav [data-page]').forEach(button => button.classList.toggle('active', button.dataset.page === page));
+}
+
+function hideAppPages() {
+    ['home-view','reading-view','list-view','slide-view','grid-view','detail-view','admin-view'].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.style.display = 'none';
+    });
 }
 
 // ⚡ 現在のモードに対応するJSONのファイル名を取得する関数
@@ -153,8 +182,8 @@ function switchContentMode(mode) {
 }
 
 function showList() {
-    document.getElementById('detail-view').style.display = 'none';
-    document.getElementById('admin-view').style.display = 'none';
+    hideAppPages();
+    setActiveAppPage('library');
     
     const header = document.getElementById('main-header');
     if (header) {
@@ -176,9 +205,8 @@ function showList() {
 }
 
 function showAdmin() {
-    document.getElementById('detail-view').style.display = 'none';
-    document.getElementById('list-view').style.display = 'none';
-    document.getElementById('slide-view').style.display = 'none';
+    hideAppPages();
+    document.getElementById('app-nav').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('admin-view').style.display = 'block';
     forceScrollTop();
@@ -202,13 +230,18 @@ function showAdmin() {
 function changeMainView(mode) {
     currentMainView = mode;
     const isList = mode === 'list';
+    const isSlide = mode === 'slide';
+    const isGrid = mode === 'grid';
     document.getElementById('list-view').style.display = isList ? 'block' : 'none';
-    document.getElementById('slide-view').style.display = isList ? 'none' : 'block';
+    document.getElementById('slide-view').style.display = isSlide ? 'block' : 'none';
+    document.getElementById('grid-view').style.display = isGrid ? 'block' : 'none';
     
     const btnList = document.getElementById('btn-list-view');
     const btnSlide = document.getElementById('btn-slide-view');
+    const btnGrid = document.getElementById('btn-grid-view');
     if (btnList) btnList.classList.toggle('active', isList);
-    if (btnSlide) btnSlide.classList.toggle('active', !isList);
+    if (btnSlide) btnSlide.classList.toggle('active', isSlide);
+    if (btnGrid) btnGrid.classList.toggle('active', isGrid);
     
     applyFilters();
 }

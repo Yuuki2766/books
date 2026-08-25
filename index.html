@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>書籍マネージャー</title>
     
-    <link rel="stylesheet" href="style.css?v=2.0.3">
-    <script src="script.js?v=2.1.0" defer></script>
+    <link rel="stylesheet" href="style.css?v=3.0.0">
+    <script src="script.js?v=3.0.0" defer></script>
     
     <style>
         /* 詳細画面が表示されているときは、検索ボタンを隠す */
@@ -247,6 +247,12 @@
 </head>
 <body>
 
+<nav id="app-nav" class="app-nav" aria-label="メインメニュー">
+    <button type="button" data-page="home" onclick="navigateApp('home')">🏠 ホーム</button>
+    <button type="button" data-page="library" onclick="navigateApp('library')">📚 蔵書一覧</button>
+    <button type="button" data-page="reading" onclick="navigateApp('reading')">📖 読書中</button>
+</nav>
+
 <button id="btn-trigger-search" onclick="toggleHeaderPanel()" style="display: none;">
     🔍 検索・フィルタを開く
 </button>
@@ -338,6 +344,7 @@
             <div class="view-mode-btns">
                 <button onclick="changeMainView('list')" id="btn-list-view" class="active">一覧</button>
                 <button onclick="changeMainView('slide')" id="btn-slide-view">スライド</button>
+                <button onclick="changeMainView('grid')" id="btn-grid-view">表紙</button>
             </div>
             <label id="edit-mode-label"><input type="checkbox" id="editModeToggle" onchange="toggleEditModeUi()"> 🛠️ 編集</label>
         </div>
@@ -346,6 +353,36 @@
 </header>
 
 <main>
+    <section id="home-view" class="app-page" style="display:none;">
+        <div class="page-heading">
+            <div><span class="eyebrow">MY LIBRARY</span><h2>今日も、本のある時間を。</h2></div>
+            <button type="button" class="primary-btn" onclick="navigateApp('library')">蔵書を探す</button>
+        </div>
+        <div id="dashboard-stats" class="dashboard-stats"></div>
+        <div class="home-grid">
+            <section class="home-panel daily-panel">
+                <div class="section-heading"><div><span class="eyebrow">TODAY'S PICK</span><h3>今日の1冊</h3></div><button type="button" onclick="rerollDailyPick()">選び直す</button></div>
+                <div id="daily-pick"></div>
+            </section>
+            <section class="home-panel">
+                <div class="section-heading"><div><span class="eyebrow">CONTINUE</span><h3>読書中</h3></div><button type="button" onclick="navigateApp('reading')">すべて見る</button></div>
+                <div id="home-reading-list" class="home-book-list"></div>
+            </section>
+        </div>
+        <section class="home-panel recent-panel">
+            <div class="section-heading"><div><span class="eyebrow">RECENT</span><h3>最近開いた本</h3></div><button type="button" onclick="clearRecentBooks()">履歴を消す</button></div>
+            <div id="recent-books" class="recent-books"></div>
+        </section>
+    </section>
+
+    <section id="reading-view" class="app-page" style="display:none;">
+        <div class="page-heading">
+            <div><span class="eyebrow">NOW READING</span><h2>読書中の本</h2><p>続きを読みたい作品をまとめています。</p></div>
+            <button type="button" class="secondary-btn" onclick="navigateApp('library')">蔵書一覧へ</button>
+        </div>
+        <div id="reading-page-list" class="reading-page-list"></div>
+    </section>
+
     <div id="list-view">
         <div id="summary"></div>
         <div id="book-list"></div>
@@ -353,6 +390,10 @@
 
     <div id="slide-view" style="display: none;">
         <div id="genre-rows-container"></div>
+    </div>
+
+    <div id="grid-view" style="display: none;">
+        <div id="book-grid" class="book-grid"></div>
     </div>
 
     <div id="detail-view" style="display: none;">
