@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>書籍マネージャー</title>
     
-    <link rel="stylesheet" href="style.css?v=3.0.2">
-    <script src="script.js?v=3.0.1" defer></script>
+    <link rel="stylesheet" href="style.css?v=3.1.0">
+    <script src="script.js?v=3.1.0" defer></script>
     
     <style>
         /* 詳細画面が表示されているときは、検索ボタンを隠す */
@@ -365,6 +365,11 @@
                 <div id="daily-pick-scope" class="daily-pick-scope" hidden>
                     <button type="button" data-daily-scope="general" onclick="setDailyPickScope('general')">一般</button>
                     <button type="button" data-daily-scope="r18" onclick="setDailyPickScope('r18')">R18</button>
+                </div>
+                <div id="daily-status-scope" class="daily-status-scope" aria-label="抽選する読書状態">
+                    <button type="button" data-daily-status="unread" onclick="setDailyStatusScope('unread')">未読のみ</button>
+                    <button type="button" data-daily-status="not-finished" onclick="setDailyStatusScope('not-finished')">読了以外</button>
+                    <button type="button" data-daily-status="all" onclick="setDailyStatusScope('all')">すべて</button>
                 </div>
                 <div id="daily-pick"></div>
             </section>

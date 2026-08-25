@@ -511,6 +511,9 @@ body.all-mode #edit-mode-label {
 .daily-pick-scope[hidden] { display:none; }
 .daily-pick-scope button { border:0; border-radius:6px; padding:5px 12px; color:#64748b; background:transparent; font-size:10px; font-weight:900; cursor:pointer; }
 .daily-pick-scope button.active { color:#fff; background:#6366f1; }
+.daily-status-scope { display:flex; gap:3px; margin:-5px 0 13px; padding:3px; border-radius:8px; background:#f1f5f9; }
+.daily-status-scope button { flex:1; border:0; border-radius:6px; padding:6px 7px; color:#64748b; background:transparent; font-size:10px; font-weight:900; cursor:pointer; }
+.daily-status-scope button.active { color:#fff; background:#0f766e; }
 .home-book-list { display:grid; gap:8px; }
 .shelf-book { display:grid; grid-template-columns:54px minmax(0,1fr); gap:10px; align-items:center; padding:8px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }
 .shelf-book > img { width:54px; height:72px; object-fit:contain; border-radius:5px; background:#f8fafc; }
