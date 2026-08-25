@@ -505,6 +505,10 @@ body.all-mode #edit-mode-label {
 .daily-book > img { width:130px; height:180px; object-fit:contain; border-radius:9px; background:#f8fafc; box-shadow:0 8px 20px rgba(15,23,42,.13); }
 .daily-book h3 { margin:10px 0 3px; font-size:17px; line-height:1.4; }
 .daily-book p { margin:0 0 13px; color:#64748b; font-size:12px; }
+.daily-pick-scope { display:inline-flex; gap:3px; margin:-4px 0 12px; padding:3px; border-radius:8px; background:#e2e8f0; }
+.daily-pick-scope[hidden] { display:none; }
+.daily-pick-scope button { border:0; border-radius:6px; padding:5px 12px; color:#64748b; background:transparent; font-size:10px; font-weight:900; cursor:pointer; }
+.daily-pick-scope button.active { color:#fff; background:#6366f1; }
 .home-book-list { display:grid; gap:8px; }
 .shelf-book { display:grid; grid-template-columns:54px minmax(0,1fr); gap:10px; align-items:center; padding:8px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }
 .shelf-book > img { width:54px; height:72px; object-fit:contain; border-radius:5px; background:#f8fafc; }

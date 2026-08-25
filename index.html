@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>書籍マネージャー</title>
     
-    <link rel="stylesheet" href="style.css?v=3.0.0">
-    <script src="script.js?v=3.0.0" defer></script>
+    <link rel="stylesheet" href="style.css?v=3.0.1">
+    <script src="script.js?v=3.0.1" defer></script>
     
     <style>
         /* 詳細画面が表示されているときは、検索ボタンを隠す */
@@ -362,6 +362,10 @@
         <div class="home-grid">
             <section class="home-panel daily-panel">
                 <div class="section-heading"><div><span class="eyebrow">TODAY'S PICK</span><h3>今日の1冊</h3></div><button type="button" onclick="rerollDailyPick()">選び直す</button></div>
+                <div id="daily-pick-scope" class="daily-pick-scope" hidden>
+                    <button type="button" data-daily-scope="general" onclick="setDailyPickScope('general')">一般</button>
+                    <button type="button" data-daily-scope="r18" onclick="setDailyPickScope('r18')">R18</button>
+                </div>
                 <div id="daily-pick"></div>
             </section>
             <section class="home-panel">

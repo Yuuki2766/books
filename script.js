@@ -257,7 +257,23 @@ function createShelfBookHtml(book, showActions) {
 }
 
 function dailyCandidates() {
-    return books.filter(book => getReadingStatus(book) === 'unread' && !(book.genre || '').includes('未完') && !(book.genre || '').includes('鬱') && !book.isDepressing);
+    const isUnlocked = localStorage.getItem('r18_unlocked') === 'true';
+    const scope = isUnlocked ? (localStorage.getItem('daily_pick_scope') || 'general') : 'general';
+    return books.filter(book => {
+        const isR18 = book._sourceMode === 'r18' || (book.genre || '').includes('R18');
+        const matchesScope = scope === 'r18' ? isR18 : !isR18;
+        return matchesScope && getReadingStatus(book) === 'unread' && !(book.genre || '').includes('未完') && !(book.genre || '').includes('鬱') && !book.isDepressing;
+    });
+}
+
+function getDailyPickScope() {
+    return localStorage.getItem('r18_unlocked') === 'true' ? (localStorage.getItem('daily_pick_scope') || 'general') : 'general';
+}
+
+function setDailyPickScope(scope) {
+    if (scope === 'r18' && localStorage.getItem('r18_unlocked') !== 'true') return;
+    localStorage.setItem('daily_pick_scope', scope);
+    renderDailyPick();
 }
 
 function localDateKey() {
@@ -269,33 +285,42 @@ function getDailyPick() {
     const candidates = dailyCandidates();
     if (!candidates.length) return null;
     const dateKey = localDateKey();
-    const saved = JSON.parse(localStorage.getItem(`daily_pick_${dateKey}`) || 'null');
+    const scope = getDailyPickScope();
+    const saved = JSON.parse(localStorage.getItem(`daily_pick_${scope}_${dateKey}`) || 'null');
     const existing = saved && candidates.find(book => bookKey(book) === saved.key);
     if (existing) return existing;
     const seed = [...dateKey].reduce((sum, char) => sum + char.charCodeAt(0), 0);
     const selected = candidates[seed % candidates.length];
-    localStorage.setItem(`daily_pick_${dateKey}`, JSON.stringify({key: bookKey(selected)}));
+    localStorage.setItem(`daily_pick_${scope}_${dateKey}`, JSON.stringify({key: bookKey(selected)}));
     return selected;
 }
 
 function renderDailyPick() {
+    const isUnlocked = localStorage.getItem('r18_unlocked') === 'true';
+    const scope = getDailyPickScope();
+    const scopeControl = document.getElementById('daily-pick-scope');
+    if (scopeControl) {
+        scopeControl.hidden = !isUnlocked;
+        scopeControl.querySelectorAll('[data-daily-scope]').forEach(button => button.classList.toggle('active', button.dataset.dailyScope === scope));
+    }
     const book = getDailyPick();
     const zone = document.getElementById('daily-pick');
     if (!book) {
-        zone.innerHTML = '<div class="empty-state small"><p>選べる未読作品がありません。</p></div>';
+        zone.innerHTML = `<div class="empty-state small"><p>${scope === 'r18' ? '選べる未読のR18作品' : '選べる未読作品'}がありません。</p></div>`;
         return;
     }
-    zone.innerHTML = `<div class="daily-book"><img src="${book.image || 'https://via.placeholder.com/150x210?text=No+Image'}" alt="${escapeHtml(book.title)}"><div><span class="reading-badge unread">未読から選出</span><h3>${escapeHtml(book.title)}</h3><p>${escapeHtml(book.author || '')}</p><button class="primary-btn" onclick="openBookDetail(books[${books.indexOf(book)}])">この本を開く</button></div></div>`;
+    zone.innerHTML = `<div class="daily-book"><img src="${book.image || 'https://via.placeholder.com/150x210?text=No+Image'}" alt="${escapeHtml(book.title)}"><div><span class="reading-badge unread">${scope === 'r18' ? 'R18・未読から選出' : '一般・未読から選出'}</span><h3>${escapeHtml(book.title)}</h3><p>${escapeHtml(book.author || '')}</p><button class="primary-btn" onclick="openBookDetail(books[${books.indexOf(book)}])">この本を開く</button></div></div>`;
 }
 
 function rerollDailyPick() {
     const candidates = dailyCandidates();
     if (!candidates.length) return;
     const dateKey = localDateKey();
+    const scope = getDailyPickScope();
     const current = getDailyPick();
     const alternatives = candidates.filter(book => bookKey(book) !== bookKey(current));
     const selected = (alternatives.length ? alternatives : candidates)[Math.floor(Math.random() * (alternatives.length || candidates.length))];
-    localStorage.setItem(`daily_pick_${dateKey}`, JSON.stringify({key: bookKey(selected)}));
+    localStorage.setItem(`daily_pick_${scope}_${dateKey}`, JSON.stringify({key: bookKey(selected)}));
     renderDailyPick();
 }
 
@@ -1207,6 +1232,7 @@ function logoutR18() {
     if (logoutBtn) logoutBtn.style.display = 'none';
     
     localStorage.removeItem('r18_unlocked');
+    localStorage.setItem('daily_pick_scope', 'general');
     
     // ★追加：ログアウト時は強制リロードすることで、メモリ上のR18データを完全に消去する
     location.reload(); 
