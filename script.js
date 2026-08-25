@@ -204,6 +204,156 @@ function showList() {
     }, 10);
 }
 
+function showHome() {
+    hideAppPages();
+    setActiveAppPage('home');
+    document.getElementById('main-header').style.display = 'none';
+    document.getElementById('btn-trigger-search').style.display = 'none';
+    document.getElementById('home-view').style.display = 'block';
+    renderHomeDashboard();
+    forceScrollTop();
+}
+
+function showReadingPage() {
+    hideAppPages();
+    setActiveAppPage('reading');
+    document.getElementById('main-header').style.display = 'none';
+    document.getElementById('btn-trigger-search').style.display = 'none';
+    document.getElementById('reading-view').style.display = 'block';
+    const readingBooks = books.filter(book => getReadingStatus(book) === 'reading');
+    const container = document.getElementById('reading-page-list');
+    container.innerHTML = readingBooks.length
+        ? readingBooks.map(book => createShelfBookHtml(book, true)).join('')
+        : '<div class="empty-state"><strong>読書中の本はありません</strong><p>本の詳細ページで「読書中」を選ぶと、ここへ追加されます。</p><button onclick="navigateApp(\'library\')">蔵書から探す</button></div>';
+    forceScrollTop();
+}
+
+function renderHomeDashboard() {
+    const counts = {unread: 0, reading: 0, finished: 0};
+    books.forEach(book => counts[getReadingStatus(book)]++);
+    const favoriteCount = books.filter(book => book.favorite).length;
+    document.getElementById('dashboard-stats').innerHTML = `
+        <button onclick="openStatusInLibrary('all')"><strong>${books.length}</strong><span>全作品</span></button>
+        <button onclick="openStatusInLibrary('unread')"><strong>${counts.unread}</strong><span>未読</span></button>
+        <button onclick="navigateApp('reading')"><strong>${counts.reading}</strong><span>読書中</span></button>
+        <button onclick="openStatusInLibrary('finished')"><strong>${counts.finished}</strong><span>読了</span></button>
+        <button onclick="openFavoritesInLibrary()"><strong>${favoriteCount}</strong><span>お気に入り</span></button>`;
+
+    renderDailyPick();
+    const reading = books.filter(book => getReadingStatus(book) === 'reading').slice(0, 4);
+    document.getElementById('home-reading-list').innerHTML = reading.length
+        ? reading.map(book => createShelfBookHtml(book, false)).join('')
+        : '<div class="empty-state small"><p>「読書中」にした本がここに表示されます。</p></div>';
+    renderRecentBooks();
+}
+
+function createShelfBookHtml(book, showActions) {
+    const mode = book._sourceMode || currentContentMode;
+    return `<article class="shelf-book">
+        <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" alt="${escapeHtml(book.title)}" loading="lazy">
+        <div><h3>${escapeHtml(book.title)}</h3><p>${escapeHtml(book.author || '作者未登録')}・${escapeHtml(book.publisher || '出版社未登録')}</p>
+        ${showActions ? `<div class="shelf-actions">${book.pdf_url ? `<button onclick="openPdf('${book.pdf_url}')">続きを読む</button>` : ''}<button onclick="openEncodedBookDetail('${mode}','${encodeURIComponent(book.publisher || '')}','${encodeURIComponent(book.title || '')}')">詳細</button><button onclick="quickFinishBook('${mode}','${encodeURIComponent(book.publisher || '')}','${encodeURIComponent(book.title || '')}')">読了</button></div>` : ''}</div>
+    </article>`;
+}
+
+function dailyCandidates() {
+    return books.filter(book => getReadingStatus(book) === 'unread' && !(book.genre || '').includes('未完') && !(book.genre || '').includes('鬱') && !book.isDepressing);
+}
+
+function localDateKey() {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+}
+
+function getDailyPick() {
+    const candidates = dailyCandidates();
+    if (!candidates.length) return null;
+    const dateKey = localDateKey();
+    const saved = JSON.parse(localStorage.getItem(`daily_pick_${dateKey}`) || 'null');
+    const existing = saved && candidates.find(book => bookKey(book) === saved.key);
+    if (existing) return existing;
+    const seed = [...dateKey].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    const selected = candidates[seed % candidates.length];
+    localStorage.setItem(`daily_pick_${dateKey}`, JSON.stringify({key: bookKey(selected)}));
+    return selected;
+}
+
+function renderDailyPick() {
+    const book = getDailyPick();
+    const zone = document.getElementById('daily-pick');
+    if (!book) {
+        zone.innerHTML = '<div class="empty-state small"><p>選べる未読作品がありません。</p></div>';
+        return;
+    }
+    zone.innerHTML = `<div class="daily-book"><img src="${book.image || 'https://via.placeholder.com/150x210?text=No+Image'}" alt="${escapeHtml(book.title)}"><div><span class="reading-badge unread">未読から選出</span><h3>${escapeHtml(book.title)}</h3><p>${escapeHtml(book.author || '')}</p><button class="primary-btn" onclick="openBookDetail(books[${books.indexOf(book)}])">この本を開く</button></div></div>`;
+}
+
+function rerollDailyPick() {
+    const candidates = dailyCandidates();
+    if (!candidates.length) return;
+    const dateKey = localDateKey();
+    const current = getDailyPick();
+    const alternatives = candidates.filter(book => bookKey(book) !== bookKey(current));
+    const selected = (alternatives.length ? alternatives : candidates)[Math.floor(Math.random() * (alternatives.length || candidates.length))];
+    localStorage.setItem(`daily_pick_${dateKey}`, JSON.stringify({key: bookKey(selected)}));
+    renderDailyPick();
+}
+
+function recordRecentBook(book) {
+    const recent = JSON.parse(localStorage.getItem(recentBooksKey) || '[]');
+    const entry = {key: bookKey(book), title: book.title, author: book.author, publisher: book.publisher, image: book.image, mode: book._sourceMode || currentContentMode};
+    localStorage.setItem(recentBooksKey, JSON.stringify([entry, ...recent.filter(item => item.key !== entry.key)].slice(0, 12)));
+}
+
+function renderRecentBooks() {
+    const recent = JSON.parse(localStorage.getItem(recentBooksKey) || '[]');
+    document.getElementById('recent-books').innerHTML = recent.length ? recent.map(item => `<button onclick="openRecentBook('${item.mode}','${encodeURIComponent(item.publisher || '')}','${encodeURIComponent(item.title || '')}')"><img src="${item.image || 'https://via.placeholder.com/100x140?text=No+Image'}" alt=""><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.author || '')}</span></button>`).join('') : '<div class="empty-state small"><p>開いた本がここに並びます。</p></div>';
+}
+
+function clearRecentBooks() {
+    localStorage.removeItem(recentBooksKey);
+    renderRecentBooks();
+}
+
+async function openRecentBook(mode, publisher, title) {
+    if (!books.some(book => book._sourceMode === mode && book.publisher === decodeURIComponent(publisher) && book.title === decodeURIComponent(title))) {
+        currentContentMode = 'all';
+        await loadBooksDataByMode();
+    }
+    openEncodedBookDetail(mode, publisher, title);
+}
+
+function openStatusInLibrary(status) {
+    readStatusFilter = status;
+    document.querySelectorAll('#read-status-filter [data-status]').forEach(button => button.classList.toggle('active', button.dataset.status === status));
+    window.location.hash = '#library';
+}
+
+function openFavoritesInLibrary() {
+    document.getElementById('favorite-only').checked = true;
+    window.location.hash = '#library';
+}
+
+function filterByField(event, type, encodedValue) {
+    event.stopPropagation();
+    const value = decodeURIComponent(encodedValue);
+    resetAdvancedFilters();
+    if (type === 'publisher') selectedPublishers.add(value);
+    else document.getElementById('search').value = value;
+    filterOptionsSignature = '';
+    window.location.hash = '#library';
+    setTimeout(applyFilters, 0);
+}
+
+function quickFinishBook(mode, publisher, title) {
+    const book = books.find(item => item._sourceMode === mode && item.publisher === decodeURIComponent(publisher) && item.title === decodeURIComponent(title));
+    if (!book) return;
+    book.reading_status = 'finished';
+    readingStates[bookKey(book)] = 'finished';
+    localStorage.setItem('book_reading_states', JSON.stringify(readingStates));
+    showReadingPage();
+}
+
 function showAdmin() {
     hideAppPages();
     document.getElementById('app-nav').style.display = 'none';
@@ -265,10 +415,12 @@ function toggleEditModeUi() {
 
 function bookKey(book) { return [book.title || '', book.author || '', book.publisher || ''].join('::'); }
 function openBookDetail(book) {
+    if (['#home','#library','#reading'].includes(window.location.hash)) lastCollectionRoute = window.location.hash;
     const mode = book._sourceMode || currentContentMode;
     window.location.hash = `detail/${encodeURIComponent(mode)}/${encodeURIComponent(book.publisher || '')}/${encodeURIComponent(book.title || '')}`;
 }
 function openEncodedBookDetail(mode, publisher, title) {
+    if (['#home','#library','#reading'].includes(window.location.hash)) lastCollectionRoute = window.location.hash;
     window.location.hash = `detail/${mode}/${publisher}/${title}`;
 }
 function getReadingStatus(book) {
@@ -349,7 +501,8 @@ function applyFilters() {
     if (!isEditMode && sort === 'volumes') filtered.sort((a,b) => (b.book.total || 0) - (a.book.total || 0));
     updateActiveFilterChips();
     if (currentMainView === 'list') renderBooks(filtered, isEditMode);
-    else renderNetflixView(filtered.map(item => item.book));
+    else if (currentMainView === 'slide') renderNetflixView(filtered.map(item => item.book));
+    else renderGridView(filtered.map(item => item.book));
 }
 
 function renderBooks(list, isEditMode) {
@@ -366,6 +519,8 @@ function renderBooks(list, isEditMode) {
         
         const illustText = book.illustrator ? ` / 絵: ${book.illustrator}` : '';
         const webLinkHtml = book.info_url ? `<span style="margin-left:8px; color:#4f46e5; font-size:12px;">🔗Web</span>` : '';
+        const readingStatus = getReadingStatus(book);
+        const statusLabel = {unread:'未読', reading:'読書中', finished:'読了'}[readingStatus];
 
         const card = document.createElement('div');
         card.className = 'book-card';
@@ -431,8 +586,13 @@ function renderBooks(list, isEditMode) {
                     <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover" loading="lazy" decoding="async">
                     <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
                         <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.title}${webLinkHtml}</div>
-                        <div class="meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.publisher} / ${book.author}${illustText}</div>
+                        <div class="meta clickable-meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            <button type="button" onclick="filterByField(event,'publisher','${encodeURIComponent(book.publisher || '')}')">${escapeHtml(book.publisher || '出版社未登録')}</button>
+                            <span> / </span>
+                            <button type="button" onclick="filterByField(event,'author','${encodeURIComponent(book.author || '')}')">${escapeHtml(book.author || '作者未登録')}</button>${illustText}
+                        </div>
                         <div class="tag">${book.genre}</div>
+                        <span class="reading-badge ${readingStatus}">${statusLabel}</span>
                         ${progressHtml}
                     </div>
                 </div>
@@ -441,6 +601,29 @@ function renderBooks(list, isEditMode) {
         container.appendChild(card);
     });
     updateSummary(list.map(item => item.book));
+}
+
+function renderGridView(list) {
+    const container = document.getElementById('book-grid');
+    if (!container) return;
+    if (!list.length) {
+        container.innerHTML = '<p class="empty-state">該当する作品がありません。</p>';
+        updateSummary([]);
+        return;
+    }
+    container.innerHTML = list.map(book => {
+        const status = getReadingStatus(book);
+        return `<article class="grid-book" onclick="openEncodedBookDetail('${book._sourceMode || currentContentMode}','${encodeURIComponent(book.publisher || '')}','${encodeURIComponent(book.title || '')}')">
+            <div class="grid-cover-wrap">
+                <img src="${book.image || 'https://via.placeholder.com/180x250?text=No+Image'}" alt="${escapeHtml(book.title)}" loading="lazy" decoding="async">
+                <span class="reading-badge ${status}">${{unread:'未読',reading:'読書中',finished:'読了'}[status]}</span>
+                ${book.favorite ? '<span class="grid-favorite">⭐</span>' : ''}
+            </div>
+            <h3>${escapeHtml(book.title)}</h3>
+            <p>${escapeHtml(book.author || '作者未登録')}</p>
+        </article>`;
+    }).join('');
+    updateSummary(list);
 }
 
 function changeOwnedVolume(event, index, direction) {
@@ -517,10 +700,11 @@ function renderNetflixView(list) {
 }
 
 function showDetail(book) {
-    document.getElementById('list-view').style.display = 'none';
-    document.getElementById('slide-view').style.display = 'none';
+    hideAppPages();
+    document.getElementById('app-nav').style.display = 'none';
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('detail-view').style.display = 'block';
+    recordRecentBook(book);
     const triggerBtn = document.getElementById('btn-trigger-search');
     if (triggerBtn) {
         triggerBtn.style.display = 'none';
@@ -559,9 +743,9 @@ function showDetail(book) {
                     ${book.title}
                 </h2>
                 <div class="meta-info">
-                    <p class="meta"><strong>著者:</strong> ${book.author}</p>
+                    <p class="meta"><strong>著者:</strong> <button class="detail-filter-link" onclick="filterByField(event,'author','${encodeURIComponent(book.author || '')}')">${escapeHtml(book.author || '未登録')}</button></p>
                     ${book.illustrator ? `<p class="meta"><strong>イラスト:</strong> ${book.illustrator}</p>` : ''}
-                    <p class="meta"><strong>出版社・レーベル:</strong> ${book.publisher}</p>
+                    <p class="meta"><strong>出版社・レーベル:</strong> <button class="detail-filter-link" onclick="filterByField(event,'publisher','${encodeURIComponent(book.publisher || '')}')">${escapeHtml(book.publisher || '未登録')}</button></p>
                     <p class="meta"><strong>ジャンル:</strong> ${book.genre}</p>
                     ${infoLinkHtml}
                 </div>
@@ -789,7 +973,7 @@ function updateSummary(list) {
     if(summary) summary.textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
 }
 
-function goBack() { window.location.hash = ''; }
+function goBack() { window.location.hash = lastCollectionRoute || '#library'; }
 
 function toggleFavoriteInline(event, index, isDetail = false) {
     event.stopPropagation(); 
