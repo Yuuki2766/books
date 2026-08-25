@@ -63,10 +63,28 @@ async function navigateApp(page) {
     const target = `#${page}`;
     if ((page === 'home' || page === 'reading') && currentContentMode !== 'all') {
         currentContentMode = 'all';
+        syncContentModeUi('all');
         await loadBooksDataByMode();
     }
     if (window.location.hash === target) checkRoute();
     else window.location.hash = target;
+}
+
+function syncContentModeUi(mode) {
+    const tabs = {
+        all: document.getElementById('tab-mode-all'),
+        normal: document.getElementById('tab-mode-normal'),
+        syosetu: document.getElementById('tab-mode-syosetu'),
+        web: document.getElementById('tab-mode-web'),
+        r18: document.getElementById('tab-mode-r18')
+    };
+    Object.values(tabs).forEach(tab => tab?.classList.remove('active-all', 'active-normal', 'active-syosetu', 'active-web', 'active-r18'));
+    tabs[mode]?.classList.add(`active-${mode}`);
+    const isAll = mode === 'all';
+    const editLabel = document.getElementById('edit-mode-label');
+    const adminRow = document.getElementById('link-admin-view')?.parentElement;
+    if (editLabel) editLabel.style.display = isAll ? 'none' : 'inline-flex';
+    if (adminRow) adminRow.style.display = isAll ? 'none' : 'block';
 }
 
 function setActiveAppPage(page) {
@@ -102,6 +120,7 @@ function tagBookSource(book, mode) {
 
 // ⚡ モードに応じたJSONファイルを読み込む関数
 async function loadBooksDataByMode() {
+    syncContentModeUi(currentContentMode);
     const storageKey = `local_books_data_${currentContentMode}`;
     const localSavedData = localStorage.getItem(storageKey);
 
