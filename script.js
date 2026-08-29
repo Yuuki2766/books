@@ -124,7 +124,8 @@ async function loadBooksDataByMode() {
     const storageKey = `local_books_data_${currentContentMode}`;
     const localSavedData = localStorage.getItem(storageKey);
 
-    if (localSavedData) {
+    if (currentContentMode === 'all') localStorage.removeItem('local_books_data_all');
+    if (localSavedData && currentContentMode !== 'all') {
         books = JSON.parse(localSavedData).map(book => tagBookSource(book, currentContentMode));
         applyFilters(); 
         checkRoute();
@@ -266,12 +267,22 @@ function renderHomeDashboard() {
     renderRecentBooks();
 }
 
+function isWebBook(book) {
+    return book?._sourceMode === 'web' || currentContentMode === 'web';
+}
+
+function episodeNumber(value) {
+    const number = Number.parseInt(value, 10);
+    return Number.isFinite(number) && number >= 0 ? number : 0;
+}
+
 function createShelfBookHtml(book, showActions) {
     const mode = book._sourceMode || currentContentMode;
-    return `<article class="shelf-book">
+    const episodeText = isWebBook(book) ? `<span class="shelf-episodes">公開 ${episodeNumber(book.published_episodes)}話・保存 ${episodeNumber(book.saved_episodes)}話・読了 ${episodeNumber(book.read_episodes)}話</span>` : '';
+    return `<article class="shelf-book clickable-shelf" onclick="openEncodedBookDetail('${mode}','${encodeURIComponent(book.publisher || '')}','${encodeURIComponent(book.title || '')}')">
         <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" alt="${escapeHtml(book.title)}" loading="lazy">
-        <div><h3>${escapeHtml(book.title)}</h3><p>${escapeHtml(book.author || '作者未登録')}・${escapeHtml(book.publisher || '出版社未登録')}</p>
-        ${showActions ? `<div class="shelf-actions">${book.pdf_url ? `<button onclick="openPdf('${book.pdf_url}')">続きを読む</button>` : ''}<button onclick="openEncodedBookDetail('${mode}','${encodeURIComponent(book.publisher || '')}','${encodeURIComponent(book.title || '')}')">詳細</button><button onclick="quickFinishBook('${mode}','${encodeURIComponent(book.publisher || '')}','${encodeURIComponent(book.title || '')}')">読了</button></div>` : ''}</div>
+        <div><h3>${escapeHtml(book.title)}</h3><p>${escapeHtml(book.author || '作者未登録')}・${escapeHtml(book.publisher || '出版社未登録')}</p>${episodeText}
+        ${showActions ? `<div class="shelf-actions">${book.pdf_url ? `<button onclick="event.stopPropagation();openPdf('${book.pdf_url}')">続きを読む</button>` : ''}<button onclick="event.stopPropagation();openEncodedBookDetail('${mode}','${encodeURIComponent(book.publisher || '')}','${encodeURIComponent(book.title || '')}')">詳細</button><button onclick="event.stopPropagation();quickFinishBook('${mode}','${encodeURIComponent(book.publisher || '')}','${encodeURIComponent(book.title || '')}')">読了</button></div>` : ''}</div>
     </article>`;
 }
 
@@ -370,7 +381,11 @@ function recordRecentBook(book) {
 
 function renderRecentBooks() {
     const recent = JSON.parse(localStorage.getItem(recentBooksKey) || '[]');
-    document.getElementById('recent-books').innerHTML = recent.length ? recent.map(item => `<button onclick="openRecentBook('${item.mode}','${encodeURIComponent(item.publisher || '')}','${encodeURIComponent(item.title || '')}')"><img src="${item.image || 'https://via.placeholder.com/100x140?text=No+Image'}" alt=""><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.author || '')}</span></button>`).join('') : '<div class="empty-state small"><p>開いた本がここに並びます。</p></div>';
+    document.getElementById('recent-books').innerHTML = recent.length ? recent.map(item => {
+        const book = books.find(candidate => candidate._sourceMode === item.mode && candidate.publisher === item.publisher && candidate.title === item.title);
+        if (book) return createShelfBookHtml(book, false);
+        return `<article class="shelf-book clickable-shelf" onclick="openRecentBook('${item.mode}','${encodeURIComponent(item.publisher || '')}','${encodeURIComponent(item.title || '')}')"><img src="${item.image || 'https://via.placeholder.com/80x110?text=No+Image'}" alt=""><div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.author || '作者未登録')}・${escapeHtml(item.publisher || '出版社未登録')}</p></div></article>`;
+    }).join('') : '<div class="empty-state small"><p>開いた本がここに並びます。</p></div>';
 }
 
 function clearRecentBooks() {
@@ -423,6 +438,11 @@ function showAdmin() {
     document.getElementById('main-header').style.display = 'none';
     document.getElementById('admin-view').style.display = 'block';
     forceScrollTop();
+    const webMode = currentContentMode === 'web';
+    const volumeFields = document.getElementById('new-volume-fields');
+    const episodeFields = document.getElementById('new-episode-fields');
+    if (volumeFields) volumeFields.style.display = webMode ? 'none' : 'flex';
+    if (episodeFields) episodeFields.style.display = webMode ? 'grid' : 'none';
     
     const adminTitle = document.querySelector('#admin-view h2');
     if (adminTitle) {
@@ -579,6 +599,10 @@ function renderBooks(list, isEditMode) {
         const owned = book.owned ? book.owned.length : 0;
         const total = book.total || 1;
         const percent = Math.round((owned / total) * 100);
+        const webBook = isWebBook(book);
+        const publishedEpisodes = episodeNumber(book.published_episodes);
+        const savedEpisodes = episodeNumber(book.saved_episodes);
+        const readEpisodes = episodeNumber(book.read_episodes);
         
         const illustText = book.illustrator ? ` / 絵: ${book.illustrator}` : '';
         const webLinkHtml = book.info_url ? `<span style="margin-left:8px; color:#4f46e5; font-size:12px;">🔗Web</span>` : '';
@@ -622,7 +646,13 @@ function renderBooks(list, isEditMode) {
                 ${book.favorite ? '⭐' : (canEdit ? '☆' : '')}
             </div>`;
 
-        const progressHtml = canEdit 
+        const progressHtml = webBook
+            ? `<div class="episode-summary">
+                <span><strong>${publishedEpisodes}</strong> 公開</span>
+                <span><strong>${savedEpisodes}</strong> 保存</span>
+                <span><strong>${readEpisodes}</strong> 読了</span>
+               </div>`
+            : canEdit
             ? `<div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
                 <button class="vol-btn" onclick="changeOwnedVolume(event, ${originalIndex}, -1)">-</button>
                 <span class="vol-text" style="font-size:12px; font-weight:bold; color:#222;">所持: ${owned} / 総: ${total}巻</span>
@@ -777,6 +807,27 @@ function showDetail(book) {
     const totalCount = book.total || 1;
     const percent = Math.round((ownedCount / totalCount) * 100);
     const readingStatus = getReadingStatus(book);
+    const webBook = isWebBook(book);
+    const publishedEpisodes = episodeNumber(book.published_episodes);
+    const savedEpisodes = episodeNumber(book.saved_episodes);
+    const readEpisodes = episodeNumber(book.read_episodes);
+    const episodePercent = publishedEpisodes ? Math.min(100, Math.round((readEpisodes / publishedEpisodes) * 100)) : 0;
+    const detailProgressHtml = webBook
+        ? `<div class="detail-progress episode-detail">
+            <h3>話数管理</h3>
+            <div class="episode-stats">
+                <div><strong>${publishedEpisodes}</strong><span>公開話数</span></div>
+                <div><strong>${savedEpisodes}</strong><span>保存話数</span></div>
+                <div><strong>${readEpisodes}</strong><span>読了話数</span></div>
+            </div>
+            <div class="progress"><div class="bar" style="width:${episodePercent}%"></div></div>
+            <p class="episode-progress-label">公開分の ${episodePercent}% を読了</p>
+          </div>`
+        : `<div class="detail-progress">
+            <p class="meta"><strong>所持状況:</strong> ${ownedCount} / ${totalCount}巻 (${percent}%)</p>
+            <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
+            <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned ? book.owned.join(', ') : ''}</p>
+          </div>`;
 
     const infoLinkHtml = book.info_url 
         ? `<p class="meta"><strong>作品URL:</strong> <a href="${book.info_url}" target="_blank" style="color: #4f46e5; text-decoration: underline;">作品ページを開く</a></p>` 
@@ -816,11 +867,7 @@ function showDetail(book) {
                     <h3>あらすじ</h3>
                     <p class="summary-text">${book.summary || 'あらすじ情報は未登録です。'}</p>
                 </div>
-                <div class="detail-progress">
-                    <p class="meta"><strong>所持状況:</strong> ${ownedCount} / ${totalCount}巻 (${percent}%)</p>
-                    <div class="progress"><div class="bar" style="width:${percent}%"></div></div>
-                    <p style="font-size:12px; color:#666; margin-top:10px;">既刊: ${book.owned ? book.owned.join(', ') : ''}</p>
-                </div>
+                ${detailProgressHtml}
                 <div class="reading-status-card">
                     <strong>読書状態</strong>
                     <div class="segmented" role="group" aria-label="この本の読書状態">
@@ -828,7 +875,7 @@ function showDetail(book) {
                         <button type="button" class="${readingStatus === 'reading' ? 'active' : ''}" onclick="setReadingStatus('reading', books[${originalIndex}])">読書中</button>
                         <button type="button" class="${readingStatus === 'finished' ? 'active' : ''}" onclick="setReadingStatus('finished', books[${originalIndex}])">読了</button>
                     </div>
-                    <small>この端末だけに保存され、JSONは変更しません。</small>
+                    <small>変更した状態はJSON出力にも反映されます。</small>
                 </div>
                 ${pdfButtonHtml}
                 ${editButtonHtml}
@@ -881,6 +928,7 @@ function openInlineEditForm(index) {
     const book = books[index];
     const zone = document.getElementById('inline-edit-form-zone');
     const currentReadingStatus = getReadingStatus(book);
+    const webBook = isWebBook(book);
     if (zone.innerHTML !== "") {
         zone.innerHTML = "";
         return;
@@ -910,14 +958,18 @@ function openInlineEditForm(index) {
                 <label>ジャンル (スラッシュ区切り)</label>
                 <input type="text" id="edit-genre" value="${book.genre || ''}">
             </div>
-            <div>
+            ${webBook ? `<div class="episode-edit-grid">
+                <div><label>公開話数</label><input type="number" id="edit-published-episodes" min="0" value="${episodeNumber(book.published_episodes)}"></div>
+                <div><label>保存話数</label><input type="number" id="edit-saved-episodes" min="0" value="${episodeNumber(book.saved_episodes)}"></div>
+                <div><label>読了話数</label><input type="number" id="edit-read-episodes" min="0" value="${episodeNumber(book.read_episodes)}"></div>
+            </div>` : `<div>
                 <label>既刊・所持巻数 (カンマ区切り)</label>
                 <input type="text" id="edit-owned" value="${book.owned ? book.owned.join(', ') : '1'}">
             </div>
             <div>
                 <label>総巻数</label>
                 <input type="number" id="edit-total" value="${book.total || 1}">
-            </div>
+            </div>`}
             <div>
                 <label>カバー画像ファイルパス</label>
                 <input type="text" id="edit-image" value="${book.image || ''}">
@@ -965,7 +1017,8 @@ function saveInlineEdit(index) {
         return;
     }
 
-    const ownedInput = document.getElementById('edit-owned').value.trim();
+    const webBook = isWebBook(books[index]);
+    const ownedInput = webBook ? '' : document.getElementById('edit-owned').value.trim();
     let ownedArray = [];
     if (ownedInput !== "") {
         ownedArray = ownedInput.split(',').map(item => {
@@ -979,8 +1032,14 @@ function saveInlineEdit(index) {
     books[index].illustrator = document.getElementById('edit-illustrator').value.trim();
     books[index].publisher = document.getElementById('edit-publisher').value.trim();
     books[index].genre = document.getElementById('edit-genre').value.trim();
-    books[index].owned = ownedArray;
-    books[index].total = parseInt(document.getElementById('edit-total').value, 10) || 1;
+    if (webBook) {
+        books[index].published_episodes = episodeNumber(document.getElementById('edit-published-episodes').value);
+        books[index].saved_episodes = episodeNumber(document.getElementById('edit-saved-episodes').value);
+        books[index].read_episodes = episodeNumber(document.getElementById('edit-read-episodes').value);
+    } else {
+        books[index].owned = ownedArray;
+        books[index].total = parseInt(document.getElementById('edit-total').value, 10) || 1;
+    }
     books[index].image = document.getElementById('edit-image').value.trim();
     books[index].summary = document.getElementById('edit-summary').value.trim();
     books[index].pdf_url = document.getElementById('edit-pdf').value.trim();
@@ -1031,9 +1090,15 @@ function openPdf(url) {
 }
 
 function updateSummary(list) {
-    const total = list.reduce((sum, b) => sum + (b.owned ? b.owned.length : 0), 0);
     const summary = document.getElementById('summary');
-    if(summary) summary.textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
+    if (!summary) return;
+    if (currentContentMode === 'web') {
+        const savedEpisodes = list.reduce((sum, book) => sum + episodeNumber(book.saved_episodes), 0);
+        summary.textContent = `全 ${list.length} 作品 / 保存済み 合計 ${savedEpisodes} 話`;
+        return;
+    }
+    const total = list.reduce((sum, book) => sum + (book.owned ? book.owned.length : 0), 0);
+    summary.textContent = `全 ${list.length} 作品 / 合計 ${total} 冊`;
 }
 
 function goBack() { window.location.hash = lastCollectionRoute || '#library'; }
@@ -1054,6 +1119,7 @@ function addNewBookLocal() {
         alert("🌐 全件表示モードでは新規追加できません。\n追加したいカテゴリモード（通常、小説、漫画、R18のいずれか）に切り替えてから追加してください。");
         return;
     }
+    const webMode = currentContentMode === 'web';
     const title = document.getElementById('new-title').value.trim();
     const author = document.getElementById('new-author').value.trim();
     const illustrator = document.getElementById('new-illustrator').value.trim();
@@ -1074,8 +1140,8 @@ function addNewBookLocal() {
         return;
     }
 
-    let ownedArray = [1];
-    if (ownedInput !== "") {
+    let ownedArray = webMode ? [] : [1];
+    if (!webMode && ownedInput !== "") {
         ownedArray = ownedInput.split(',').map(item => {
             const num = parseFloat(item.trim());
             return isNaN(num) ? item.trim() : num;
@@ -1089,7 +1155,7 @@ function addNewBookLocal() {
         publisher: publisher,
         genre: genre,
         owned: ownedArray,
-        total: parseInt(totalInput, 10) || 1,
+        total: webMode ? 1 : (parseInt(totalInput, 10) || 1),
         summary: summary,
         image: image, 
         favorite: favorite,
@@ -1097,6 +1163,12 @@ function addNewBookLocal() {
         pdf_url: pdf_url,
         info_url: info_url
     };
+
+    if (webMode) {
+        newBook.published_episodes = episodeNumber(document.getElementById('new-published-episodes').value);
+        newBook.saved_episodes = episodeNumber(document.getElementById('new-saved-episodes').value);
+        newBook.read_episodes = episodeNumber(document.getElementById('new-read-episodes').value);
+    }
 
     books.push(newBook);
     saveToLocalStorage();

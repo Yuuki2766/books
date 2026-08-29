@@ -522,12 +522,23 @@ body.all-mode #edit-mode-label {
 .shelf-actions { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
 .shelf-actions button { border:0; border-radius:6px; padding:5px 8px; color:#4338ca; background:#eef2ff; font-size:10px; font-weight:800; cursor:pointer; }
 .recent-panel { margin-top:14px; }
-.recent-books { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; overflow-x:auto; }
-.recent-books > button { min-width:0; border:0; padding:0; background:transparent; text-align:left; cursor:pointer; }
-.recent-books img { width:100%; aspect-ratio:3/4; object-fit:contain; border-radius:8px; background:#f8fafc; }
-.recent-books strong, .recent-books span { display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
-.recent-books strong { margin-top:6px; color:#1e293b; font-size:11px; }
-.recent-books span { color:#64748b; font-size:9px; }
+.recent-books { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+.clickable-shelf { cursor:pointer; transition:border-color .18s, transform .18s, box-shadow .18s; }
+.clickable-shelf:hover { transform:translateY(-1px); border-color:#a5b4fc; box-shadow:0 4px 12px rgba(79,70,229,.08); }
+.shelf-episodes { display:block; margin-top:5px; color:#0f766e; font-size:9px; font-weight:800; }
+
+.episode-summary { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.episode-summary span { padding:3px 7px; border-radius:6px; color:#0f766e; background:#ecfdf5; font-size:9px; }
+.episode-summary strong { font-size:11px; }
+.episode-detail h3 { margin:0 0 10px; font-size:15px; }
+.episode-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-bottom:10px; }
+.episode-stats div { display:flex; flex-direction:column; padding:9px; border-radius:8px; background:#f0fdfa; }
+.episode-stats strong { color:#0f766e; font-size:20px; line-height:1.1; }
+.episode-stats span { margin-top:3px; color:#64748b; font-size:9px; }
+.episode-progress-label { margin:6px 0 0; color:#64748b; font-size:10px; }
+.episode-edit-grid, .new-episode-fields { grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.episode-edit-grid label, .new-episode-fields label { display:block; margin-bottom:4px; font-size:12px; font-weight:800; color:#334155; }
+.episode-edit-grid input, .new-episode-fields input { width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing:border-box; }
 
 .reading-page-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
 .reading-page-list .shelf-book { grid-template-columns:76px minmax(0,1fr); padding:12px; }
@@ -560,8 +571,11 @@ body.all-mode #edit-mode-label {
     .home-grid { grid-template-columns:1fr; }
     .daily-book { grid-template-columns:100px 1fr; gap:13px; }
     .daily-book > img { width:100px; height:140px; }
-    .recent-books { grid-template-columns:repeat(6,90px); }
+    .recent-books { grid-template-columns:1fr; }
     .reading-page-list { grid-template-columns:1fr; }
     .book-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
     .view-mode-btns button { padding:6px 9px; }
+    .search-box-wrap #search { font-size:16px; }
+    .advanced-filters input, .advanced-filters select, .edit-form-container input, .edit-form-container textarea, .edit-form-container select, #add-book-form input, #add-book-form textarea, #add-book-form select { font-size:16px; }
+    .episode-edit-grid, .new-episode-fields { grid-template-columns:1fr; }
 }

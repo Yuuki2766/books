@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>書籍マネージャー</title>
     
-    <link rel="stylesheet" href="style.css?v=3.1.0">
-    <script src="script.js?v=3.1.1" defer></script>
+    <link rel="stylesheet" href="style.css?v=3.2.0">
+    <script src="script.js?v=3.2.0" defer></script>
     
     <style>
         /* 詳細画面が表示されているときは、検索ボタンを隠す */
@@ -458,7 +458,7 @@
                     <input type="text" id="new-genre" placeholder="例: 推理/小説" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
                 </div>
             </div>
-            <div style="display: flex; gap: 10px;">
+            <div id="new-volume-fields" style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
                     <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">既刊・所持巻数 (カンマ区切り)</label>
                     <input type="text" id="new-owned" placeholder="例: 1, 2, 3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
@@ -467,6 +467,11 @@
                     <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">総巻数</label>
                     <input type="number" id="new-total" value="1" min="1" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing: border-box;">
                 </div>
+            </div>
+            <div id="new-episode-fields" class="new-episode-fields" style="display:none;">
+                <div><label>公開話数</label><input type="number" id="new-published-episodes" value="0" min="0"></div>
+                <div><label>保存話数</label><input type="number" id="new-saved-episodes" value="0" min="0"></div>
+                <div><label>読了話数</label><input type="number" id="new-read-episodes" value="0" min="0"></div>
             </div>
             <div>
                 <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">画像ファイルパス</label>
