@@ -912,14 +912,18 @@
     "author": "風井明日香",
     "illustrator": "",
     "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
+    "genre": "青春/ネット/ライトノベル/未完",
     "owned": [1],
     "total": 1,
     "summary": "",
-    "image": "",
+    "image": "images/",
     "favorite": true,
     "pdf_url": "pdfs/N7702FQ.pdf",
-    "info_url":"https://ncode.syosetu.com/n7702fq/"
+    "info_url": "https://ncode.syosetu.com/n7702fq/",
+    "reading_status": "unread",
+    "published_episodes": 64,
+    "saved_episodes": 0,
+    "read_episodes": 0
   },{
     "title": "同じアパートに住んでいるクラスのお姫様と気がつけば両想いになってました",
     "author": "かずロー",
@@ -929,10 +933,14 @@
     "owned": [1],
     "total": 1,
     "summary": "",
-    "image": "",
+    "image": "images/",
     "favorite": true,
     "pdf_url": "pdfs/N1216HL.pdf",
-    "info_url":"https://ncode.syosetu.com/n1216hl/"
+    "info_url": "https://ncode.syosetu.com/n1216hl/",
+    "reading_status": "unread",
+    "published_episodes": 352,
+    "saved_episodes": 0,
+    "read_episodes": 0
   },{
     "title": "会話もしない連れ子の妹が、長年一緒にバカやってきたネトゲのフレだった",
     "author": "雲雀湯",
@@ -964,14 +972,18 @@
     "author": "白玉ぜんざい",
     "illustrator": "",
     "publisher": "小説家になろう",
-    "genre": "青春/ネット/ライトノベル",
+    "genre": "青春/ネット/ライトノベル/未完",
     "owned": [1],
     "total": 1,
     "summary": "",
     "image": "images/",
-    "favorite": true,
-    "pdf_url": "pdfs/N3755KF.pdf",
-    "info_url": "https://ncode.syosetu.com/n3755kf/"
+    "favorite": false,
+    "pdf_url": "pdfs/",
+    "info_url": "https://ncode.syosetu.com/n3755kf/",
+    "reading_status": "unread",
+    "published_episodes": 331,
+    "saved_episodes": 0,
+    "read_episodes": 0
   },{
     "title": "クラスで一番の美少女が俺と一緒に住むことになりました",
     "author": "紅狐",
@@ -1187,7 +1199,9 @@
     "favorite": false,
     "pdf_url": "pdfs/双子まとめて『カノジョ』にしない？ - @Tanaka032.pdf",
     "info_url": "https://kakuyomu.jp/works/16817330665032905779"
-  },{
+  }
+
+,{
     "title": "北欧美少女のクラスメイトが、婚約者になったらデレデレの甘々になってしまった件について",
     "author": "軽井広",
     "illustrator": "",
