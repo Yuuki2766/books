@@ -678,7 +678,7 @@ function renderBooks(list, isEditMode) {
                 <div style="flex:1; display:flex; min-width:0;">
                     <img src="${book.image || 'https://via.placeholder.com/80x110?text=No+Image'}" class="book-cover" loading="lazy" decoding="async">
                     <div class="book-info" style="flex:1; min-width:0; padding-left:10px;">
-                        <div class="book-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${book.title}${webLinkHtml}</div>
+                        <div class="book-title" title="${escapeHtml(book.title)}">${escapeHtml(book.title)}${webLinkHtml}</div>
                         <div class="meta clickable-meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                             <button type="button" onclick="filterByField(event,'publisher','${encodeURIComponent(book.publisher || '')}')">${escapeHtml(book.publisher || '出版社未登録')}</button>
                             <span> / </span>

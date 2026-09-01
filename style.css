@@ -241,9 +241,12 @@ header h1 {
 
 .mini-title {
     font-size: 11px;
+    line-height: 1.35;
     margin-top: 6px;
     color: #333;
     display: -webkit-box;
+    min-height: 2.7em;
+    max-height: 2.7em;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2; /* 2行で省略 */
     line-clamp: 2;
@@ -551,7 +554,7 @@ body.all-mode #edit-mode-label {
 .grid-book { min-width:0; cursor:pointer; }
 .grid-cover-wrap { position:relative; aspect-ratio:3/4; padding:7px; border-radius:11px; background:#fff; box-shadow:0 5px 16px rgba(15,23,42,.1); }
 .grid-cover-wrap img { width:100%; height:100%; object-fit:contain; border-radius:7px; }
-.grid-book h3 { margin:8px 2px 2px; font-size:12px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.grid-book h3 { margin:8px 2px 2px; font-size:12px; line-height:1.4; min-height:2.8em; max-height:2.8em; display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; overflow-wrap:anywhere; }
 .grid-book p { margin:0 2px; color:#64748b; font-size:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .grid-cover-wrap .reading-badge { position:absolute; left:9px; bottom:9px; }
 .grid-favorite { position:absolute; right:8px; top:7px; filter:drop-shadow(0 1px 2px #fff); }

@@ -194,10 +194,25 @@
 
         /* 見出し（タイトル）サイズを少し抑える微調整 */
         .book-title {
-            font-size: 15px !important;
+            display: -webkit-box;
+            overflow: hidden;
+            font-size: 14px !important;
             font-weight: bold;
+            line-height: 1.3;
             color: #1e293b;
             margin-bottom: 2px;
+            min-height: 2.6em;
+            max-height: 2.6em;
+            overflow-wrap: anywhere;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+        }
+
+        @media (max-width: 600px) {
+            .book-title {
+                font-size: 13px !important;
+            }
         }
         .mini-title {
             font-size: 11.5px !important;
