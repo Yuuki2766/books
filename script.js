@@ -524,6 +524,20 @@ function getExportBooks() {
         reading_status: getReadingStatus(book)
     }));
 }
+
+// JSON全体は読みやすく整形しつつ、所有巻数だけは横一行で出力する。
+function formatExportJson() {
+    return JSON.stringify(getExportBooks(), null, 2).replace(
+        /"owned": \[\s*([0-9,\s]*)\]/g,
+        (match, values) => {
+            const volumes = values
+                .split(',')
+                .map(value => value.trim())
+                .filter(Boolean);
+            return `"owned": [${volumes.join(', ')}]`;
+        }
+    );
+}
 function splitGenres(value) { return (value || '').split(/[\/／・,、]+/).map(v => v.trim()).filter(Boolean); }
 function escapeHtml(value) { return String(value ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
@@ -1054,7 +1068,7 @@ function saveInlineEdit(index) {
     applyFilters();
     
     const currentFileName = getJsonFileNameByMode();
-    const jsonString = JSON.stringify(getExportBooks(), null, 2);
+    const jsonString = formatExportJson();
     navigator.clipboard.writeText(jsonString).then(() => {
         alert(`✅ 変更を保存しました！\n\n最新のデータをクリップボードにコピーしました。\n「${currentFileName}」にそのままペーストして上書きしてください！`);
     }).catch(err => {
@@ -1066,7 +1080,7 @@ function saveInlineEdit(index) {
 
 // ⚡ ダウンロードされるファイル名が現在のモードに応じて自動で変わる
 function downloadJsonFile() {
-    const jsonString = JSON.stringify(getExportBooks(), null, 2);
+    const jsonString = formatExportJson();
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
@@ -1187,7 +1201,7 @@ function addNewBookLocal() {
 }
 
 function copyJsonToClipboard() {
-    const jsonString = JSON.stringify(getExportBooks(), null, 2);
+    const jsonString = formatExportJson();
     const currentFileName = getJsonFileNameByMode();
     navigator.clipboard.writeText(jsonString).then(() => {
         alert(`最新のJSONデータをコピーしました！\n「${currentFileName}」にそのまま貼り付けて保存してください。`);
